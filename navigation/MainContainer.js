@@ -50,5 +50,3 @@ export default function MainContainer() {
         </NavigationContainer>
     );
 }
-
-//Esta es una prueba de GitHub.
