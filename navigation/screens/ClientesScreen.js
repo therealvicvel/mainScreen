@@ -1,13 +1,18 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button, TextInput, StyleSheet, ScrollView } from "react-native";
+import styles from "../../estilos/styles";
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function ClientesScreen({navigation}) {
     return (
-        <View style= {{flex: 1, alignItems: "center", justifyContent: "center"}}>
-            <Text
-                onPress={() => navigation.navigate("Home")}
-                style={{fontSize: 26, fontWeight: "bold"}}>Clientes</Text>
-
+        <View style={styles.container}>
+            <Text style={styles.text}>
+                ¿Deseas agregar un nuevo cliente?
+            </Text>
+            <Button style = {styles.button}  title = "Nuevo cliente">
+            </Button>
         </View>
+
     );
 }
