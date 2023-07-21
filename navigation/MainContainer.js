@@ -7,8 +7,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 //Screens
 import HomeScreen from "./screens/HomeScreen";
-import SettingsScreen from "./screens/PedidosScreen";
-import DetailsScreen from "./screens/InventarioScreen";
+import PedidosScreen from "./screens/PedidosScreen";
+import InventarioScreen from "./screens/InventarioScreen";
 import ClientesScreen from "./screens/ClientesScreen";
 import ListClientes from "./screens/ListClientes";
 import InventarioScreen from "./screens/InventarioScreen";
