@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, FlatList, Image, Button } from "react-native";
-import styles from "../../estilos/styles";
+import styles from "../../utilidades/styles";
 import { ScrollView } from 'react-native-gesture-handler';
 
 const ListClientes = () => {

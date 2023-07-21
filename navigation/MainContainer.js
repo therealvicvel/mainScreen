@@ -2,15 +2,13 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import styles from "../estilos/styles";
-
+import styles from "../utilidades/styles";
 //Screens
 import HomeScreen from "./screens/HomeScreen"
 import SettingsScreen from "./screens/PedidosScreen"
 import DetailsScreen from "./screens/InventarioScreen"
 import ClientesScreen from "./screens/ClientesScreen";
-import ListClientes from "./screens/ListClientes";
-
+import ListClientes from "../utilidades/ListClientes";
 //Screen names
 const homeName = "Inicio";
 const pedidosName = "Pedidos";

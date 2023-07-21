@@ -1,9 +1,7 @@
-import React from "react";
-import { Touchable } from "react-native";
 import { View, StyleSheet, FlatList, Text } from "react-native";
-import ListProd from "./ListProd";
-import { StackRouter } from "@react-navigation/native";
-
+import ListProd from "../../utilidades/ListProd";
+import React from 'react';
+import listagod from "../../utilidades/CheckBox";
 
 
 const PedidosScreen = ({ navigation }) => {
@@ -40,18 +38,20 @@ const PedidosScreen = ({ navigation }) => {
             marca: 'sexo',
         }
     ];
-    
-    
+
 
     return (
-        
-        <View style={styles.container} >
+        <View styles={styles.container}>
+            <View style={styles.container} >
             <Text style={{padding:10, justifyContent: 'center'} }>productosExample</Text>
             <FlatList  data= {productosExample}
                 keyExtractor = {(item) => item.id}
-                renderItem = {({ item, index }) => <ListProd item={item}/> }
+                renderItem = {({ item, index }) => <ListProd item={item}/>}
                />
+            
+            </View> 
         </View>
+       
 
 
 
@@ -59,6 +59,7 @@ const PedidosScreen = ({ navigation }) => {
 }
 
 export default PedidosScreen;
+
 
 
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Button, TextInput, StyleSheet, ScrollView } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import styles from "../../estilos/styles";
+import styles from "../../utilidades/styles";
 
 export default function ClientesScreen({ navigation }) {
     const [documento, setDocumento] = React.useState('');

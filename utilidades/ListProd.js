@@ -1,6 +1,7 @@
 
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
  const ListProd = ({item}) =>{
     
@@ -8,7 +9,9 @@ import { View, Text, StyleSheet } from "react-native";
 
     return (
          <View style={styles.container}>
-            <Text style={styles.Textimput}> marca:{nombre}  valor:{precio} precio:{ marca}</Text>
+            <TouchableOpacity style={styles.Textimput}> marca:{nombre} 
+             valor:{precio} 
+             precio:{ marca}</TouchableOpacity>
         </View>
     );
 }
