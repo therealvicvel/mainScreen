@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   formContainer: {
-    marginBottom: 40,
+    marginBottom: 180,
   },
   input: {
     borderRadius: 20,
