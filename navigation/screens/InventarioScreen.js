@@ -35,7 +35,7 @@ const ListClientes = () => {
     }
 
     return (
-        <ScrollView>
+        <ScrollView contentContainerStyle={styles.fondito}>
             <View style={styles.fondito}>
                 <Text style={styles.title}>Lista de inventario</Text>
                 <FlatList 

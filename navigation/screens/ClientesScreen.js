@@ -39,7 +39,7 @@ export default function ClientesScreen({ navigation }) {
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView contentContainerStyle={styles.fondito}>
             <View style={styles.titleContainer}>
                 <Text style={styles.miniTitle}>¿Deseas agregar un nuevo cliente?</Text>
             </View>
@@ -83,9 +83,6 @@ export default function ClientesScreen({ navigation }) {
                     title="Agregar cliente" onPress={handleAgregarCliente} />
             </View>
             <View style={styles.buttonList}>
-                <Button
-                    onPress={() => navigation.navigate('ListClientes')}
-                    title="Ver clientes" />
             </View>
         </ScrollView>
     );
