@@ -4,19 +4,17 @@ import { View, Text, Button, TextInput, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { color } from "react-native-reanimated";
 
-export default function SettingsScreen({ navigation }) {
-    return (
-        <View style={{
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center"
-        }}>
-            <Text
-                style={{
-                    fontSize: 26,
-                    fontWeight: "bold"
-                }}>Pedidos</Text>
-        </View>
+
+export default function PedidosScreen({navigation}) {
+    return (      
+        <View style = {styles.container}>
+            <Text>prueba1 </Text>
+            <TextInput style= {styles.Textimput} placeholder= "Nuevo Pedidos"/>
+            <TouchableOpacity>
+                <Text style= { styles.bottom}>Vista de nuevos Pedidos</Text>
+            </TouchableOpacity>
+        </View>       
+
     );
 }
 
