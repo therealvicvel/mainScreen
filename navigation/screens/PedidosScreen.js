@@ -1,7 +1,6 @@
 import { View, StyleSheet, FlatList, Text } from "react-native";
 import ListProd from "../../utilidades/ListProd";
 import React from 'react';
-import listagod from "../../utilidades/CheckBox";
 
 
 const PedidosScreen = ({ navigation }) => {
@@ -66,6 +65,7 @@ export default PedidosScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        padding: 10,
         marginHorizontal:10
     },
     Textimput: {
