@@ -1,37 +1,79 @@
 import React from "react";
 import { Touchable } from "react-native";
-import { View, Text, Button, TextInput, StyleSheet } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { color } from "react-native-reanimated";
+import { View, StyleSheet, FlatList, Text } from "react-native";
+import ListProd from "./ListProd";
+import { StackRouter } from "@react-navigation/native";
 
 
-export default function PedidosScreen({navigation}) {
-    return (      
-        <View style = {styles.container}>
-            <Text>prueba1 </Text>
-            <TextInput style= {styles.Textimput} placeholder= "Nuevo Pedidos"/>
-            <TouchableOpacity>
-                <Text style= { styles.bottom}>Vista de nuevos Pedidos</Text>
-            </TouchableOpacity>
-        </View>       
+
+const PedidosScreen = ({ navigation }) => {
+
+    // <View style = {styles.container}>
+    //     <Text>prueba1 </Text>
+    //     <TextInput style= {styles.Textimput} placeholder= "Nuevo Pedidos"/>
+    //     <TouchableOpacity>
+    //         <Text style= { styles.bottom}>Vista de nuevos Pedidos</Text>
+    //     </TouchableOpacity>
+    // </View>   
+    const productosExample = [
+        {
+            nombre: 'maruchan',
+            id: '0001',
+            precio: '1500',
+            marca: 'sexo',
+        }, {
+            nombre: 'maruchan de Pollo',
+            id: '001',
+            precio: '1500',
+            marca: 'sexo',
+        },
+        {
+            nombre: 'maruchan de Carne',
+            id: '002',
+            precio: '1500',
+            marca: 'sexo',
+        },
+        {
+            nombre: 'maruchan Vegano',
+            id: '003',
+            precio: '1500',
+            marca: 'sexo',
+        }
+    ];
+    
+    
+
+    return (
+        
+        <View style={styles.container} >
+            <Text style={{padding:10, justifyContent: 'center'} }>productosExample</Text>
+            <FlatList  data= {productosExample}
+                keyExtractor = {(item) => item.id}
+                renderItem = {({ item, index }) => <ListProd item={item}/> }
+               />
+        </View>
+
+
 
     );
 }
 
+export default PedidosScreen;
+
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#E7FCC3',
-        alignItems: 'center',
-        justifyContent: 'center',
+        marginHorizontal:10
     },
     Textimput: {
         borderColor: '#A3C669',
-        borderWidth: 1, 
+        borderWidth: 1,
         padding: 10,
-        borderRadius:10
+        borderRadius: 10
     },
-    bottom:{
+    bottom: {
         backgroundColor: '#A3C669',
         color: '#FFF',
         fontSize: 'auto',
