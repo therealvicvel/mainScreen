@@ -43,8 +43,6 @@ const NuevoPedido = () => {
       )
     );
   };
-///Funcion para buscar Clientes (no funcional)
-
 //contador del input que captura el numero y los datos del producto
   const handleQuantityChange = (itemId, quantity) => {
     setListData((prevData) =>
@@ -149,6 +147,7 @@ const NuevoPedido = () => {
             <Text>Valor Total: {result}</Text>
             <TextInput style= {styles.TextBuscar} placeholder= "ingrese la fecha de entrega"/>
             <TextInput style= {styles.TextBuscar} placeholder= "Buscar Cliente......Dar enter para Buscar"/>
+            <TextInput style= {styles.TextBuscar} placeholder= "Observaciones"/>
             <TouchableOpacity style={styles.button} onPress={() => alert("El pedido se ha guardado")}>
               <Text style={styles.buttonText}>Guardar</Text>
             </TouchableOpacity>

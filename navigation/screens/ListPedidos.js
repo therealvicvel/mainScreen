@@ -43,7 +43,8 @@ const ListPedido = () =>{
         <View styles={styles.container}>
           <View style={styles.container} >
                <Text style={{padding:10, justifyContent: 'center'} }>Pedidos Example</Text>
-               <FlatList  data= {productosExample}
+               <FlatList  
+               data= {productosExample}
               keyExtractor = {(item) => item.id}
               renderItem = {({ item, index }) => <ListProd item={item}/>}
              />
