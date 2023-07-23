@@ -1,9 +1,13 @@
+//Importaciones necesarias
 import React from "react";
-import { View, Text, FlatList, Image, Button } from "react-native";
+import { View, Text, FlatList, Image, Button, Modal } from "react-native";
 import styles from "../../utilidades/styles";
 import { ScrollView } from 'react-native-gesture-handler';
+import { useState } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-const ListClientes = () => {
+//Creación de lista visual de inventario (declaración de variables y sus datos)
+const ListInventario = () => {
     const datosProductos = [
         { idProducto: 1, nombre: 'Varsol', cantidad: '5', valCompra: '2200', valVenta: '6500', unidadMedida: '500L', fechaVencimiento: "2024-08-05" },
         { idProducto: 2, nombre: 'Escoba', cantidad: '15', valCompra: '4200', valVenta: '8500', unidadMedida: '450ML', fechaVencimiento: "2024-08-05" },
@@ -18,7 +22,24 @@ const ListClientes = () => {
         { idProducto: 11, nombre: 'Jabón Rey', cantidad: '90', valCompra: '2200', valVenta: '8700', unidadMedida: '450L', fechaVencimiento: "2024-08-05" },
     ];
 
+    //Variables para el manejo del Modal
+    const [selectedCliente, setSelectedCliente] = useState(null);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    // Función para abrir el modal y establecer el cliente seleccionado
+    const handleOpenModal = (cliente) => {
+        setSelectedCliente(cliente);
+        setIsModalVisible(true);
+    };
+
+    // Función para cerrar el modal
+    const handleCloseModal = () => {
+        setIsModalVisible(false);
+    };
+
+    //Creación de campos para mostrar en ellos los datos anteriormente creados
     const renderProductoItem = ({ item }) => (
+        <TouchableOpacity onPress={() => handleOpenModal(item)}>
         <View style={styles.fondoListas}>
             <Text style={styles.clienteText}>ID: {item.idProducto}</Text>
             <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
@@ -28,37 +49,56 @@ const ListClientes = () => {
             <Text style={styles.clienteText}>Unidad medida: {item.unidadMedida}</Text>
             <Text style={styles.clienteText}>Fecha vencimiento: {item.fechaVencimiento}</Text>
         </View>
+        </TouchableOpacity>
     );
 
+    //Separador visual para cada elemento de la lista
     const separador = () => {
         return <View style={styles.itemSeparador} />
     }
 
     return (
+        //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
         <ScrollView contentContainerStyle={styles.fondito}>
             <View style={styles.fondito}>
                 <Text style={styles.title}>Lista de inventario</Text>
-                <FlatList 
+                <FlatList
                     data={datosProductos}
                     renderItem={renderProductoItem}
-                    SeparadorDeLineas={separador} buttonAdd
+                    SeparadorDeLineas={separador}
                     keyExtractor={(item) => item.idProducto.toString()}
                 />
-                <Button style={styles.buttonAddProd} title="Agregar productos" />
-                <Button style={styles.buttonRemoveProd} title="Quitar productos" />
             </View>
+            <Modal visible={isModalVisible} animationType="slide">
+        <View style={styles.modalContainer}>
+          {selectedCliente && (
+            <>
+              <Text style={styles.clienteText}>ID: {selectedCliente.idProducto}</Text>
+              <Text style={styles.clienteText}>Nombre: {selectedCliente.nombre}</Text>
+              <Text style={styles.clienteText}>Cantidad: {selectedCliente.cantidad}</Text>
+              <Text style={styles.clienteText}>Valor compra: {selectedCliente.valCompra}</Text>
+              <Text style={styles.clienteText}>Valor venta: {selectedCliente.valVenta}</Text>
+              <Text style={styles.clienteText}>Unidad medida: {selectedCliente.unidadMedida}</Text>
+              <Text style={styles.clienteText}>Fecha vencimiento: {selectedCliente.fechaVencimiento}</Text>
+            </>
+          )}
+          <TouchableOpacity style={styles.button} onPress={handleCloseModal}>
+            <Text style={styles.buttonText}>Cerrar</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
         </ScrollView>
     );
 };
 
 export default function InventarioScreen({ navigation }) {
     return (
-        <ScrollView>
+        <ScrollView contentContainerStyle={styles.container}>
             <View>
                 <Text style={styles.miniTitle}>
                     Inventario
                 </Text>
-                <ListClientes />
+                <ListInventario />
             </View>
         </ScrollView>
     );

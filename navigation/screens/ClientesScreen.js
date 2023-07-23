@@ -1,8 +1,10 @@
+//Importaciones necesarias
 import React from "react";
-import { View, Text, Button, TextInput, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Button, TextInput, StyleSheet, ScrollView, Modal } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import styles from "../../utilidades/styles";
 
+//Creación del formulario para agregar un nuevo cliente
 export default function ClientesScreen({ navigation }) {
     const [documento, setDocumento] = React.useState('');
     const [nombre, setNombre] = React.useState('');
@@ -30,6 +32,7 @@ export default function ClientesScreen({ navigation }) {
         setTelefono(text);
     };
 
+    //Mostrar los datos ingresados por consola
     const handleAgregarCliente = () => {
         console.log('Documento:', documento);
         console.log('Nombre:', nombre);
@@ -39,7 +42,8 @@ export default function ClientesScreen({ navigation }) {
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.fondito}>
+        //Captura de datos, diseño y decoración del formulario
+        <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.titleContainer}>
                 <Text style={styles.miniTitle}>¿Deseas agregar un nuevo cliente?</Text>
             </View>

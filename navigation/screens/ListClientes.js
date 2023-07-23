@@ -1,8 +1,12 @@
+//Importaciones necesarias
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Modal } from 'react-native';
 import styles from '../../utilidades/styles';
 import { ScrollView } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-web';
+import { useState } from 'react';
 
+//Creación de lista visual de clientes (declaración de variables y sus datos)
 const ListClientes = () => {
   const datosClientes = [
     { documento: 1098830323, nombre: 'Víctor', apellido: 'Peraza', direccion: 'Calle 20', telefono: '3128876635', foto: './assets/imagenes/usuarioo.png' },
@@ -13,24 +17,44 @@ const ListClientes = () => {
     { documento: 1098830328, nombre: 'Magda', apellido: 'García', direccion: 'Calle 25', telefono: '3128876630', foto: './assets/imagenes/usuarioo.png' },
   ];
 
+  //Variables para el manejo del Modal
+  const [selectedCliente, setSelectedCliente] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  // Función para abrir el modal y establecer el cliente seleccionado
+  const handleOpenModal = (cliente) => {
+    setSelectedCliente(cliente);
+    setIsModalVisible(true);
+  };
+
+  // Función para cerrar el modal
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+
+  //Creación de campos para mostrar en ellos los datos anteriormente creados
   const renderClienteItem = ({ item }) => (
-    <View style={styles.fondoListas}>
-      <Text style={styles.clienteText}>Documento: {item.documento}</Text>
-      <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
-      <Text style={styles.clienteText}>Apellido: {item.apellido}</Text>
-      <Text style={styles.clienteText}>Dirección: {item.direccion}</Text>
-      <Text style={styles.clienteText}>Teléfono: {item.telefono}</Text>
-      <Text style={styles.clienteText}> {item.foto}</Text>
-    </View>
+    <TouchableOpacity onPress={() => handleOpenModal(item)}>
+      <View style={styles.fondoListas}>
+        <Text style={styles.clienteText}>Documento: {item.documento}</Text>
+        <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
+        <Text style={styles.clienteText}>Apellido: {item.apellido}</Text>
+        <Text style={styles.clienteText}>Dirección: {item.direccion}</Text>
+        <Text style={styles.clienteText}>Teléfono: {item.telefono}</Text>
+        <Text style={styles.clienteText}> {item.foto}</Text>
+      </View>
+    </TouchableOpacity>
   );
 
+  //Separador visual para cada elemento de la lista
   const separador = () => {
     return <View style={styles.itemSeparador} />
   }
-  
+
   return (
-    <ScrollView>
-      <View style={styles.fondito}>
+    //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.titleContainer}>
         <Text style={styles.title}>Lista de clientes</Text>
         <FlatList
           data={datosClientes}
@@ -39,6 +63,22 @@ const ListClientes = () => {
           keyExtractor={(item) => item.documento.toString()}
         />
       </View>
+      <Modal visible={isModalVisible} animationType="slide">
+        <View style={styles.modalContainer}>
+          {selectedCliente && (
+            <>
+              <Text style={styles.clienteText}>Documento: {selectedCliente.documento}</Text>
+              <Text style={styles.clienteText}>Nombre: {selectedCliente.nombre}</Text>
+              <Text style={styles.clienteText}>Apellido: {selectedCliente.apellido}</Text>
+              <Text style={styles.clienteText}>Dirección: {selectedCliente.direccion}</Text>
+              <Text style={styles.clienteText}>Teléfono: {selectedCliente.telefono}</Text>
+            </>
+          )}
+          <TouchableOpacity style={styles.button} onPress={handleCloseModal}>
+            <Text style={styles.buttonText}>Cerrar</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };

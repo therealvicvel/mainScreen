@@ -1,19 +1,13 @@
+//Importaciones necesarias
 import React from "react";
 import { View, Text, Button, TextInput, StyleSheet } from "react-native";
+import styles from "../../utilidades/styles";
 
+//Creación del contenido para la pantalla principal
 export default function HomeScreen({ navigation }) {
     return (
-        <View style={{
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center"
-        }}>
-            <Text
-                onPress={() => alert("Este es la pantalla de inicio. ")}
-                style={{
-                    fontSize: 26,
-                    fontWeight: "bold"
-                }}>Menú principal</Text>
+        <View>
+            <Text style={styles.title}>Menú principal</Text>
         </View>
     );
 }

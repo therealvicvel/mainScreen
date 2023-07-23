@@ -1,6 +1,7 @@
 import { View, StyleSheet, FlatList, Text } from "react-native";
 import ListProd from "../../utilidades/ListProd";
 import React from 'react';
+import { ScrollView } from "react-native-gesture-handler";
 
 
 const PedidosScreen = ({ navigation }) => {
@@ -40,7 +41,7 @@ const PedidosScreen = ({ navigation }) => {
 
 
     return (
-        <View styles={styles.container}>
+        <ScrollView styles={styles.container}>
             <View style={styles.container} >
             <Text style={{padding:10, justifyContent: 'center'} }>productosExample</Text>
             <FlatList  data= {productosExample}
@@ -49,7 +50,7 @@ const PedidosScreen = ({ navigation }) => {
                />
             
             </View> 
-        </View>
+        </ScrollView>
        
 
 
