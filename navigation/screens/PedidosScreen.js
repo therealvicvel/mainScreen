@@ -1,7 +1,12 @@
 import { View, StyleSheet, FlatList, Text } from "react-native";
-import ListProd from "../../utilidades/ListProd";
 import React from 'react';
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-web";
+import NuevoPedido from "./NuevoPedido";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { NavigationContainer } from "@react-navigation/native";
+import ListPedido from "./ListPedidos";
+
 
 
 const PedidosScreen = ({ navigation }) => {
@@ -13,56 +18,31 @@ const PedidosScreen = ({ navigation }) => {
     //         <Text style= { styles.bottom}>Vista de nuevos Pedidos</Text>
     //     </TouchableOpacity>
     // </View>   
-    const productosExample = [
-        {
-            nombre: 'maruchan',
-            id: '0001',
-            precio: '1500',
-            marca: 'sexo',
-        }, {
-            nombre: 'maruchan de Pollo',
-            id: '001',
-            precio: '1500',
-            marca: 'sexo',
-        },
-        {
-            nombre: 'maruchan de Carne',
-            id: '002',
-            precio: '1500',
-            marca: 'sexo',
-        },
-        {
-            nombre: 'maruchan Vegano',
-            id: '003',
-            precio: '1500',
-            marca: 'sexo',
-        }
-    ];
+    const TopTab = createMaterialTopTabNavigator(); // Creamos un TopTabNavigator
 
+    const MiniScreenListPed = () => (
+        <ScrollView>
+            <View>
+             <ListPedido/>
+            </View>
+        </ScrollView>   
+         );
+    
+    const MiniScreenNewPed = () => (
+      <NuevoPedido/>
+    );
 
     return (
-        <ScrollView styles={styles.container}>
-            <View style={styles.container} >
-            <Text style={{padding:10, justifyContent: 'center'} }>productosExample</Text>
-            <FlatList  data= {productosExample}
-                keyExtractor = {(item) => item.id}
-                renderItem = {({ item, index }) => <ListProd item={item}/>}
-               />
-            
-            </View> 
-        </ScrollView>
-       
 
-
+        <TopTab.Navigator>
+              <TopTab.Screen name="Ver Pedidos" component={MiniScreenListPed} />
+              <TopTab.Screen name="Nuevo Pedidio" component={MiniScreenNewPed} />
+        </TopTab.Navigator>
 
     );
 }
 
 export default PedidosScreen;
-
-
-
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
