@@ -2,33 +2,42 @@ import React from "react";
 import { View, Text, StyleSheet,FlatList } from "react-native";
 import ListProd from "../../utilidades/ListProd";
 import { ScrollView } from "react-native-web";
-
+///funcion de productos de ejemplo
 const ListPedido = () =>{
     const productosExample = [
         {
-            nombre: 'maruchan',
+            nombre: 'Doña Antonella',
             id: '0001',
-            precio: '1500',
-            marca: 'sexo',
+            precio: '45000',
+            fecha: '00/00/0000',
+            direccion: 'Provenza',
+            estado: 'Sin Entregar'
         }, {
-            nombre: 'maruchan de Pollo',
+            nombre: 'Marco Tienda',
             id: '001',
-            precio: '1500',
-            marca: 'sexo',
+            precio: '30000',
+            fecha: '00/00/0000',
+            direccion: 'Luz de Salvacion',
+            estado: 'Sin Entregar'
         },
         {
-            nombre: 'maruchan de Carne',
+            nombre: 'Alejandra Carniceria',
             id: '002',
-            precio: '1500',
-            marca: 'sexo',
+            precio: '5000',
+            fecha: '00/00/0000',
+            direccion: 'Dangond',
+            estado: 'Entregado'
         },
         {
-            nombre: 'maruchan Vegano',
+            nombre: 'Alex Adams',
             id: '003',
-            precio: '1500',
-            marca: 'sexo',
+            precio: '74000',
+            fecha: '00/00/0000',
+            direccion: 'Cristal Alto',
+            estado: 'Sin Entregar'
         }
     ];
+    //lo que se ve
    return (
     <ScrollView>
         <View styles={styles.container}>
@@ -45,6 +54,8 @@ const ListPedido = () =>{
        
    );
 }
+
+//estilos pa que se vea bonito
 const styles = StyleSheet.create({
     container: {
         flex: 1,

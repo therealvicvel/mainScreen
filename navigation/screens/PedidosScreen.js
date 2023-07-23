@@ -3,23 +3,13 @@ import React from 'react';
 import { ScrollView } from "react-native-web";
 import NuevoPedido from "./NuevoPedido";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import { NavigationContainer } from "@react-navigation/native";
 import ListPedido from "./ListPedidos";
 
 
 
-const PedidosScreen = ({ navigation }) => {
-
-    // <View style = {styles.container}>
-    //     <Text>prueba1 </Text>
-    //     <TextInput style= {styles.Textimput} placeholder= "Nuevo Pedidos"/>
-    //     <TouchableOpacity>
-    //         <Text style= { styles.bottom}>Vista de nuevos Pedidos</Text>
-    //     </TouchableOpacity>
-    // </View>   
+const PedidosScreen = ({ navigation }) => { 
     const TopTab = createMaterialTopTabNavigator(); // Creamos un TopTabNavigator
-
+//importacion de la vista ListPedido
     const MiniScreenListPed = () => (
         <ScrollView>
             <View>
@@ -27,11 +17,11 @@ const PedidosScreen = ({ navigation }) => {
             </View>
         </ScrollView>   
          );
-    
+//importacion de la vita NuevoPedido    
     const MiniScreenNewPed = () => (
       <NuevoPedido/>
     );
-
+//lo que se va ver en la vista Pedidos(el menu arriba de NuevoPedido y ListPedido) y por defecto abre List Pedido
     return (
 
         <TopTab.Navigator>
@@ -41,7 +31,7 @@ const PedidosScreen = ({ navigation }) => {
 
     );
 }
-
+//estilo de la vista
 export default PedidosScreen;
 const styles = StyleSheet.create({
     container: {

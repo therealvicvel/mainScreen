@@ -4,16 +4,17 @@
 
 
  const ListProd = ({item}) =>{
-    const {id, nombre, precio, fecha,direccion }= item;
+    const {id, nombre, precio, fecha,direccion,estado}= item;
 
     return (
         <View style={{padding: 10}}> 
             <View style={styles.Textimput}>
                 <Text>id:{id}</Text>
-                <Text>nombre:{nombre}</Text>
+                <Text>Cliente:{nombre}</Text>
                 <Text>valor:{precio}</Text>
                 <Text>fecha:{fecha}</Text>
                 <Text>Direccion:{direccion}</Text>
+                <Text>Estado: {estado}</Text>
             </View>
         </View>
          
