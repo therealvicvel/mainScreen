@@ -80,11 +80,11 @@ const ListInventario = () => {
               <Text style={styles.clienteText}>Valor venta: {selectedCliente.valVenta}</Text>
               <Text style={styles.clienteText}>Unidad medida: {selectedCliente.unidadMedida}</Text>
               <Text style={styles.clienteText}>Fecha vencimiento: {selectedCliente.fechaVencimiento}</Text>
-              <Text>Agregar Cambios</Text>
+              <Text style={styles.clienteText}>Agregar Cambios</Text>
               <TextInput style={{borderColor: '#A3C669',borderWidth: 1,padding: 10,borderRadius: 10}}
               placeholder= "Cantidad"></TextInput>
               <TextInput style={{borderColor: '#A3C669',borderWidth: 1,padding: 10,borderRadius: 10}}
-              placeholder= "Valor Venta"></TextInput>
+              placeholder= "Valor venta"></TextInput>
                       
             </>
           )}
@@ -93,7 +93,7 @@ const ListInventario = () => {
             <Text style={styles.buttonText}>Cerrar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{backgroundColor: '#A3C669', padding: 10,borderRadius: 10,marginTop: 10,}} 
-            onPress={() => alert("los cambios se han guardado")}>
+            onPress={() => alert("Los cambios se han guardado")}>
               <Text style={styles.buttonText}>Guardar</Text>
           </TouchableOpacity>
         </View>

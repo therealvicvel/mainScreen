@@ -8,7 +8,7 @@ import ListPedido from "./ListPedidos";
 
 
 const PedidosScreen = ({ navigation }) => { 
-    const TopTab = createMaterialTopTabNavigator(); // Creamos un TopTabNavigator
+    const TopTab = createMaterialTopTabNavigator();
 //importacion de la vista ListPedido
     const MiniScreenListPed = () => (
         <ScrollView>

@@ -72,7 +72,7 @@ const ListClientes = () => {
               <Text style={styles.clienteText}>Apellido: {selectedCliente.apellido}</Text>
               <Text style={styles.clienteText}>Dirección: {selectedCliente.direccion}</Text>
               <Text style={styles.clienteText}>Teléfono: {selectedCliente.telefono}</Text>
-              <Text>Agregar Cambios</Text>
+              <Text style={styles.clienteText}>Agregar Cambios</Text>
               <TextInput style={{borderColor: '#A3C669',borderWidth: 1,padding: 10,borderRadius: 10}}
               placeholder= "Nombre"></TextInput>
               <TextInput style={{borderColor: '#A3C669',borderWidth: 1,padding: 10,borderRadius: 10}}
@@ -87,7 +87,7 @@ const ListClientes = () => {
             <Text style={styles.buttonText}>Cerrar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{backgroundColor: '#A3C669', padding: 10,borderRadius: 10,marginTop: 10,}} 
-            onPress={() => alert("los cambios se han guardado")}>
+            onPress={() => alert("Los cambios se han guardado")}>
               <Text style={styles.buttonText}>Guardar</Text>
           </TouchableOpacity>
         </View>

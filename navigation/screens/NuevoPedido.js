@@ -135,7 +135,7 @@ const NuevoPedido = () => {
         onRequestClose={handleModalVisibility}>
         <View style={{flex:1,backgroundColor:"#FFFF"}}>
           <View style={styles.Textimput}>
-            <Text >Productos Seleccionados:</Text>
+            <Text >Productos seleccionados:</Text>
             <FlatList
               data={selectedProducts}
               renderItem={({ item }) => (
@@ -143,9 +143,9 @@ const NuevoPedido = () => {
               )}
               keyExtractor={(item) => item.id}
             />
-            <Text>Datos CLiente: </Text>
-            <Text>Valor Total: {result}</Text>
-            <TextInput style= {styles.TextBuscar} placeholder= "ingrese la fecha de entrega"/>
+            <Text>Datos cliente: </Text>
+            <Text>Valor total: {result}</Text>
+            <TextInput style= {styles.TextBuscar} placeholder= "Ingrese la fecha de entrega"/>
             <TextInput style= {styles.TextBuscar} placeholder= "Buscar Cliente......Dar enter para Buscar"/>
             <TextInput style= {styles.TextBuscar} placeholder= "Observaciones"/>
             <TouchableOpacity style={styles.button} onPress={() => alert("El pedido se ha guardado")}>
