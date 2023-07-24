@@ -1,6 +1,6 @@
 //Importaciones necesarias
 import React from "react";
-import { View, Text, FlatList, Image, Button, Modal } from "react-native";
+import { View, Text, FlatList, Image, Button, Modal, TextInput } from "react-native";
 import styles from "../../utilidades/styles";
 import { ScrollView } from 'react-native-gesture-handler';
 import { useState } from "react";
@@ -80,10 +80,21 @@ const ListInventario = () => {
               <Text style={styles.clienteText}>Valor venta: {selectedCliente.valVenta}</Text>
               <Text style={styles.clienteText}>Unidad medida: {selectedCliente.unidadMedida}</Text>
               <Text style={styles.clienteText}>Fecha vencimiento: {selectedCliente.fechaVencimiento}</Text>
+              <Text>Agregar Cambios</Text>
+              <TextInput style={{borderColor: '#A3C669',borderWidth: 1,padding: 10,borderRadius: 10}}
+              placeholder= "Cantidad"></TextInput>
+              <TextInput style={{borderColor: '#A3C669',borderWidth: 1,padding: 10,borderRadius: 10}}
+              placeholder= "Valor Venta"></TextInput>
+                      
             </>
           )}
+          
           <TouchableOpacity style={styles.button} onPress={handleCloseModal}>
             <Text style={styles.buttonText}>Cerrar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{backgroundColor: '#A3C669', padding: 10,borderRadius: 10,marginTop: 10,}} 
+            onPress={() => alert("los cambios se han guardado")}>
+              <Text style={styles.buttonText}>Guardar</Text>
           </TouchableOpacity>
         </View>
       </Modal>
