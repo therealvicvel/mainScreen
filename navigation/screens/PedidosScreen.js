@@ -1,6 +1,6 @@
 import { View, StyleSheet, FlatList, Text } from "react-native";
 import React from 'react';
-import { ScrollView } from "react-native-web";
+import { ScrollView } from "react-native";
 import NuevoPedido from "./NuevoPedido";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import ListPedido from "./ListPedidos";

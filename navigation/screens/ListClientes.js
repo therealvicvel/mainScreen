@@ -2,8 +2,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, Modal } from 'react-native';
 import styles from '../../utilidades/styles';
-import { ScrollView } from 'react-native-gesture-handler';
-import { TextInput, TouchableOpacity } from 'react-native-web';
+import { ScrollView } from 'react-native'; 
+import { TextInput, TouchableOpacity } from 'react-native'; 
 import { useState } from 'react';
 
 //Creación de lista visual de clientes (declaración de variables y sus datos)

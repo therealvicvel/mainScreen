@@ -12,9 +12,9 @@ import {
 import { Checkbox } from 'react-native-paper';
 
 const data = [
-  { id: '1', title: 'Escoba', marca: 'marco',precio: '5000', checked: false, quantity: 0 },
-  { id: '2', title: 'Trapero', marca: 'Doña Martha', precio: '8000',checked: false, quantity: 0 },
-  { id: '3', title: 'Jabon Liquido', marca: 'Bimbo', precio: '4000',checked: false, quantity: 0 },
+  { id: '1', title: 'Escoba', marca: 'marco', precio: '5000', checked: false, quantity: 0 },
+  { id: '2', title: 'Trapero', marca: 'Doña Martha', precio: '8000', checked: false, quantity: 0 },
+  { id: '3', title: 'Jabon Liquido', marca: 'Bimbo', precio: '4000', checked: false, quantity: 0 },
 ];
 
 const NuevoPedido = () => {
@@ -22,7 +22,7 @@ const NuevoPedido = () => {
   const [result, setResult] = useState(0);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-//funcion que calcular la cantidad y el precio
+  //funcion que calcular la cantidad y el precio
   useEffect(() => {
     const calculateResult = () => {
       let total = 0;
@@ -35,7 +35,7 @@ const NuevoPedido = () => {
     };
     calculateResult();
   }, [listData]);
-//validacion del checkbox 
+  //validacion del checkbox 
   const toggleCheckbox = (itemId) => {
     setListData((prevData) =>
       prevData.map((item) =>
@@ -43,7 +43,7 @@ const NuevoPedido = () => {
       )
     );
   };
-//contador del input que captura el numero y los datos del producto
+  //contador del input que captura el numero y los datos del producto
   const handleQuantityChange = (itemId, quantity) => {
     setListData((prevData) =>
       prevData.map((item) =>
@@ -51,7 +51,7 @@ const NuevoPedido = () => {
       )
     );
   };
-//codigo del Checkbox
+  //codigo del Checkbox
   const handleIncrement = (itemId) => {
     setListData((prevData) =>
       prevData.map((item) =>
@@ -77,7 +77,7 @@ const NuevoPedido = () => {
     }
     toggleCheckbox(itemId);
   };
-//mostrar u ocultar el Modal
+  //mostrar u ocultar el Modal
   const handleModalVisibility = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -111,7 +111,7 @@ const NuevoPedido = () => {
       </View>
     );
   };
-//lo que se imprime en la vista
+  //lo que se imprime en la vista
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -127,13 +127,13 @@ const NuevoPedido = () => {
           <Text style={styles.buttonText}>Siguiente</Text>
         </TouchableOpacity>
       </View>
-     {/* editar ventana emergente (modal) */}
+      {/* editar ventana emergente (modal) */}
       <Modal
         visible={isModalVisible}
         animationType="slide"
         transparent={true}
         onRequestClose={handleModalVisibility}>
-        <View style={{flex:1,backgroundColor:"#FFFF"}}>
+        <View style={{ flex: 1, backgroundColor: "#FFFF" }}>
           <View style={styles.Textimput}>
             <Text >Productos seleccionados:</Text>
             <FlatList
@@ -145,9 +145,9 @@ const NuevoPedido = () => {
             />
             <Text>Datos cliente: </Text>
             <Text>Valor total: {result}</Text>
-            <TextInput style= {styles.TextBuscar} placeholder= "Ingrese la fecha de entrega"/>
-            <TextInput style= {styles.TextBuscar} placeholder= "Buscar Cliente......Dar enter para Buscar"/>
-            <TextInput style= {styles.TextBuscar} placeholder= "Observaciones"/>
+            <TextInput style={styles.TextBuscar} placeholder="Ingrese la fecha de entrega" />
+            <TextInput style={styles.TextBuscar} placeholder="Buscar Cliente......Dar enter para Buscar" />
+            <TextInput style={styles.TextBuscar} placeholder="Observaciones" />
             <TouchableOpacity style={styles.button} onPress={() => alert("El pedido se ha guardado")}>
               <Text style={styles.buttonText}>Guardar</Text>
             </TouchableOpacity>
@@ -179,14 +179,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   Textimput: {
-    marginHorizontal:'20%', marginVertical:'5%', backgroundColor: '#FFFF',
+    marginHorizontal: '20%', marginVertical: '5%', backgroundColor: '#FFFF',
     borderColor: '#A3C669',
-    backgroundColor:'#FFFF',
+    backgroundColor: '#FFFF',
     borderWidth: 1,
     padding: 10,
-    flex:1,
+    flex: 1,
     borderRadius: 10
-},
+  },
   buttonText: {
     color: '#FFF',
     fontSize: 16,
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 10
-},
+  },
 });
 
 export default NuevoPedido;

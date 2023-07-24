@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet,FlatList } from "react-native";
 import ListProd from "../../utilidades/ListProd";
-import { ScrollView } from "react-native-web";
+import { ScrollView } from "react-native"; 
 ///funcion de productos de ejemplo
 const ListPedido = () =>{
     const productosExample = [

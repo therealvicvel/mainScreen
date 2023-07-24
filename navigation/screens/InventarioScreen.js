@@ -70,7 +70,7 @@ const ListInventario = () => {
                 />
             </View>
             <Modal visible={isModalVisible} animationType="slide">
-        <View style={styles.modalContainer}>
+         <View style={styles.modalContainer}>
           {selectedCliente && (
             <>
               <Text style={styles.clienteText}>ID: {selectedCliente.idProducto}</Text>
