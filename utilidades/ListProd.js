@@ -5,6 +5,11 @@ import styles from "./styles";
 const ListProd = ({ item }) => {
   const { id, nombre, precio, fecha, direccion, estado } = item;
   const [modalVisible, setModalVisible] = useState(false);
+  
+  //validar estado pedido
+  const isEntregado = () => {
+    return estado === "entregado";
+  };
 
   return (
     <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -30,10 +35,21 @@ const ListProd = ({ item }) => {
             <Text>Direccion: {direccion}</Text>
             <Text>Estado: {estado}</Text>
             <TouchableOpacity style={styles.button} onPress={() => alert("el pedido se ha marcado como Entregado")}>
+<<<<<<< HEAD
               <Text style={styles.buttonConfirm}>Entregado</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonCerrar} onPress={() => setModalVisible(false)} >
+=======
+              <Text style={styles.buttonText}>
+                {isEntregado() ? "Cambiar a no entregado" : "Entregado"}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonCerrar}
+              onPress={() => setModalVisible(false)}
+            >
+>>>>>>> f02f3a1365872716678fc4e3189c5cbb0e97d7bb
               <Text>Cancelar</Text>
             </TouchableOpacity>
             
