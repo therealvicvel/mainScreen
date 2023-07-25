@@ -1,6 +1,6 @@
 //Importaciones necesarias
 import React from "react";
-import { View, Text, Button, TextInput, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Button, TextInput, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import styles from "../../utilidades/styles";
 
@@ -49,10 +49,7 @@ export default function AddProductoScreen({ navigation }) {
     return (
         //Captura de datos, diseño y decoración del formulario
         <ScrollView contentContainerStyle={styles.container}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.miniTitle}>¿Deseas agregar un nuevo producto?</Text>
-            </View>
-            <View style={styles.formContainer}>
+            <View style={styles.container}>
                 <TextInput
                     style={styles.input}
                     placeholder="Nombre del producto"
@@ -92,13 +89,9 @@ export default function AddProductoScreen({ navigation }) {
                     onChangeText={handleFechaVencimientoChange}
                     value={fechaVencimiento}
                 />
-            </View>
-            <View style={styles.buttonAdd}>
-                <Button
-
-                    title="Agregar producto" onPress={handleAgregarProducto} />
-            </View>
-            <View style={styles.buttonList}>
+                <TouchableOpacity style={styles.buttonAddProd}>
+                <Text style={styles.colorTextButtonGuardar}>Agregar producto</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );

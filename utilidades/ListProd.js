@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
+import styles from "./styles";
 
 const ListProd = ({ item }) => {
   const { id, nombre, precio, fecha, direccion, estado } = item;
@@ -19,9 +20,9 @@ const ListProd = ({ item }) => {
       </View>
 
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Detalles del Pedido:</Text>
+        <View>
+          <View>
+            <Text style={styles.modalTitle}>Detalles del pedido:</Text>
             <Text>ID: {id}</Text>
             <Text>Cliente: {nombre}</Text>
             <Text>Valor: {precio}</Text>
@@ -29,11 +30,10 @@ const ListProd = ({ item }) => {
             <Text>Direccion: {direccion}</Text>
             <Text>Estado: {estado}</Text>
             <TouchableOpacity style={styles.button} onPress={() => alert("el pedido se ha marcado como Entregado")}>
-              <Text style={styles.buttonText}>Entregado</Text>
+              <Text style={styles.buttonConfirm}>Entregado</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.buttonCerrar}
-              onPress={() => setModalVisible(false)} >
+              style={styles.buttonCerrar} onPress={() => setModalVisible(false)} >
               <Text>Cancelar</Text>
             </TouchableOpacity>
             
@@ -43,49 +43,5 @@ const ListProd = ({ item }) => {
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  Textimput: {
-    borderColor: "#A3C669",
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 10,
-  },
-  buttonCerrar: {
-    backgroundColor: '#F65F50',
-    padding: 10,
-    borderRadius: 10,
-    marginTop: 10,
-  },
-  button: {
-    backgroundColor: '#A3C669',
-    padding: 10,
-    borderRadius: 10,
-    marginTop: 10,
-  },
-  // Modal styles
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 10,
-  },
-  modalText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  closeButton: {
-    marginTop: 10,
-    padding: 10,
-    backgroundColor: "#A3C669",
-    borderRadius: 5,
-  },
-});
 
 export default ListProd;

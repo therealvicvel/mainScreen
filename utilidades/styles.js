@@ -2,43 +2,44 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#EDFFE8',
+    backgroundColor: '#FFFFFF',
     flex: 1,
-    padding: 20,
+  },
+  containerAddCliente: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
   },
   titleContainer: {
     marginBottom: 20,
   },
   miniTitle: {
-    backgroundColor: '#EDFFE8',
+    backgroundColor: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  formContainer: {
-    marginBottom: 180,
-  },
-  input: {
+  inputForModal: {
     borderRadius: 20,
     height: 40,
     width: '100%',
-    borderColor: 'gray',
+    borderColor: '#FFFFFF',
     borderWidth: 1,
     paddingHorizontal: 10,
     marginBottom: 20,
+    color: "#FFFFFF"
   },
-  buttonAdd: {
-    color: 'red',
-    alignSelf: 'center',
-    fontSize: 55,
-  },
-  buttonList: {
-    alignSelf: 'center',
+  input: {
     marginTop: 20,
-    fontSize: 55,
+    borderRadius: 20,
+    height: 40,
+    width: '100%',
+    borderColor: '#004187',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    color: "#004187",
   },
   fondoListas: {
-    backgroundColor: '#D2FDC5',
+    backgroundColor: '#004187',
     padding: 16,
     borderRadius: 60,
     marginBottom: 12,
@@ -58,13 +59,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
     marginLeft: 13,
-  },
-  fondito:{
-    backgroundColor: '#EDFFE8'
-  },
-  buttonAddProd: {
-    alignSelf: 'center',
-    fontSize: 55,
+    color: '#FFFFFF',
   },
   buttonRemoveProd: {
     alignSelf: 'center',
@@ -73,25 +68,83 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#EDFFE8',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  
+  modalTitle: {
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: '#FFFFFF',
+  },
+  modalSubTitle: {
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: '#FFFFFF',
+    marginTop: 20
   },
   modalContent: {
     padding: 16,
-    backgroundColor: '#EDFFE8',
-    borderRadius: 8,
+    backgroundColor: '#004187',
+    borderRadius: 20,
   },
-  buttonText: {
+  buttonConfirm: {
     fontSize: 16,
-    color: '#FFFF',
+    color: '#FFFFFF',
   },
-  button: {
-    backgroundColor: '#F65F50',
+  buttonCerrar: {
+    backgroundColor: '#FFFFFF',
     padding: 10,
     borderRadius: 10,
     marginTop: 10,
   },
+  buttonAddProd: {
+    backgroundColor: '#6CAEF6',
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 10,
+    alignSelf: 'center'
+  },
+  colorTextButtonAddProd: {
+    color: "#FFFFFF",
+    textAlign: 'center',
+  },
+  buttonAddCliente: {
+    backgroundColor: '#6CAEF6',
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 10,
+    alignSelf: 'center'
+  },
+  colorTextButtonAddCliente: {
+    color: "#FFFFFF",
+    textAlign: 'center',
+  },
+  closeButton: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: "#A3C669",
+    borderRadius: 5,
+  },
+  buttonGuardar: {
+    backgroundColor: '#6CAEF6',
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  colorTextButtonGuardar: {
+    color: "#FFFFFF",
+    textAlign: 'center'
+  },
+  colorTextButtonCerrar: {
+    color: "#004187",
+    textAlign: 'center',
+  }
 })
 
 export default styles;

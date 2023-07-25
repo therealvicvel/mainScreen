@@ -1,11 +1,12 @@
 //Importaciones necesarias
 import React from "react";
-import { View, Text, Button, TextInput, StyleSheet, ScrollView, Modal } from "react-native";
+import { View, Text, Button, TextInput, StyleSheet, ScrollView } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import styles from "../../utilidades/styles";
+import { TouchableOpacity } from "react-native";
 
 //Creación del formulario para agregar un nuevo cliente
-export default function ClientesScreen({ navigation }) {
+export default function AddClientesScreen({ navigation }) {
     const [documento, setDocumento] = React.useState('');
     const [nombre, setNombre] = React.useState('');
     const [apellido, setApellido] = React.useState('');
@@ -24,7 +25,7 @@ export default function ClientesScreen({ navigation }) {
         setApellido(text);
     };
 
-    const handleDireccionChange = (text) => {
+    const handleDireciconChange = (text) => {
         setDireccion(text);
 
     };
@@ -33,45 +34,44 @@ export default function ClientesScreen({ navigation }) {
     };
 
     //Mostrar los datos ingresados por consola
-    const handleAgregarCliente = () => {
+    const handleAgregarProducto = () => {
         console.log('Documento:', documento);
         console.log('Nombre:', nombre);
         console.log('Apellido:', apellido);
-        console.log('Direccion:', direccion);
+        console.log('Dirección:', direccion);
         console.log('Teléfono:', telefono);
     };
 
     return (
         //Captura de datos, diseño y decoración del formulario
         <ScrollView contentContainerStyle={styles.container}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.miniTitle}>¿Deseas agregar un nuevo cliente?</Text>
-            </View>
-            <View style={styles.formContainer}>
+            <View style={styles.container}>
                 <TextInput
                     style={styles.input}
                     placeholder="Documento del cliente"
                     onChangeText={handleDocumentoChange}
                     value={documento}
-                    keyboardType="phone-pad"
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Nombre del cliente"
                     onChangeText={handleNombreChange}
                     value={nombre}
+                    keyboardType="phone-pad"
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Apellido del cliente"
                     onChangeText={handleApellidoChange}
                     value={apellido}
+                    keyboardType="phone-pad"
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Dirección del cliente"
-                    onChangeText={handleDireccionChange}
+                    placeholder="Direccion del cliente"
+                    onChangeText={handleDireciconChange}
                     value={direccion}
+                    keyboardType="phone-pad"
                 />
                 <TextInput
                     style={styles.input}
@@ -80,13 +80,9 @@ export default function ClientesScreen({ navigation }) {
                     value={telefono}
                     keyboardType="phone-pad"
                 />
-            </View>
-            <View style={styles.buttonAdd}>
-                <Button
-
-                    title="Agregar cliente" onPress={handleAgregarCliente} />
-            </View>
-            <View style={styles.buttonList}>
+                <TouchableOpacity style={styles.buttonAddCliente}>
+                    <Text style={styles.colorTextButtonAddCliente}>Agregar cliente</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );

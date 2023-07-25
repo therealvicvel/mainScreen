@@ -54,7 +54,7 @@ const ListClientes = () => {
   return (
     //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.titleContainer}>
+      <View>
         <Text style={styles.title}>Lista de clientes</Text>
         <FlatList
           data={datosClientes}
@@ -63,33 +63,32 @@ const ListClientes = () => {
           keyExtractor={(item) => item.documento.toString()}
         />
       </View>
-      <Modal visible={isModalVisible} animationType="slide">
+      <Modal visible={isModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
           {selectedCliente && (
             <>
+              <Text style={styles.modalTitle}>Actualizar datos del cliente</Text>
               <Text style={styles.clienteText}>Documento: {selectedCliente.documento}</Text>
               <Text style={styles.clienteText}>Nombre: {selectedCliente.nombre}</Text>
               <Text style={styles.clienteText}>Apellido: {selectedCliente.apellido}</Text>
               <Text style={styles.clienteText}>Dirección: {selectedCliente.direccion}</Text>
               <Text style={styles.clienteText}>Teléfono: {selectedCliente.telefono}</Text>
-              <Text style={styles.clienteText}>Agregar Cambios</Text>
-              <TextInput style={{borderColor: '#A3C669',borderWidth: 1,padding: 10,borderRadius: 10}}
-              placeholder= "Nombre"></TextInput>
-              <TextInput style={{borderColor: '#A3C669',borderWidth: 1,padding: 10,borderRadius: 10}}
-              placeholder= "Apellido"></TextInput>
-              <TextInput style={{borderColor: '#A3C669',borderWidth: 1,padding: 10,borderRadius: 10}}
-              placeholder= "Direccion"></TextInput>
-              <TextInput style={{borderColor: '#A3C669',borderWidth: 1,padding: 10,borderRadius: 10}}
-              placeholder= "Telefono"></TextInput>
+              <Text style={styles.modalSubTitle}>Agregar cambios</Text>
+              <TextInput style={styles.inputForModal} placeholder= "Nombre"></TextInput>
+              <TextInput style={styles.inputForModal} placeholder= "Apellido"></TextInput>
+              <TextInput style={styles.inputForModal} placeholder= "Direccion"></TextInput>
+              <TextInput style={styles.inputForModal} placeholder= "Telefono"></TextInput>
             </>
           )}
-          <TouchableOpacity style={styles.button} onPress={handleCloseModal}>
-            <Text style={styles.buttonText}>Cerrar</Text>
+          <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>
+            <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{backgroundColor: '#A3C669', padding: 10,borderRadius: 10,marginTop: 10,}} 
+          <TouchableOpacity style={styles.buttonGuardar} 
             onPress={() => alert("Los cambios se han guardado")}>
-              <Text style={styles.buttonText}>Guardar</Text>
+              <Text style={styles.colorTextButtonGuardar}>Guardar</Text>
           </TouchableOpacity>
+          </View>
         </View>
       </Modal>
     </ScrollView>

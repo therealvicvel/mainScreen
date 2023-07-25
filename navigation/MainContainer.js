@@ -9,10 +9,10 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 //Importaciones de otras pantallas
 import HomeScreen from "./screens/HomeScreen";
 import InventarioScreen from "./screens/InventarioScreen";
-import ClientesScreen from "./screens/ClientesScreen";
 import ListClientes from "./screens/ListClientes";
 import PedidosScreen from "./screens/PedidosScreen";
 import { ScrollView } from "react-native-gesture-handler";
+import AddClientesScreen from "./screens/AddClientesScreen";
 import AddProductoScreen from "./screens/AddProductoScreen";
 
 //Variables con nombres de las demás pantallas
@@ -38,40 +38,40 @@ const InventarioTopTabNavigator = () => (
 //Creación de componente por separado para el topTabNavigator de Clientes
 const ClientesTopTabNavigator = () => (
   <TopTab.Navigator>
-    <TopTab.Screen name="Agregar nuevo cliente" component={MiniScreenAddClientes} />
-    <TopTab.Screen name="Ver clientes" component={MiniScreenClientes} />
+    <TopTab.Screen name="Clientes" component={MiniScreenClientes} />
+    <TopTab.Screen name="Agregar nuevo cliente" component={AddClientesScreen} />
   </TopTab.Navigator>
 );
 
-//Menú superior de agregar nuevo cliente para la pantalla ClientesScreen
-const MiniScreenAddClientes = () => (
-  <ScrollView>
-    <ClientesScreen />
-  </ScrollView>
-);
-
-//Menú superior para ver los clientes existentes para la pantalla ClientesScreen
+//Menú superior para ver los clientes existentes para la pantalla AddClientesScreen
 const MiniScreenClientes = () => (
   <ScrollView>
     <ListClientes />
   </ScrollView>
 );
 
+//Menú superior de agregar nuevo cliente para la pantalla AddClientesScreen
+const MiniScreenAddClientes = () => (
+  <ScrollView>
+    <AddClientesScreen />
+  </ScrollView>
+);
+
 //Menú superior para agregar nuevo producto para la pantalla InventarioScreen
 const MiniScreenAddProducto = () => (
-  <ScrollView>
+  <View>
     <InventarioScreen />
-  </ScrollView>
+  </View>
 );
 
 //Menú superior para ver los productos existentes en el inventario de InventarioScreen
 const MiniScreenInventario = () => (
-  <ScrollView>
-    <AddProductoScreen />
-  </ScrollView>
+  <View>
+    <AddProductoScreen/>
+  </View>
 );
 
-//Creación del menú inferior principal y creación de menús superiores de la pantalla ClientesScreen e InventarioScreen
+//Creación del menú inferior principal
 export default function MainContainer() {
   return (
     <NavigationContainer>
