@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, StyleSheet,FlatList } from "react-native";
 import ListProd from "../../utilidades/ListProd";
 import { ScrollView } from "react-native"; 
+//importacion de los datos pedidos
+import { useState,useEffect } from "react";
 ///funcion de productos de ejemplo
 const ListPedido = () =>{
     const productosExample = [
@@ -11,14 +13,14 @@ const ListPedido = () =>{
             precio: '45000',
             fecha: '00/00/0000',
             direccion: 'Provenza',
-            estado: 'Sin Entregar'
+            estado: 'no entregado'
         }, {
             nombre: 'Marco Tienda',
             id: '001',
             precio: '30000',
             fecha: '00/00/0000',
             direccion: 'Luz de Salvacion',
-            estado: 'Sin Entregar'
+            estado: 'no entregado'
         },
         {
             nombre: 'Alejandra Carniceria',
@@ -26,7 +28,7 @@ const ListPedido = () =>{
             precio: '5000',
             fecha: '00/00/0000',
             direccion: 'Dangond',
-            estado: 'Entregado'
+            estado: 'entregado'
         },
         {
             nombre: 'Alex Adams',
@@ -34,9 +36,11 @@ const ListPedido = () =>{
             precio: '74000',
             fecha: '00/00/0000',
             direccion: 'Cristal Alto',
-            estado: 'Sin Entregar'
+            estado: 'entregado'
         }
     ];
+    //funcion que llama los datos del pedido
+    
     //lo que se ve
    return (
     <ScrollView>

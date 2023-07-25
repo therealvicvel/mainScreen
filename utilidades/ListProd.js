@@ -4,6 +4,11 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 const ListProd = ({ item }) => {
   const { id, nombre, precio, fecha, direccion, estado } = item;
   const [modalVisible, setModalVisible] = useState(false);
+  
+  //validar estado pedido
+  const isEntregado = () => {
+    return estado === "entregado";
+  };
 
   return (
     <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -29,11 +34,14 @@ const ListProd = ({ item }) => {
             <Text>Direccion: {direccion}</Text>
             <Text>Estado: {estado}</Text>
             <TouchableOpacity style={styles.button} onPress={() => alert("el pedido se ha marcado como Entregado")}>
-              <Text style={styles.buttonText}>Entregado</Text>
+              <Text style={styles.buttonText}>
+                {isEntregado() ? "Cambiar a no entregado" : "Entregado"}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonCerrar}
-              onPress={() => setModalVisible(false)} >
+              onPress={() => setModalVisible(false)}
+            >
               <Text>Cancelar</Text>
             </TouchableOpacity>
             
