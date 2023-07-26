@@ -60,17 +60,7 @@ const ListClientes = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <View   >
         <Text style={styles.title}>Lista de clientes</Text>
-<<<<<<< HEAD
-        {/* <FlatList
-          data={datosClientes}
-          renderItem={renderClienteItem}
-          SeparadorDeLineas={separador}
-          keyExtractor={(item) => item.documento.toString()}
-        /> */}
-        <FlatList style={styles.container}
-=======
         <FlatList
->>>>>>> 80d04bf43bd601ab70a1e60c99b0d2092ed97f7c
         data={data}
         SeparadorDeLineas={separador}
         renderItem={renderClienteItem}
