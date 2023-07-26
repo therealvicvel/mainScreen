@@ -41,6 +41,8 @@ const styles = StyleSheet.create({
   fondoListas: {
     backgroundColor: '#004187',
     padding: 16,
+    flexDirection: 'column',
+    justifyContent:'center',
     borderRadius: 60,
     marginBottom: 12,
   },
@@ -56,8 +58,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#CCC',
   },
   clienteText: {
-    fontWeight: '600',
-    fontSize: 16,
     marginLeft: 13,
     color: '#FFFFFF',
   },

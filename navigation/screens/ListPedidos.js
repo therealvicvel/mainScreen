@@ -1,88 +1,98 @@
-import React from "react";
-import { View, Text, StyleSheet,FlatList } from "react-native";
-import ListProd from "../../utilidades/ListProd";
-import { ScrollView } from "react-native"; 
-//importacion de los datos pedidos
-import { useState,useEffect } from "react";
-///funcion de productos de ejemplo
-const ListPedido = () =>{
-    const productosExample = [
-        {
-            nombre: 'Doña Antonella',
-            id: '0001',
-            precio: '45000',
-            fecha: '00/00/0000',
-            direccion: 'Provenza',
-            estado: 'no entregado'
-        }, {
-            nombre: 'Marco Tienda',
-            id: '001',
-            precio: '30000',
-            fecha: '00/00/0000',
-            direccion: 'Luz de Salvacion',
-            estado: 'no entregado'
-        },
-        {
-            nombre: 'Alejandra Carniceria',
-            id: '002',
-            precio: '5000',
-            fecha: '00/00/0000',
-            direccion: 'Dangond',
-            estado: 'entregado'
-        },
-        {
-            nombre: 'Alex Adams',
-            id: '003',
-            precio: '74000',
-            fecha: '00/00/0000',
-            direccion: 'Cristal Alto',
-            estado: 'entregado'
-        }
-    ];
-    //funcion que llama los datos del pedido
-    
-    //lo que se ve
-   return (
-    <ScrollView>
-        <View styles={styles.container}>
-          <View style={styles.container} >
-               <Text style={{padding:10, justifyContent: 'center'} }>Pedidos Example</Text>
-               <FlatList  
-               data= {productosExample}
-              keyExtractor = {(item) => item.id}
-              renderItem = {({ item, index }) => <ListProd item={item}/>}
-             />
-          </View> 
+//Importaciones necesarias
+import React from 'react';
+import { View, Text, FlatList, Modal } from 'react-native';
+import styles from '../../utilidades/styles';
+import { ScrollView } from 'react-native'; 
+import { TextInput, TouchableOpacity } from 'react-native'; 
+import { useState,useEffect} from 'react';
+
+//Creación de lista visual de clientes (declaración de variables y sus datos)
+const ListPedido = () => {
+  //prueba
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch('https://viramsoftapi.onrender.com/costumer')
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data.clientes); 
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+  //Variables para el manejo del Modal
+  const [selectedPedido, setSelectedPedido] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+//  //validar estado pedido
+
+  // Función para abrir el modal y establecer el cliente seleccionado
+  const handleOpenModal = (cliente) => {
+    setSelectedPedido(cliente);
+    setIsModalVisible(true);
+  };
+
+  // Función para cerrar el modal
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+
+  //Creación de campos para mostrar en ellos los datos anteriormente creados
+  const renderPedidoItem = ({ item }) => (
+    <TouchableOpacity onPress={() => handleOpenModal(item)}>
+      <View style={styles.fondoListas}>
+        <Text style={styles.clienteText}>Documento: {item.documento}</Text>
+        <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
+        <Text style={styles.clienteText}>Apellido: {item.apellido}</Text>
+        <Text style={styles.clienteText}>Direccion: {item.direccion}</Text>
+        <Text style={styles.clienteText}>Telefono: {item.telefono}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+  //Separador visual para cada elemento de la lista
+  const separador = () => {
+    return <View style={styles.itemSeparador} />
+  }
+
+  return (
+    //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
+    <ScrollView contentContainerStyle={styles.container}>
+      <View   >
+        <FlatList
+        data={data}
+        SeparadorDeLineas={separador}
+        renderItem={renderPedidoItem}
+        keyExtractor={(item) => item.documento.toString()} 
+      />
+      </View>
+      <Modal visible={isModalVisible} animationType="slide" transparent={true}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+          {selectedPedido && (
+            <>
+              <Text style={styles.modalTitle}>Actualizar datos del cliente</Text>
+              <Text style={styles.clienteText}>Documento: {selectedPedido.documento}</Text>
+              <Text style={styles.clienteText}>Nombre: {selectedPedido.nombre}</Text>
+              <Text style={styles.clienteText}>Apellido: {selectedPedido.apellido}</Text>
+              <Text style={styles.clienteText}>Dirección: {selectedPedido.direccion}</Text>
+              <Text style={styles.clienteText}>Teléfono: {selectedPedido.telefono}</Text>
+              <Text style={styles.modalSubTitle}>Agregar cambios</Text>
+            </>
+          )}
+            <TouchableOpacity style={styles.buttonGuardar} 
+            onPress={() => alert("se ha cambiado el estado del Pedido")}>
+              <Text style={styles.colorTextButtonGuardar}>Cambiar a entregado</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>
+            <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
+          </TouchableOpacity>
+          
+          </View>
         </View>
+      </Modal>
     </ScrollView>
-        
-       
-   );
-}
-
-//estilos pa que se vea bonito
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 10,
-        marginHorizontal:10
-    },
-    Textimput: {
-        borderColor: '#A3C669',
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 10
-    },
-    bottom: {
-        backgroundColor: '#A3C669',
-        color: '#FFF',
-        fontSize: 'auto',
-        padding: 15,
-        margin: 10,
-        borderRadius: 10,
-
-    }
-})
-
+  );
+};
 
 export default ListPedido;
