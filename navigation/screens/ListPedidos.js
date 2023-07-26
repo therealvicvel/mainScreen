@@ -77,11 +77,11 @@ const ListPedido = () => {
               <Text style={styles.clienteText}>Apellido: {selectedPedido.apellido}</Text>
               <Text style={styles.clienteText}>Dirección: {selectedPedido.direccion}</Text>
               <Text style={styles.clienteText}>Teléfono: {selectedPedido.telefono}</Text>
-              <Text style={styles.modalSubTitle}>Agregar cambios</Text>
+              <Text style={styles.modalSubTitle}>Cambiar estado</Text>
             </>
           )}
             <TouchableOpacity style={styles.buttonGuardar} 
-            onPress={() => alert("se ha cambiado el estado del Pedido")}>
+            onPress={() => alert("Se ha cambiado el estado del pedido")}>
               <Text style={styles.colorTextButtonGuardar}>Cambiar a entregado</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>

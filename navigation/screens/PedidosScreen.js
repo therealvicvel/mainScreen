@@ -4,6 +4,7 @@ import { ScrollView } from "react-native";
 import NuevoPedido from "./NuevoPedido";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import ListPedido from "./ListPedidos";
+import styles from "../../utilidades/styles";
 
 
 
@@ -11,8 +12,9 @@ const PedidosScreen = ({ navigation }) => {
     const TopTab = createMaterialTopTabNavigator();
 //importacion de la vista ListPedido
     const MiniScreenListPed = () => (
-        <ScrollView>
+        <ScrollView style={styles.container}>
             <View>
+                <Text style={styles.title}>Lista de pedidos</Text>
              <ListPedido/>
             </View>
         </ScrollView>   
@@ -33,25 +35,3 @@ const PedidosScreen = ({ navigation }) => {
 }
 //estilo de la vista
 export default PedidosScreen;
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 10,
-        marginHorizontal:10
-    },
-    Textimput: {
-        borderColor: '#A3C669',
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 10
-    },
-    bottom: {
-        backgroundColor: '#A3C669',
-        color: '#FFF',
-        fontSize: 'auto',
-        padding: 15,
-        margin: 10,
-        borderRadius: 10,
-
-    }
-})

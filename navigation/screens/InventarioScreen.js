@@ -107,9 +107,6 @@ export default function InventarioScreen({ navigation }) {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View>
-                <Text style={styles.miniTitle}>
-                    Inventario
-                </Text>
                 <ListInventario />
             </View>
         </ScrollView>

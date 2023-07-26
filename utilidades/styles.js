@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
     flex: 1,
+    padding: 10,
   },
   containerAddCliente: {
     backgroundColor: '#FFFFFF',
@@ -37,13 +38,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 10,
     color: "#004187",
+    padding: 10,
   },
   fondoListas: {
     backgroundColor: '#004187',
     padding: 16,
+    flexDirection: 'row',
     flexDirection: 'column',
     justifyContent:'center',
-    borderRadius: 60,
+    borderRadius: 40,
     marginBottom: 12,
   },
   title: {
@@ -58,7 +61,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#CCC',
   },
   clienteText: {
-    marginLeft: 13,
+    color: '#FFFFFF',
+  },
+  infoPedidoText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
+  miniContentText: {
     color: '#FFFFFF',
   },
   buttonRemoveProd: {
@@ -72,7 +81,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  
   modalTitle: {
     textAlign: 'center',
     fontSize: 18,
@@ -93,20 +101,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#004187',
     borderRadius: 20,
   },
-  buttonConfirm: {
-    fontSize: 16,
-    color: '#FFFFFF',
-  },
   buttonCerrar: {
     backgroundColor: '#FFFFFF',
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 70,
     marginTop: 10,
   },
   buttonAddProd: {
     backgroundColor: '#6CAEF6',
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 70,
     marginTop: 10,
     alignSelf: 'center'
   },
@@ -117,7 +121,7 @@ const styles = StyleSheet.create({
   buttonAddCliente: {
     backgroundColor: '#6CAEF6',
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 70,
     marginTop: 10,
     alignSelf: 'center'
   },
@@ -125,26 +129,103 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     textAlign: 'center',
   },
+  buttonNext: {
+    backgroundColor: '#6CAEF6',
+    padding: 10,
+    borderRadius: 70,
+    alignSelf: 'center'
+  },
+  colorTextButtonNext: {
+    color: "#FFFFFF",
+    textAlign: 'center',
+  },
   closeButton: {
     marginTop: 10,
     padding: 10,
     backgroundColor: "#A3C669",
-    borderRadius: 5,
+    borderRadius: 70,
   },
   buttonGuardar: {
     backgroundColor: '#6CAEF6',
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 70,
     marginTop: 10,
   },
   colorTextButtonGuardar: {
     color: "#FFFFFF",
     textAlign: 'center'
   },
+  buttonCrearPedido: {
+    backgroundColor: '#6CAEF6',
+    padding: 10,
+    borderRadius: 70,
+    marginTop: 10,
+  },
+  colorTextButtonCrearPedido: {
+    color: "#FFFFFF",
+    textAlign: 'center'
+  },
   colorTextButtonCerrar: {
     color: "#004187",
     textAlign: 'center',
-  }
+  },
+  containerTotal: {
+    backgroundColor: '#004187',
+    flex: 0.2,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
+listItem: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  borderColor: '#004187',
+  borderWidth: 1,
+  padding: 10,
+  borderRadius: 70,
+  fontWeight: 'bold',
+},
+quantityContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 'auto',
+    fontWeight: 'bold',
+},
+Textimput: {
+  marginHorizontal: '20%', marginVertical: '5%', backgroundColor: '#FFFF',
+  borderColor: '#A3C669',
+  backgroundColor: '#FFFF',
+  borderWidth: 1,
+  padding: 10,
+  flex: 1,
+  borderRadius: 10
+},
+buttonText: {
+  color: '#FFF',
+  fontSize: 16,
+  textAlign: 'center',
+},
+quantityInput: {
+  width: 50,
+  paddingVertical: 5,
+  paddingHorizontal: 10,
+  borderWidth: 1,
+  borderColor: '#ccc',
+},
+quantityButton: {
+  paddingHorizontal: 10,
+  justifyContent: 'center',
+  fontSize: 20,
+  fontWeight: 'bold',
+},
+colorTextTotal: {
+  color: "#FFFFFF",
+  textAlign: 'center',
+  fontWeight: 'bold',
+},
+
 })
 
 export default styles;

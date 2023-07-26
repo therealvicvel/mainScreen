@@ -76,7 +76,7 @@ const ListClientes = () => {
           SeparadorDeLineas={separador}
           keyExtractor={(item) => item.documento.toString()}
         /> */}
-        <FlatList
+        <FlatList style={styles.container}
         data={data}
         SeparadorDeLineas={separador}
         renderItem={renderClienteItem}
