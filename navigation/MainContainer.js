@@ -60,14 +60,14 @@ const MiniScreenAddClientes = () => (
 //Menú superior para agregar nuevo producto para la pantalla InventarioScreen
 const MiniScreenAddProducto = () => (
   <View>
-    <InventarioScreen />
+    <AddProductoScreen />
   </View>
 );
 
 //Menú superior para ver los productos existentes en el inventario de InventarioScreen
 const MiniScreenInventario = () => (
   <View>
-    <AddProductoScreen/>
+    <InventarioScreen/>
   </View>
 );
 

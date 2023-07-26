@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, FlatList, Modal } from 'react-native';
 import styles from '../../utilidades/styles';
 import { ScrollView } from 'react-native'; 
 import { TextInput, TouchableOpacity } from 'react-native'; 
-import { useState,useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 
 const ListClientes = () => {
@@ -15,7 +15,7 @@ const ListClientes = () => {
     fetch('https://viramsoftapi.onrender.com/costumer')
       .then((response) => response.json())
       .then((data) => {
-        setData(data.clientes); 
+        setData(data.clientes);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -58,7 +58,7 @@ const ListClientes = () => {
   return (
     //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
     <ScrollView contentContainerStyle={styles.container}>
-      <View   >
+      <View>
         <Text style={styles.title}>Lista de clientes</Text>
         <FlatList
         data={data}
