@@ -52,6 +52,7 @@ const ListInventario = () => {
         <Text style={styles.clienteText}>Fecha de vencimiento: {item.fechaVencimiento}</Text>
         <Text style={styles.clienteText}>Valor compra: {item.valCompra}</Text>
         <Text style={styles.clienteText}>Unidad de medida: {item.unidadMedida}</Text>
+        <Text style={styles.clienteText}>Categoría: {item.categoria}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -87,6 +88,7 @@ const ListInventario = () => {
                 <Text style={styles.clienteText}>Valor venta: {selectedProducto.valVenta}</Text>
                 <Text style={styles.clienteText}>Unidad medida: {selectedProducto.unidadMedida}</Text>
                 <Text style={styles.clienteText}>Fecha vencimiento: {selectedProducto.fechaVencimiento}</Text>
+                <Text style={styles.clienteText}>Categoría: {selectedProducto.categoria}</Text>
                 <Text style={styles.modalSubTitle}>Agregar Cambios</Text>
                 <TextInput style={styles.inputForModal}
                   placeholder="Cantidad"></TextInput>
