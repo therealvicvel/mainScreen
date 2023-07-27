@@ -48,9 +48,9 @@ const ListInventario = () => {
         <Text style={styles.clienteText}>Cantidad: {item.cantidad}</Text>
         <Text style={styles.clienteText}>ID Producto: {item.idProducto}</Text>
         <Text style={styles.clienteText}>Marca: {item.marca}</Text>
-        <Text style={styles.clienteText}>Valor venta: {item.valVenta}</Text>
+        <Text style={styles.clienteText}>Valor venta: {item.valorVenta}</Text>
         <Text style={styles.clienteText}>Fecha de vencimiento: {item.fechaVencimiento}</Text>
-        <Text style={styles.clienteText}>Valor compra: {item.valCompra}</Text>
+        <Text style={styles.clienteText}>Valor compra: {item.valorCompra}</Text>
         <Text style={styles.clienteText}>Unidad de medida: {item.unidadMedida}</Text>
         <Text style={styles.clienteText}>Categoría: {item.categoria}</Text>
       </View>
@@ -84,8 +84,8 @@ const ListInventario = () => {
                 <Text style={styles.clienteText}>Nombre: {selectedProducto.nombre}</Text>
                 <Text style={styles.clienteText}>Marca: {selectedProducto.marca}</Text>
                 <Text style={styles.clienteText}>Cantidad: {selectedProducto.cantidad}</Text>
-                <Text style={styles.clienteText}>Valor compra: {selectedProducto.valCompra}</Text>
-                <Text style={styles.clienteText}>Valor venta: {selectedProducto.valVenta}</Text>
+                <Text style={styles.clienteText}>Valor compra: {selectedProducto.valorCompra}</Text>
+                <Text style={styles.clienteText}>Valor venta: {selectedProducto.valorVenta}</Text>
                 <Text style={styles.clienteText}>Unidad medida: {selectedProducto.unidadMedida}</Text>
                 <Text style={styles.clienteText}>Fecha vencimiento: {selectedProducto.fechaVencimiento}</Text>
                 <Text style={styles.clienteText}>Categoría: {selectedProducto.categoria}</Text>
