@@ -23,7 +23,7 @@ export default function AddClientesScreen({ navigation }) {
           direccion: direccion,
           telefono: telefono,
         };
-        fetch('https://viramsoftapi.onrender.com/costumer', {
+        fetch('https://viramsoftapi.onrender.com/create_costumer', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
