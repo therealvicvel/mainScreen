@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#6CAEF6',
     padding: 10,
     borderRadius: 70,
-    marginTop: 10,
+    marginTop: 150,
     alignSelf: 'center'
   },
   colorTextButtonAddProd: {
@@ -225,7 +225,17 @@ colorTextTotal: {
   textAlign: 'center',
   fontWeight: 'bold',
 },
-
+picker: {
+  color: "#004187",
+  borderRadius: 20,
+  marginTop: 20,
+  height: 40,
+  width: '100%',
+  borderColor: '#004187',
+  borderWidth: 1,
+  paddingHorizontal: 10,
+  color: "#004187",
+},
 })
 
 export default styles;

@@ -15,7 +15,27 @@ export default function AddClientesScreen({ navigation }) {
     const [telefono, setTelefono] = useState('');
 
     const [data, setData] = useState([]);
+    const validarCampos = () => {
+        if (
+          nombre.trim() === "" ||
+          cantidad.trim() === "" ||
+          valCompra.trim() === "" ||
+          valVenta.trim() === "" ||
+          unidadMedida.trim() === "" ||
+          fechaVencimiento.trim() === "" ||
+          marca.trim() === "" ||
+          categoria === ""
+        ) {
+          return false;
+        }
+        return true;
+      };
+
     const handleAgregarCliente = () => {
+        if (!validarCampos()) {
+            alert("Por favor, completa todos los campos antes de agregar el producto.");
+            return;
+        }
         const nuevoCliente = {
           documento: documento,
           nombre: nombre,
