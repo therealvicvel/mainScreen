@@ -1881,7 +1881,7 @@
     prompts "^2.4.0"
     semver "^6.3.0"
 
-"@react-native-community/datetimepicker@^7.4.1", "@react-native-community/datetimepicker@>=6.7.0":
+"@react-native-community/datetimepicker@>=6.7.0":
   version "7.4.1"
   resolved "https://registry.npmjs.org/@react-native-community/datetimepicker/-/datetimepicker-7.4.1.tgz"
   integrity sha512-S7KdiWt0VgL93vy8sAlxPtyq8yNTRCNvoVJPkPlKzwuDY1Q5f+E0rsnNvfP0Y/UMhXAUnUo/THGR2qfrsJ9vNg==
