@@ -11,6 +11,7 @@ const ListClientes = () => {
   //Funcion que llama los datos de la base de datos 
   const [data, setData] = useState([]);
 
+ 
   useEffect(() => {
     fetch('https://viramsoftapi.onrender.com/costumer')
       .then((response) => response.json())
@@ -59,7 +60,6 @@ const ListClientes = () => {
   return (
     //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
     <ScrollView contentContainerStyle={styles.container}>
-      <View>
         <Text style={styles.title}>Lista de clientes</Text>
         <FlatList
         data={data}
@@ -67,7 +67,6 @@ const ListClientes = () => {
         renderItem={renderClienteItem}
         keyExtractor={(item) => item.documento.toString()} 
       />
-      </View>
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>

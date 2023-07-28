@@ -1,3 +1,4 @@
+// Importación de módulos y componentes necesarios
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity, Modal, TextInput } from "react-native";
 import { Checkbox } from 'react-native-paper';
@@ -5,6 +6,7 @@ import styles from "../../utilidades/styles";
 import DateInput from "../../utilidades/calendario";
 
 const NuevoPedido = () => {
+  // Estados del componente
   const [data, setData] = useState([]);
   const [selectedItems, setSelectedItems] = useState({});
   const [showModal, setShowModal] = useState(false);
@@ -12,7 +14,7 @@ const NuevoPedido = () => {
   const [selectedQuantities, setSelectedQuantities] = useState({});
   const [total, setTotal] = useState(0);
 
-
+  // Carga inicial de los productos desde la API al montar el componente
   useEffect(() => {
     fetch('https://viramsoftapi.onrender.com/product')
       .then((response) => response.json())
@@ -24,10 +26,12 @@ const NuevoPedido = () => {
       });
   }, []);
 
+  // Actualización del total cuando cambian las cantidades seleccionadas
   useEffect(() => {
     calculateTotal();
   }, [selectedQuantities]);
 
+  // Función para alternar la selección de un producto
   const toggleItemSelection = (item) => {
     setSelectedItems(prevState => ({
       ...prevState,
@@ -35,6 +39,7 @@ const NuevoPedido = () => {
     }));
   };
 
+  // Función para incrementar la cantidad de un producto seleccionado
   const incrementQuantity = (itemId) => {
     setSelectedQuantities(prevState => ({
       ...prevState,
@@ -42,6 +47,7 @@ const NuevoPedido = () => {
     }));
   };
 
+  // Función para decrementar la cantidad de un producto seleccionado
   const decrementQuantity = (itemId) => {
     setSelectedQuantities(prevState => ({
       ...prevState,
@@ -49,10 +55,10 @@ const NuevoPedido = () => {
     }));
   };
 
+  // Renderiza un elemento de la lista de productos
   const rendePedidoItem = ({ item }) => {
     const isSelected = selectedItems[item.idProducto] || false;
     const quantity = selectedQuantities[item.idProducto] || 0;
-   
 
     return (
       <TouchableOpacity onPress={() => toggleItemSelection(item)}>
@@ -92,6 +98,7 @@ const NuevoPedido = () => {
     );
   };
 
+  // Calcula el total del pedido en función de los productos seleccionados
   const calculateTotal = () => {
     let totalAmount = 0;
     data.forEach((item) => {
@@ -103,16 +110,19 @@ const NuevoPedido = () => {
     setTotal(totalAmount);
   };
 
+  // Abre el modal para mostrar los productos seleccionados y la información adicional del pedido
   const openModal = () => {
     setShowModal(true);
     const selected = data.filter(item => selectedItems[item.idProducto] && (selectedQuantities[item.idProducto] || 0) > 0);
     setSelectedProducts(selected);
   };
 
+  // Cierra el modal
   const closeModal = () => {
     setShowModal(false);
   };
 
+  // Componente principal
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -146,11 +156,11 @@ const NuevoPedido = () => {
             <Text style={styles.clienteText}>Datos Cliente: </Text>
             <Text style={styles.clienteText}>Total: ${total.toFixed(2)}</Text>
             <Text style={styles.modalSubTitle}>Nuevo pedido</Text>
-            <Text style={styles.clienteText}>Fecha Pedido: { <DateInput/>} </Text>
             <TextInput style={styles.inputForModal} placeholder="Buscar cliente..." />
             <TextInput style={styles.inputForModal} placeholder="Observaciones" />
+            <Text style={styles.clienteText}>Fecha Pedido: {<DateInput />} </Text>
             <TouchableOpacity style={styles.buttonCrearPedido} onPress={() => alert("Pedido creado con éxito")}>
-            <Text style={styles.colorTextButtonCrearPedido}>Crear pedido</Text>
+              <Text style={styles.colorTextButtonCrearPedido}>Crear pedido</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonCerrar} onPress={closeModal}>
               <Text style={styles.colorTextButtonCerrar}>Cancelar</Text>

@@ -12,7 +12,21 @@ const ListInventario = () => {
   //Funcion que llama los datos de la base de datos
 
   const [data, setData] = useState([]);
+   // Variable para almacenar el ID del producto ingresado
+   const [productoId, setProductoId] = useState('');
 
+   // Función para buscar el producto por ID
+   const handleSearchProducto = () => {
+     const productoEncontrado = data.find((producto) => producto.idProducto === parseInt(productoId));
+     if (productoEncontrado) {
+       setSelectedProducto(productoEncontrado);
+       setIsModalVisible(true);
+     } else {
+       // Mostrar una alerta o mensaje indicando que el producto no fue encontrado
+       alert('Producto no encontrado');
+     }
+   };
+   //fin prueba
   useEffect(() => {
     fetch('https://viramsoftapi.onrender.com/product')
       .then((response) => response.json())
@@ -66,7 +80,29 @@ const ListInventario = () => {
     //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
     <ScrollView contentContainerStyle={styles.container}>
       <View>
-        <Text style={styles.title}>Lista de inventario</Text>
+        <View style={{flex: '2%', backgroundColor: '#badde8', flexDirection: 'row', justifyContent: 'center'}}>
+          {/* TextInput para ingresar el ID del producto */}
+          <TextInput
+            style={{
+              borderRadius: 20,
+              borderColor: '#004187',
+              width: '50%',
+              borderWidth: 1,
+              padding: 10,
+              marginVertical: 10,
+              color: "#004187"}}
+            placeholder="ID del producto"
+            value={productoId}
+            onChangeText={setProductoId}
+            keyboardType="numeric"
+          />
+          {/* TouchableOpacity para buscar producto por ID */}
+          <TouchableOpacity style={styles.buttonAddCliente} onPress={handleSearchProducto}>
+            <Text style={styles.clienteText}>Buscar</Text>
+          </TouchableOpacity>
+          {/* fin prueba */}
+        </View>
+        
         <FlatList
           data={data}
           SeparadorDeLineas={separador}
