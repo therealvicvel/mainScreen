@@ -17,14 +17,11 @@ export default function AddClientesScreen({ navigation }) {
     const [data, setData] = useState([]);
     const validarCampos = () => {
         if (
+          documento.trim() === "" ||
           nombre.trim() === "" ||
-          cantidad.trim() === "" ||
-          valCompra.trim() === "" ||
-          valVenta.trim() === "" ||
-          unidadMedida.trim() === "" ||
-          fechaVencimiento.trim() === "" ||
-          marca.trim() === "" ||
-          categoria === ""
+          apellido.trim() === "" ||
+          direccion.trim() === "" ||
+          telefono.trim() === ""
         ) {
           return false;
         }
@@ -33,7 +30,7 @@ export default function AddClientesScreen({ navigation }) {
 
     const handleAgregarCliente = () => {
         if (!validarCampos()) {
-            alert("Por favor, completa todos los campos antes de agregar el producto.");
+            alert("Por favor, completa todos los campos antes de agregar el cliente.");
             return;
         }
         const nuevoCliente = {
@@ -54,6 +51,16 @@ export default function AddClientesScreen({ navigation }) {
         .then((data) => {
           console.log("Respuesta de la API:", data);
           setData([data.nuevoCliente]);
+          if (data && data.nuevoProducto) {
+            alert("Ocurrió un error al agregar el cliente. Por favor, intenta nuevamente.");
+          } else {
+            setDocumento("");
+            setNombre("");
+            setApellido("");
+            setDireccion("");
+            setTelefono("");
+            alert("El cliente se ha agregado correctamente.");
+          }
         })
         .catch((error) => {
           console.error("Error al agregar el cliente: ", error);
@@ -79,15 +86,6 @@ export default function AddClientesScreen({ navigation }) {
     const handleTelefonoChange = (text) => {
         setTelefono(text);
     };
-
-    /*Mostrar los datos ingresados por consola
-    const handleAgregarProducto = () => {
-        console.log('Documento:', documento);
-        console.log('Nombre:', nombre);
-        console.log('Apellido:', apellido);
-        console.log('Dirección:', direccion);
-        console.log('Teléfono:', telefono);
-    };*/
 
     return (
         //Captura de datos, diseño y decoración del formulario

@@ -68,24 +68,22 @@ export default function AddProductoScreen({ navigation }) {
       body: JSON.stringify(nuevoProducto),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log("Respuesta de la API:", data);
-        setData([data.nuevoProducto]);
-        if (data && data.nuevoProducto) {
-            alert("El producto se ha agregado correctamente.");
-            //Limpieza de los campos para un nuevo producto
-            setNombre("");
-            setCantidad("");
-            setValCompra("");
-            setValVenta("");
-            setUnidadMedida("");
-            setFechaVencimiento("");
-            setMarca("");
-            setCategoria("");
-          } else {
-            alert("Ocurrió un error al agregar el producto. Por favor, intenta nuevamente.");
-          }
-        })
+      .then((responseData) => {
+        console.log("Respuesta de la API:", responseData);
+        if (responseData.success) {
+          alert("Ocurrió un error al agregar el producto. Por favor, intenta nuevamente.");
+        } else {
+          setNombre("");
+          setCantidad("");
+          setValCompra("");
+          setValVenta("");
+          setUnidadMedida("");
+          setFechaVencimiento("");
+          setMarca("");
+          setCategoria("");
+          alert("El producto se ha agregado correctamente.");
+        }
+      })
       .catch((error) => {
         console.error("Error al agregar el producto: ", error);
       });
@@ -120,8 +118,8 @@ export default function AddProductoScreen({ navigation }) {
 
   return (
     //Captura de datos, diseño y decoración del formulario
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.containerAddProd}>
+      <View style={styles.containerAddProd}>
         <TextInput
           style={styles.input}
           placeholder="Nombre del producto"
