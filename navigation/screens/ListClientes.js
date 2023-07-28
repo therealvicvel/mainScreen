@@ -46,6 +46,7 @@ const ListClientes = () => {
         <Text style={styles.clienteText}>Apellido: {item.apellido}</Text>
         <Text style={styles.clienteText}>Direccion: {item.direccion}</Text>
         <Text style={styles.clienteText}>Telefono: {item.telefono}</Text>
+        <Text style={styles.clienteText}>Estado: {item.estado}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -78,6 +79,7 @@ const ListClientes = () => {
               <Text style={styles.clienteText}>Apellido: {selectedCliente.apellido}</Text>
               <Text style={styles.clienteText}>Dirección: {selectedCliente.direccion}</Text>
               <Text style={styles.clienteText}>Teléfono: {selectedCliente.telefono}</Text>
+              <Text style={styles.clienteText}>Estado: {selectedCliente.estado}</Text>
               <Text style={styles.modalSubTitle}>Agregar cambios</Text>
               <TextInput style={styles.inputForModal} placeholder= "Nombre"></TextInput>
               <TextInput style={styles.inputForModal} placeholder= "Apellido"></TextInput>

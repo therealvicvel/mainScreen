@@ -33,7 +33,7 @@ export default function AddClientesScreen({ navigation }) {
 
     const handleAgregarCliente = () => {
         if (!validarCampos()) {
-            alert("Por favor, completa todos los campos antes de agregar el producto.");
+            alert("Por favor, completa todos los campos antes de agregar el cliente.");
             return;
         }
         const nuevoCliente = {
@@ -79,15 +79,6 @@ export default function AddClientesScreen({ navigation }) {
     const handleTelefonoChange = (text) => {
         setTelefono(text);
     };
-
-    /*Mostrar los datos ingresados por consola
-    const handleAgregarProducto = () => {
-        console.log('Documento:', documento);
-        console.log('Nombre:', nombre);
-        console.log('Apellido:', apellido);
-        console.log('Dirección:', direccion);
-        console.log('Teléfono:', telefono);
-    };*/
 
     return (
         //Captura de datos, diseño y decoración del formulario

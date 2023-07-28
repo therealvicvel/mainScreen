@@ -120,8 +120,8 @@ export default function AddProductoScreen({ navigation }) {
 
   return (
     //Captura de datos, diseño y decoración del formulario
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.containerAddProd}>
+      <View style={styles.containerAddProd}>
         <TextInput
           style={styles.input}
           placeholder="Nombre del producto"
