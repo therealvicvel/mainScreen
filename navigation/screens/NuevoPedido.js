@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity, Modal, TextInput } from "react-native";
 import { Checkbox } from 'react-native-paper';
 import styles from "../../utilidades/styles";
+import DateInput from "../../utilidades/calendario";
 
 const NuevoPedido = () => {
   const [data, setData] = useState([]);
@@ -145,7 +146,7 @@ const NuevoPedido = () => {
             <Text style={styles.clienteText}>Datos Cliente: </Text>
             <Text style={styles.clienteText}>Total: ${total.toFixed(2)}</Text>
             <Text style={styles.modalSubTitle}>Nuevo pedido</Text>
-            <TextInput style={styles.inputForModal} placeholder="Fecha de entrega" />
+            <Text style={styles.clienteText}>Fecha Pedido: { <DateInput/>} </Text>
             <TextInput style={styles.inputForModal} placeholder="Buscar cliente..." />
             <TextInput style={styles.inputForModal} placeholder="Observaciones" />
             <TouchableOpacity style={styles.buttonCrearPedido} onPress={() => alert("Pedido creado con éxito")}>
