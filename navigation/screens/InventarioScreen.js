@@ -27,6 +27,60 @@ const ListInventario = () => {
      }
    };
    //fin prueba
+  const [cantidadInput, setCantidadInput] = useState("");
+  const [valorVentaInput, setValorVentaInput] = useState("");
+
+  const handleCantidadInputChange = (text) => {
+    setCantidadInput(text);
+  };
+
+  const handleGuardarCambios = () => {
+    if (selectedProducto && cantidadInput.trim() !== "" && valorVentaInput.trim() !== "") {
+      const productoActualizado = {
+        ...selectedProducto,
+        cantidad: cantidadInput,
+        valorVenta: valorVentaInput,
+      };
+  
+      fetch(`https://viramsoftapi.onrender.com/edit_product/${selectedProducto.idProducto}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productoActualizado),
+      })
+        .then((response) => response.json())
+        .then((responseData) => {
+          console.log("Respuesta de la API:", responseData);
+          if (responseData.success) {
+            alert("Los cambios se han guardado correctamente.");
+            //Actualizar la lista de productos después de guardar los cambios
+            setData((prevData) => {
+              const newData = prevData.map((item) =>
+                item.idProducto === selectedProducto.idProducto ? productoActualizado : item
+              );
+              return newData;
+            });
+            //Cerrar el modal después de guardar los cambios
+            setIsModalVisible(false);
+          } else {
+            alert("Ocurrió un error al guardar los cambios. Por favor, intenta nuevamente.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error al guardar los cambios: ", error);
+        });
+    } else {
+      alert("Por favor, completa todos los campos antes de guardar los cambios.");
+    }
+  };
+
+  const handleValorVentaInputChange = (text) => {
+    setValorVentaInput(text);
+  };
+
+
+
   useEffect(() => {
     fetch('https://viramsoftapi.onrender.com/product')
       .then((response) => response.json())
@@ -126,17 +180,25 @@ const ListInventario = () => {
                 <Text style={styles.clienteText}>Fecha vencimiento: {selectedProducto.fechaVencimiento}</Text>
                 <Text style={styles.clienteText}>Categoría: {selectedProducto.categoria}</Text>
                 <Text style={styles.modalSubTitle}>Agregar Cambios</Text>
-                <TextInput style={styles.inputForModal}
-                  placeholder="Cantidad"></TextInput>
-                <TextInput style={styles.inputForModal}
-                  placeholder="Valor venta"></TextInput>
+                <TextInput
+                  style={styles.inputForModal}
+                  placeholder="Cantidad"
+                  onChangeText={handleCantidadInputChange}
+                  value={cantidadInput}
+                />
+                <TextInput
+                  style={styles.inputForModal}
+                  placeholder="Valor venta"
+                  onChangeText={handleValorVentaInputChange}
+                  value={valorVentaInput}
+                />
               </>
             )}
             <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>
               <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonGuardar}
-              onPress={() => alert("Los cambios se han guardado")}>
+              onPress={handleGuardarCambios}>
               <Text style={styles.colorTextButtonGuardar}>Guardar</Text>
             </TouchableOpacity>
           </View>
