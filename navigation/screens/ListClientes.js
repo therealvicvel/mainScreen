@@ -9,19 +9,21 @@ import { useState, useEffect } from 'react';
 
 const ListClientes = () => {
   //Funcion que llama los datos de la base de datos 
+  console.log("Data de clientes:", data);
   const [data, setData] = useState([]);
 
- 
   useEffect(() => {
-    fetch('https://viramsoftapi.onrender.com/costumer')
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data.clientes);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
+  fetch('https://viramsoftapi.onrender.com/costumer')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Datos recibidos de la API:", data);
+      setData(data.clientes);
+    })
+    .catch((error) => {
+      console.error("Error fetching data", error);
+    });
+}, []);
+
 
   //Variables para el manejo del Modal
   const [selectedCliente, setSelectedCliente] = useState(null);
@@ -44,10 +46,8 @@ const ListClientes = () => {
       <View style={styles.fondoListas}>
         <Text style={styles.clienteText}>Documento: {item.documento}</Text>
         <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
-        <Text style={styles.clienteText}>Apellido: {item.apellido}</Text>
         <Text style={styles.clienteText}>Direccion: {item.direccion}</Text>
         <Text style={styles.clienteText}>Telefono: {item.telefono}</Text>
-        <Text style={styles.clienteText}>Estado: {item.estado}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -60,13 +60,15 @@ const ListClientes = () => {
   return (
     //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
     <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Lista de clientes</Text>
+      <View>
+        <Text style={styles.title}>Lista de inventario</Text>
         <FlatList
-        data={data}
-        SeparadorDeLineas={separador}
-        renderItem={renderClienteItem}
-        keyExtractor={(item) => item.documento.toString()} 
-      />
+          data={data}
+          SeparadorDeLineas={separador}
+          renderItem={renderClienteItem}
+          keyExtractor={(item) => item.idProducto.toString()}
+        />
+      </View>
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -75,13 +77,10 @@ const ListClientes = () => {
               <Text style={styles.modalTitle}>Actualizar datos del cliente</Text>
               <Text style={styles.clienteText}>Documento: {selectedCliente.documento}</Text>
               <Text style={styles.clienteText}>Nombre: {selectedCliente.nombre}</Text>
-              <Text style={styles.clienteText}>Apellido: {selectedCliente.apellido}</Text>
               <Text style={styles.clienteText}>Dirección: {selectedCliente.direccion}</Text>
               <Text style={styles.clienteText}>Teléfono: {selectedCliente.telefono}</Text>
-              <Text style={styles.clienteText}>Estado: {selectedCliente.estado}</Text>
               <Text style={styles.modalSubTitle}>Agregar cambios</Text>
               <TextInput style={styles.inputForModal} placeholder= "Nombre"></TextInput>
-              <TextInput style={styles.inputForModal} placeholder= "Apellido"></TextInput>
               <TextInput style={styles.inputForModal} placeholder= "Direccion"></TextInput>
               <TextInput style={styles.inputForModal} placeholder= "Telefono"></TextInput>
             </>

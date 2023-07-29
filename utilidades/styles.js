@@ -129,6 +129,18 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     textAlign: 'center',
   },
+  buttonBuscarProducto: {
+    backgroundColor: '#6CAEF6',
+    padding: 10,
+    borderRadius: 20,
+    marginTop: 10,
+    marginBottom: 20,
+    alignSelf: 'center'
+  },
+  colorTextBuscarProducto: {
+    color: "#FFFFFF",
+    textAlign: 'center',
+  },
   buttonNext: {
     backgroundColor: '#6CAEF6',
     padding: 10,

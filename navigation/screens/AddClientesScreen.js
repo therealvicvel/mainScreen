@@ -10,7 +10,6 @@ import { TouchableOpacity } from "react-native";
 export default function AddClientesScreen({ navigation }) {
     const [documento, setDocumento] = useState('');
     const [nombre, setNombre] = useState('');
-    const [apellido, setApellido] = useState('');
     const [direccion, setDireccion] = useState('');
     const [telefono, setTelefono] = useState('');
 
@@ -19,7 +18,6 @@ export default function AddClientesScreen({ navigation }) {
         if (
           documento.trim() === "" ||
           nombre.trim() === "" ||
-          apellido.trim() === "" ||
           direccion.trim() === "" ||
           telefono.trim() === ""
         ) {
@@ -36,7 +34,6 @@ export default function AddClientesScreen({ navigation }) {
         const nuevoCliente = {
           documento: documento,
           nombre: nombre,
-          apellido: apellido,
           direccion: direccion,
           telefono: telefono,
         };
@@ -56,7 +53,6 @@ export default function AddClientesScreen({ navigation }) {
           } else {
             setDocumento("");
             setNombre("");
-            setApellido("");
             setDireccion("");
             setTelefono("");
             alert("El cliente se ha agregado correctamente.");
@@ -73,10 +69,6 @@ export default function AddClientesScreen({ navigation }) {
 
     const handleNombreChange = (text) => {
         setNombre(text);
-    };
-
-    const handleApellidoChange = (text) => {
-        setApellido(text);
     };
 
     const handleDireciconChange = (text) => {
@@ -102,13 +94,6 @@ export default function AddClientesScreen({ navigation }) {
                     placeholder="Nombre del cliente"
                     onChangeText={handleNombreChange}
                     value={nombre}
-                    keyboardType="phone-pad"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Apellido del cliente"
-                    onChangeText={handleApellidoChange}
-                    value={apellido}
                     keyboardType="phone-pad"
                 />
                 <TextInput

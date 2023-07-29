@@ -133,14 +133,11 @@ const ListInventario = () => {
   return (
     //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
     <ScrollView contentContainerStyle={styles.container}>
-      <View>
-        <View style={{flex: '2%', backgroundColor: '#badde8', flexDirection: 'row', justifyContent: 'center'}}>
-          {/* TextInput para ingresar el ID del producto */}
-          <TextInput
+      {/* TextInput para ingresar el ID del producto */}
+      <TextInput
             style={{
               borderRadius: 20,
               borderColor: '#004187',
-              width: '50%',
               borderWidth: 1,
               padding: 10,
               marginVertical: 10,
@@ -151,12 +148,11 @@ const ListInventario = () => {
             keyboardType="numeric"
           />
           {/* TouchableOpacity para buscar producto por ID */}
-          <TouchableOpacity style={styles.buttonAddCliente} onPress={handleSearchProducto}>
-            <Text style={styles.clienteText}>Buscar</Text>
+          <TouchableOpacity style={styles.buttonBuscarProducto} onPress={handleSearchProducto}>
+            <Text style={styles.colorTextBuscarProducto}>Buscar</Text>
           </TouchableOpacity>
           {/* fin prueba */}
-        </View>
-        
+      <View>
         <FlatList
           data={data}
           SeparadorDeLineas={separador}
