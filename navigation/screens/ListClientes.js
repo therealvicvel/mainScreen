@@ -5,7 +5,6 @@ import styles from '../../utilidades/styles';
 import { ScrollView } from 'react-native'; 
 import { TextInput, TouchableOpacity } from 'react-native'; 
 import { useState, useEffect } from 'react';
-import BuscarCliente from '../../utilidades/BuscarCliente';
 
 const ListClientes = () => {
   //Funcion que llama los datos de la base de datos 
@@ -62,7 +61,6 @@ const ListClientes = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <View>
         <Text style={styles.title}>Lista de clientes</Text>
-        <BuscarCliente Data={setData} />
         <FlatList
           data={data}
           SeparadorDeLineas={separador}
