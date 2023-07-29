@@ -61,7 +61,7 @@ const ListClientes = () => {
     //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
     <ScrollView contentContainerStyle={styles.container}>
       <View>
-        <Text style={styles.title}>Lista de inventario</Text>
+        <Text style={styles.title}>Lista de clientes</Text>
         <FlatList
           data={data}
           SeparadorDeLineas={separador}
