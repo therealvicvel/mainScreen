@@ -4,6 +4,7 @@ import { View, Text, FlatList, TouchableOpacity, Modal, TextInput } from "react-
 import { Checkbox } from 'react-native-paper';
 import styles from "../../utilidades/styles";
 import DateInput from "../../utilidades/calendario";
+import BuscarCliente from "../../utilidades/BuscarCliente";
 
 const NuevoPedido = () => {
   // Estados del componente
@@ -152,11 +153,11 @@ const NuevoPedido = () => {
               )}
               keyExtractor={(item) => item.idProducto.toString()}
             />
-            <Text style={styles.modalTitle}>Informacion Adicional:</Text>
-            <Text style={styles.clienteText}>Datos Cliente: </Text>
             <Text style={styles.clienteText}>Total: ${total.toFixed(2)}</Text>
-            <Text style={styles.modalSubTitle}>Nuevo pedido</Text>
-            <TextInput style={styles.inputForModal} placeholder="Buscar cliente..." />
+            <Text style={styles.modalTitle}>Informacion Adicional:</Text>
+            <View>
+            <BuscarCliente/>
+            </View>
             <TextInput style={styles.inputForModal} placeholder="Observaciones" />
             <Text style={styles.clienteText}>Fecha Pedido: {<DateInput />} </Text>
             <TouchableOpacity style={styles.buttonCrearPedido} onPress={() => alert("Pedido creado con éxito")}>

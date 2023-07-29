@@ -48,7 +48,7 @@ export default function AddClientesScreen({ navigation }) {
         .then((data) => {
           console.log("Respuesta de la API:", data);
           setData([data.nuevoCliente]);
-          if (data && data.nuevoProducto) {
+          if (data && data.nuevoCliente) {
             alert("Ocurrió un error al agregar el cliente. Por favor, intenta nuevamente.");
           } else {
             setDocumento("");
