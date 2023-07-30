@@ -15,10 +15,13 @@ const DateInput = ({ onSelectDate }) => {
     return regex.test(dateString);
   };
 
-   // Función para manejar el cambio en el DatePicker o TextInput
-   const handleDateChange = (selectedDate) => {
+     // Función para manejar el cambio en el DatePicker o TextInput
+  const handleDateChange = (selectedDate) => {
     if (selectedDate) {
-      const formattedDate = selectedDate.toISOString().split('T')[0];
+      const year = selectedDate.getFullYear();
+      const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+      const day = String(selectedDate.getDate()).padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day}`;
       setDate(formattedDate);
       setIsValidDate(true);
       onSelectDate(formattedDate); // Llama a la función desde la prop 'onSelectDate' para actualizar el estado de la fecha en el componente padre (NuevoPedido)
