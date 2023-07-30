@@ -5,7 +5,6 @@ import { Checkbox } from 'react-native-paper';
 import styles from "../../utilidades/styles";
 import DateInput from "../../utilidades/calendario";
 import BuscarCliente from "../../utilidades/BuscarCliente";
-import guardarPedido from "../../utilidades/guardarPedido";
 
 const NuevoPedido = () => {
   // Estados del componente
@@ -17,6 +16,7 @@ const NuevoPedido = () => {
   const [total, setTotal] = useState(0);
   const [selectedClient, setSelectedClient] = useState(null); // Nuevo estado para el cliente seleccionado
   const [selectedDate, setSelectedDate] = useState(''); // Nuevo estado para la fecha seleccionada
+  const [observations, setObservations] = useState('');
 
   // Carga inicial de los productos desde la API al montar el componente
   useEffect(() => {
@@ -56,22 +56,35 @@ const NuevoPedido = () => {
   };
 
    // Función para guardar el pedido
-   const crearPedido = () => {
-    // Aquí puedes obtener más detalles del cliente o cualquier otra información necesaria para el pedido
-    const clienteSeleccionado = selectedClient ? selectedClient.nombre : '';
-    const fechaPedido = selectedDate;
-
-    // Preparar la lista de productos seleccionados con sus cantidades
-    const productosSeleccionados = data
-      .filter(item => selectedItems[item.idProducto] && (selectedQuantities[item.idProducto] || 0) > 0)
-      .map(item => ({
-        idProducto: item.idProducto,
-        nombre: item.nombre,
-        cantidad: selectedQuantities[item.idProducto] || 0,
-      }));
+    // Función para guardar el pedido
+    const crearPedido = () => {
+      // Aquí puedes obtener más detalles del cliente o cualquier otra información necesaria para el pedido
+      const clienteSeleccionado = selectedClient ? selectedClient.documento : '';
+      const fechaPedido = selectedDate;
+  
+      // Preparar la lista de productos seleccionados con sus cantidades
+      const productosSeleccionados = data
+        .filter(item => selectedItems[item.idProducto] && (selectedQuantities[item.idProducto] || 0) > 0)
+        .map(item => ({
+          idProducto: item.idProducto,
+          cantidad: selectedQuantities[item.idProducto] || 0,
+        }));
+  
+      // Obtener las observaciones del TextInput
+      const observacionesPedido = observations;
+  
+      // Construir el objeto pedidoGuardado con todos los datos
+      const pedidoGuardado = {
+        cliente: clienteSeleccionado,
+        fechaPedido: fechaPedido,
+        productos: productosSeleccionados,
+        observaciones: observacionesPedido, // Incluimos las observaciones en el objeto pedidoGuardado
+      };
+  
+      // Imprimir el objeto en la consola
+      console.log('Pedido Guardado:', pedidoGuardado);
 
     // Llamar a la función para guardar el pedido y pasarle los datos necesarios
-    guardarPedido(clienteSeleccionado, fechaPedido, productosSeleccionados, total);
   };
   // Función para decrementar la cantidad de un producto seleccionado
   const decrementQuantity = (itemId) => {
@@ -194,7 +207,12 @@ const NuevoPedido = () => {
               </View>
             ) : null}
             </View>
-            <TextInput style={styles.inputForModal} placeholder="Observaciones" />
+            <TextInput
+                style={styles.inputForModal}
+                placeholder="Observaciones"
+                value={observations} // Vinculamos el valor del TextInput con el estado observations
+                onChangeText={setObservations} // Manejamos el cambio del valor del TextInput con setObservations
+            />            
             <DateInput onSelectDate={handleSelectDate} />
 
             {selectedDate ? (
