@@ -76,7 +76,7 @@ const NuevoPedido = () => {
       // Construir el objeto pedidoGuardado con todos los datos
       const pedidoGuardado = {
         cliente: clienteSeleccionado,
-        fechaPedido: fechaPedido,
+        fechaEntrega: fechaPedido,
         productos: productosSeleccionados,
         observaciones: observacionesPedido, // Incluimos las observaciones en el objeto pedidoGuardado
       };
