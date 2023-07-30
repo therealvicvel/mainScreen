@@ -59,9 +59,9 @@ const NuevoPedido = () => {
     // Función para guardar el pedido
     const crearPedido = () => {
       // Aquí puedes obtener más detalles del cliente o cualquier otra información necesaria para el pedido
-      const clienteSeleccionado = selectedClient ? selectedClient.documento : '';
+      const clienteSeleccionado = selectedClient ? selectedClient.documento : ''; // Utilizamos el campo "documento" del cliente seleccionado
       const fechaPedido = selectedDate;
-  
+    
       // Preparar la lista de productos seleccionados con sus cantidades
       const productosSeleccionados = data
         .filter(item => selectedItems[item.idProducto] && (selectedQuantities[item.idProducto] || 0) > 0)
@@ -69,21 +69,20 @@ const NuevoPedido = () => {
           idProducto: item.idProducto,
           cantidad: selectedQuantities[item.idProducto] || 0,
         }));
-  
-      // Obtener las observaciones del TextInput
-      const observacionesPedido = observations;
-  
+    
       // Construir el objeto pedidoGuardado con todos los datos
       const pedidoGuardado = {
-        cliente: clienteSeleccionado,
-        fechaEntrega: fechaPedido,
+        pedido: {
+          documentoCliente: clienteSeleccionado,
+          fechaEntrega: fechaPedido,
+          observacion: observations, // Usamos el estado "observations" para las observaciones del pedido
+        },
         productos: productosSeleccionados,
-        observaciones: observacionesPedido, // Incluimos las observaciones en el objeto pedidoGuardado
       };
-  
-      // Imprimir el objeto en la consola
       console.log('Pedido Guardado:', pedidoGuardado);
-      
+
+    
+      // Enviar el pedido a la API utilizando fetch
       fetch('https://viramsoftapi.onrender.com/create_order', {
         method: 'POST',
         headers: {
@@ -92,25 +91,14 @@ const NuevoPedido = () => {
         body: JSON.stringify(pedidoGuardado),
       })
       .then((response) => response.json())
-    .then((data) => {
-      console.log("Respuesta de la API:", data);
-      if (data && data.nuevoPedido) {
+      .then((data) => {
+        console.log("Respuesta de la API:", data);
+        // Resto del código para manejar la respuesta de la API
+      })
+      .catch((error) => {
+        console.error("Error al guardar el pedido: ", error);
         alert("Ocurrió un error al guardar el pedido. Por favor, intenta nuevamente.");
-      } else {
-        // Restablecer los estados y mostrar una alerta de éxito
-        setSelectedClient(null);
-        setSelectedDate('');
-        setSelectedItems({});
-        setSelectedQuantities({});
-        setTotal(0);
-        setObservations('');
-        alert("El pedido se ha guardado correctamente.");
-      }
-    })
-    .catch((error) => {
-      console.error("Error al guardar el pedido: ", error);
-      alert("Ocurrió un error al guardar el pedido. Por favor, intenta nuevamente.");
-    });
+      });
     // Llamar a la función para guardar el pedido y pasarle los datos necesarios
   };
   // Función para decrementar la cantidad de un producto seleccionado
