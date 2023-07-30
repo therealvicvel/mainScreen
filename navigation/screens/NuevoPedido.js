@@ -97,7 +97,6 @@ const NuevoPedido = () => {
             <Text> Nombre: {item.nombre}</Text>
             <Text> Marca: {item.marca}</Text>
             <Text> Precio: {item.valorVenta}</Text>
-            <Text> Fecha de vencimiento: {item.fechaVencimiento}</Text>
             <View style={styles.quantityContainer}>
               <TouchableOpacity onPress={() => decrementQuantity(item.idProducto)}>
                 <Text style={styles.quantityButton}>-</Text>
