@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-const DateInput = () => {
+const DateInput = ({ onSelectDate }) => {
   const [date, setDate] = useState('');
   const [isValidDate, setIsValidDate] = useState(true);
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
@@ -15,15 +15,15 @@ const DateInput = () => {
     return regex.test(dateString);
   };
 
-  // Función para manejar el cambio en el DatePicker o TextInput
-  const handleDateChange = (selectedDate) => {
+   // Función para manejar el cambio en el DatePicker o TextInput
+   const handleDateChange = (selectedDate) => {
     if (selectedDate) {
       const formattedDate = selectedDate.toISOString().split('T')[0];
       setDate(formattedDate);
       setIsValidDate(true);
+      onSelectDate(formattedDate); // Llama a la función desde la prop 'onSelectDate' para actualizar el estado de la fecha en el componente padre (NuevoPedido)
     }
   };
-
   // Función para abrir el DatePicker en Android
   const openDatePickerAndroid = async () => {
     try {

@@ -5,6 +5,7 @@ import { Checkbox } from 'react-native-paper';
 import styles from "../../utilidades/styles";
 import DateInput from "../../utilidades/calendario";
 import BuscarCliente from "../../utilidades/BuscarCliente";
+import guardarPedido from "../../utilidades/guardarPedido";
 
 const NuevoPedido = () => {
   // Estados del componente
@@ -14,6 +15,8 @@ const NuevoPedido = () => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [selectedQuantities, setSelectedQuantities] = useState({});
   const [total, setTotal] = useState(0);
+  const [selectedClient, setSelectedClient] = useState(null); // Nuevo estado para el cliente seleccionado
+  const [selectedDate, setSelectedDate] = useState(''); // Nuevo estado para la fecha seleccionada
 
   // Carga inicial de los productos desde la API al montar el componente
   useEffect(() => {
@@ -27,6 +30,10 @@ const NuevoPedido = () => {
       });
   }, []);
 
+   // Función para manejar el cambio de la fecha seleccionada
+   const handleSelectDate = (date) => {
+    setSelectedDate(date);
+  };
   // Actualización del total cuando cambian las cantidades seleccionadas
   useEffect(() => {
     calculateTotal();
@@ -48,6 +55,24 @@ const NuevoPedido = () => {
     }));
   };
 
+   // Función para guardar el pedido
+   const crearPedido = () => {
+    // Aquí puedes obtener más detalles del cliente o cualquier otra información necesaria para el pedido
+    const clienteSeleccionado = selectedClient ? selectedClient.nombre : '';
+    const fechaPedido = selectedDate;
+
+    // Preparar la lista de productos seleccionados con sus cantidades
+    const productosSeleccionados = data
+      .filter(item => selectedItems[item.idProducto] && (selectedQuantities[item.idProducto] || 0) > 0)
+      .map(item => ({
+        idProducto: item.idProducto,
+        nombre: item.nombre,
+        cantidad: selectedQuantities[item.idProducto] || 0,
+      }));
+
+    // Llamar a la función para guardar el pedido y pasarle los datos necesarios
+    guardarPedido(clienteSeleccionado, fechaPedido, productosSeleccionados, total);
+  };
   // Función para decrementar la cantidad de un producto seleccionado
   const decrementQuantity = (itemId) => {
     setSelectedQuantities(prevState => ({
@@ -123,6 +148,11 @@ const NuevoPedido = () => {
     setShowModal(false);
   };
 
+   // Función para manejar el cambio del cliente seleccionado
+   const handleSelectClient = (client) => {
+    setSelectedClient(client);
+  };
+
   // Componente principal
   return (
     <View style={{ flex: 1 }}>
@@ -139,7 +169,6 @@ const NuevoPedido = () => {
           <Text style={styles.colorTextButtonNext}>Siguiente</Text>
         </TouchableOpacity>
       </View>
-
       <Modal visible={showModal} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -156,11 +185,24 @@ const NuevoPedido = () => {
             <Text style={styles.clienteText}>Total: ${total.toFixed(2)}</Text>
             <Text style={styles.modalTitle}>Informacion Adicional:</Text>
             <View>
-            <BuscarCliente/>
+            <BuscarCliente onSelectClient={handleSelectClient} />            
+            {selectedClient ? ( // Mostrar la información del cliente seleccionado solo si existe
+            <View>
+              <Text style={styles.clienteText}>datos Cliente: </Text>
+              <Text style={styles.clienteText}>Nombre: {selectedClient.nombre}</Text>
+              <Text style={styles.clienteText}>Direccion: {selectedClient.direccion}</Text>
+              </View>
+            ) : null}
             </View>
             <TextInput style={styles.inputForModal} placeholder="Observaciones" />
-            <Text style={styles.clienteText}>Fecha Pedido: {<DateInput />} </Text>
-            <TouchableOpacity style={styles.buttonCrearPedido} onPress={() => alert("Pedido creado con éxito")}>
+            <DateInput onSelectDate={handleSelectDate} />
+
+            {selectedDate ? (
+              <View>
+                <Text style={styles.clienteText}>Fecha Pedido: {selectedDate}</Text>
+              </View>
+            ) : null}
+            <TouchableOpacity style={styles.buttonCrearPedido} onPress={crearPedido}>
               <Text style={styles.colorTextButtonCrearPedido}>Crear pedido</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonCerrar} onPress={closeModal}>
