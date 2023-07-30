@@ -10,8 +10,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 const ListInventario = () => {
 
 
-  const [cantidadInput, setCantidadInput] = useState("");
-  const [valorVentaInput, setValorVentaInput] = useState("");
+ 
   //Funcion que llama los datos de la base de datos
 
   const [data, setData] = useState([]);
@@ -32,18 +31,31 @@ const ListInventario = () => {
    //fin prueba
   
 
-  const handleCantidadInputChange = (text) => {
-    setCantidadInput(text);
+  const [cantidad, setCantidad] = useState("");
+  const [valorVenta, setValorVenta] = useState("");
+  const [valorCompra, setValorCompra] = useState("");
+
+  const handleCantidadChange = (text) => {
+    setCantidad(text);
+  };
+
+  const handleValorVentaChange = (text) => {
+    setValorVenta(text);
+  };
+
+  const handleValorCompraChange = (text) => {
+    setValorCompra(text);
   };
 
   const handleGuardarCambios = () => {
     if (selectedProducto) {
       const productoActualizado = {
         ...selectedProducto,
-        cantidad: cantidadInput,
-        valorVenta: valorVentaInput,
+        cantidad: cantidad,
+        valorVenta: valorVenta,
+        valorCompra: valorCompra,
       };
-  
+      console.log(productoActualizado);
       fetch(`https://viramsoftapi.onrender.com/edit_product/${selectedProducto.idProducto}`, {
         method: "PUT",
         headers: {
@@ -53,36 +65,29 @@ const ListInventario = () => {
       })
         .then((response) => response.json())
         .then((responseData) => {
-          console.log("Respuesta de la API:", responseData);
+          
           if (responseData.success) {
             alert("Los cambios se han guardado correctamente.");
   
-            //Actualizar la lista de productos después de guardar los cambios
+            // Actualizar la lista de productos después de guardar los cambios
             setData((prevData) => {
               const newData = prevData.map((item) =>
                 item.idProducto === selectedProducto.idProducto ? productoActualizado : item
               );
+              setIsModalVisible(false);
               return newData;
-              //Cerrar el modal después de guardar los cambios
-            setIsModalVisible(false);
             });
           } else {
+            
             alert("Ocurrió un error al guardar los cambios. Por favor, intenta nuevamente.");
           }
         })
         .catch((error) => {
           console.log("Error al guardar los cambios: ", error);
         });
-    } else {
-      alert("Por favor, selecciona un producto antes de guardar los cambios.");
     }
   };
-
-  const handleValorVentaInputChange = (text) => {
-    setValorVentaInput(text);
-  };
-
-
+  
 
   useEffect(() => {
     fetch('https://viramsoftapi.onrender.com/product')
@@ -100,11 +105,12 @@ const ListInventario = () => {
   const [selectedProducto, setSelectedProducto] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // Función para abrir el modal y establecer el producto seleccionado
+  //Función para abrir el modal y establecer el producto seleccionado
   const handleOpenModal = (producto) => {
     setSelectedProducto(producto);
-    setCantidadInput(producto.cantidad);
-    setValorVentaInput(producto.valorVenta);
+    setCantidad(producto.cantidad);
+    setValorVenta(producto.valorVenta);
+    setValorCompra(producto.valorCompra)
     setIsModalVisible(true);
   };
 
@@ -182,14 +188,20 @@ const ListInventario = () => {
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Cantidad"
-                  onChangeText={handleCantidadInputChange}
-                  value={cantidadInput}
+                  onChangeText={handleCantidadChange}
+                  value={cantidad}
                 />
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Valor venta"
-                  onChangeText={handleValorVentaInputChange}
-                  value={valorVentaInput}
+                  onChangeText={handleValorVentaChange}
+                  value={valorVenta}
+                />
+                <TextInput
+                  style={styles.inputForModal}
+                  placeholder="Valor compra"
+                  onChangeText={handleValorCompraChange}
+                  value={valorCompra}
                 />
               </>
             )}
