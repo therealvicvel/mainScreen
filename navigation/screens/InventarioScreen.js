@@ -9,33 +9,35 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 //Creación de lista visual de inventario (declaración de variables y sus datos)
 const ListInventario = () => {
 
+
+  const [cantidadInput, setCantidadInput] = useState("");
+  const [valorVentaInput, setValorVentaInput] = useState("");
   //Funcion que llama los datos de la base de datos
 
   const [data, setData] = useState([]);
-   // Variable para almacenar el ID del producto ingresado
+   //Variable para almacenar el ID del producto ingresado
    const [productoId, setProductoId] = useState('');
 
-   // Función para buscar el producto por ID
+   //Función para buscar el producto por ID
    const handleSearchProducto = () => {
      const productoEncontrado = data.find((producto) => producto.idProducto === parseInt(productoId));
      if (productoEncontrado) {
        setSelectedProducto(productoEncontrado);
        setIsModalVisible(true);
      } else {
-       // Mostrar una alerta o mensaje indicando que el producto no fue encontrado
+       //Mostrar una alerta o mensaje indicando que el producto no fue encontrado
        alert('Producto no encontrado');
      }
    };
    //fin prueba
-  const [cantidadInput, setCantidadInput] = useState("");
-  const [valorVentaInput, setValorVentaInput] = useState("");
+  
 
   const handleCantidadInputChange = (text) => {
     setCantidadInput(text);
   };
 
   const handleGuardarCambios = () => {
-    if (selectedProducto && cantidadInput.trim() !== "" && valorVentaInput.trim() !== "") {
+    if (selectedProducto) {
       const productoActualizado = {
         ...selectedProducto,
         cantidad: cantidadInput,
@@ -54,24 +56,25 @@ const ListInventario = () => {
           console.log("Respuesta de la API:", responseData);
           if (responseData.success) {
             alert("Los cambios se han guardado correctamente.");
+  
             //Actualizar la lista de productos después de guardar los cambios
             setData((prevData) => {
               const newData = prevData.map((item) =>
                 item.idProducto === selectedProducto.idProducto ? productoActualizado : item
               );
               return newData;
-            });
-            //Cerrar el modal después de guardar los cambios
+              //Cerrar el modal después de guardar los cambios
             setIsModalVisible(false);
+            });
           } else {
             alert("Ocurrió un error al guardar los cambios. Por favor, intenta nuevamente.");
           }
         })
         .catch((error) => {
-          console.error("Error al guardar los cambios: ", error);
+          console.log("Error al guardar los cambios: ", error);
         });
     } else {
-      alert("Por favor, completa todos los campos antes de guardar los cambios.");
+      alert("Por favor, selecciona un producto antes de guardar los cambios.");
     }
   };
 
@@ -100,6 +103,8 @@ const ListInventario = () => {
   // Función para abrir el modal y establecer el producto seleccionado
   const handleOpenModal = (producto) => {
     setSelectedProducto(producto);
+    setCantidadInput(producto.cantidad);
+    setValorVentaInput(producto.valorVenta);
     setIsModalVisible(true);
   };
 
@@ -117,7 +122,6 @@ const ListInventario = () => {
         <Text style={styles.clienteText}>ID Producto: {item.idProducto}</Text>
         <Text style={styles.clienteText}>Marca: {item.marca}</Text>
         <Text style={styles.clienteText}>Valor venta: {item.valorVenta}</Text>
-        <Text style={styles.clienteText}>Fecha de vencimiento: {item.fechaVencimiento}</Text>
         <Text style={styles.clienteText}>Valor compra: {item.valorCompra}</Text>
         <Text style={styles.clienteText}>Unidad de medida: {item.unidadMedida}</Text>
         <Text style={styles.clienteText}>Categoría: {item.categoria}</Text>
@@ -173,7 +177,6 @@ const ListInventario = () => {
                 <Text style={styles.clienteText}>Valor compra: {selectedProducto.valorCompra}</Text>
                 <Text style={styles.clienteText}>Valor venta: {selectedProducto.valorVenta}</Text>
                 <Text style={styles.clienteText}>Unidad medida: {selectedProducto.unidadMedida}</Text>
-                <Text style={styles.clienteText}>Fecha vencimiento: {selectedProducto.fechaVencimiento}</Text>
                 <Text style={styles.clienteText}>Categoría: {selectedProducto.categoria}</Text>
                 <Text style={styles.modalSubTitle}>Agregar Cambios</Text>
                 <TextInput

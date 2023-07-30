@@ -143,7 +143,7 @@ const NuevoPedido = () => {
       <Modal visible={showModal} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Productos Seleccionados</Text>
+            <Text style={styles.modalTitle}>Productos seleccionados</Text>
             <FlatList
               data={selectedProducts}
               renderItem={({ item }) => (

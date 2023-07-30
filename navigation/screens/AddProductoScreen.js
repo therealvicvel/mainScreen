@@ -11,10 +11,9 @@ import { useState } from "react";
 export default function AddProductoScreen({ navigation }) {
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState("");
-  const [valCompra, setValCompra] = useState("");
-  const [valVenta, setValVenta] = useState("");
+  const [valorCompra, setValorCompra] = useState("");
+  const [valorVenta, setValorVenta] = useState("");
   const [unidadMedida, setUnidadMedida] = useState("");
-  const [fechaVencimiento, setFechaVencimiento] = useState("");
   const [marca, setMarca] = useState("");
   const [categoria, setCategoria] = useState("");
   
@@ -32,10 +31,9 @@ export default function AddProductoScreen({ navigation }) {
     if (
       nombre.trim() === "" ||
       cantidad.trim() === "" ||
-      valCompra.trim() === "" ||
-      valVenta.trim() === "" ||
+      valorCompra.trim() === "" ||
+      valorVenta.trim() === "" ||
       unidadMedida.trim() === "" ||
-      fechaVencimiento.trim() === "" ||
       marca.trim() === "" ||
       categoria === ""
     ) {
@@ -53,10 +51,9 @@ export default function AddProductoScreen({ navigation }) {
     const nuevoProducto = {
       nombre: nombre,
       cantidad: cantidad,
-      valCompra: valCompra,
-      valVenta: valVenta,
+      valorCompra: valorCompra,
+      valorVenta: valorVenta,
       unidadMedida: unidadMedida,
-      fechaVencimiento: fechaVencimiento,
       categoria: categoria,
       marca: marca,
     };
@@ -75,10 +72,9 @@ export default function AddProductoScreen({ navigation }) {
         } else {
           setNombre("");
           setCantidad("");
-          setValCompra("");
-          setValVenta("");
+          setValorCompra("");
+          setValorVenta("");
           setUnidadMedida("");
-          setFechaVencimiento("");
           setMarca("");
           setCategoria("");
           alert("El producto se ha agregado correctamente.");
@@ -97,8 +93,8 @@ export default function AddProductoScreen({ navigation }) {
     setCantidad(text);
   };
 
-  const handleValCompraChange = (text) => {
-    setValCompra(text);
+  const handleValorCompraChange = (text) => {
+    setValorCompra(text);
   };
   const handleCategoriaChange = (text) => {
     setCategoria(text);
@@ -106,14 +102,11 @@ export default function AddProductoScreen({ navigation }) {
   const handleMarcaChange = (text) => {
     setMarca(text);
   };
-  const handleValVentaChange = (text) => {
-    setValVenta(text);
+  const handleValorVentaChange = (text) => {
+    setValorVenta(text);
   };
   const handleUnidadMedidaChange = (text) => {
     setUnidadMedida(text);
-  };
-  const handleFechaVencimientoChange = (text) => {
-    setFechaVencimiento(text);
   };
 
   return (
@@ -142,15 +135,15 @@ export default function AddProductoScreen({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Valor de compra"
-          onChangeText={handleValCompraChange}
-          value={valCompra}
+          onChangeText={handleValorCompraChange}
+          value={valorCompra}
           keyboardType="phone-pad"
         />
         <TextInput
           style={styles.input}
           placeholder="Valor de venta"
-          onChangeText={handleValVentaChange}
-          value={valVenta}
+          onChangeText={handleValorVentaChange}
+          value={valorVenta}
           keyboardType="phone-pad"
         />
         <TextInput
@@ -158,12 +151,6 @@ export default function AddProductoScreen({ navigation }) {
           placeholder="Unidad de medida"
           onChangeText={handleUnidadMedidaChange}
           value={unidadMedida}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Fecha de vencimiento"
-          onChangeText={handleFechaVencimientoChange}
-          value={fechaVencimiento}
         />
         <Picker
         style={styles.picker}
