@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 
-const BuscarCliente = ({ Data }) => {
+const BuscarCliente = ({ Data , onSelectClient}) => {
   const [searchText, setSearchText] = useState('');
   const [data, setData] = useState([]);
   const [selectedItem, setSelectedItem] = useState('');
   const [isListVisible, setIsListVisible] = useState(true); // Nueva variable de estado para controlar la visibilidad de la lista
+
+ 
 
   useEffect(() => {
     fetch('https://viramsoftapi.onrender.com/costumer')
@@ -26,7 +28,8 @@ const BuscarCliente = ({ Data }) => {
 
   const handleSelectItem = (item) => {
     setSelectedItem(item);
-    setIsListVisible(false); // Ocultar la lista cuando se seleccione un elemento
+    setIsListVisible(false);
+    onSelectClient(item); // Llama a la función desde la prop 'onSelectClient' para actualizar el estado del cliente en el componente padre (NuevoPedido)
   };
 
   const filterData = (text) => {
@@ -60,9 +63,6 @@ const BuscarCliente = ({ Data }) => {
           keyExtractor={(item) => item.documento.toString()}
         />
       )}
-      {selectedItem ? (
-        <Text style={styles.selectedText}>Datos Cliente: {selectedItem.nombre} Direccion: {selectedItem.direccion}</Text>
-      ) : null}
     </View>
   );
 };
