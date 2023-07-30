@@ -83,7 +83,34 @@ const NuevoPedido = () => {
   
       // Imprimir el objeto en la consola
       console.log('Pedido Guardado:', pedidoGuardado);
-
+      
+      fetch('https://viramsoftapi.onrender.com/create_order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(pedidoGuardado),
+      })
+      .then((response) => response.json())
+    .then((data) => {
+      console.log("Respuesta de la API:", data);
+      if (data && data.nuevoPedido) {
+        alert("Ocurrió un error al guardar el pedido. Por favor, intenta nuevamente.");
+      } else {
+        // Restablecer los estados y mostrar una alerta de éxito
+        setSelectedClient(null);
+        setSelectedDate('');
+        setSelectedItems({});
+        setSelectedQuantities({});
+        setTotal(0);
+        setObservations('');
+        alert("El pedido se ha guardado correctamente.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error al guardar el pedido: ", error);
+      alert("Ocurrió un error al guardar el pedido. Por favor, intenta nuevamente.");
+    });
     // Llamar a la función para guardar el pedido y pasarle los datos necesarios
   };
   // Función para decrementar la cantidad de un producto seleccionado
