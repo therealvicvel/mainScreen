@@ -12,10 +12,10 @@ const ListPedido = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('https://viramsoftapi.onrender.com/costumer')
+    fetch('https://viramsoftapi.onrender.com/order')
       .then((response) => response.json())
       .then((data) => {
-        setData(data.clientes); 
+        setData(data.pedidos); 
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -27,8 +27,8 @@ const ListPedido = () => {
 //  //validar estado pedido
 
   // Función para abrir el modal y establecer el cliente seleccionado
-  const handleOpenModal = (cliente) => {
-    setSelectedPedido(cliente);
+  const handleOpenModal = (pedido) => {
+    setSelectedPedido(pedido);
     setIsModalVisible(true);
   };
 
@@ -41,11 +41,12 @@ const ListPedido = () => {
   const renderPedidoItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleOpenModal(item)}>
       <View style={styles.fondoListas}>
-        <Text style={styles.clienteText}>Documento: {item.documento}</Text>
-        <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
-        <Text style={styles.clienteText}>Apellido: {item.apellido}</Text>
-        <Text style={styles.clienteText}>Direccion: {item.direccion}</Text>
-        <Text style={styles.clienteText}>Telefono: {item.telefono}</Text>
+        <Text style={styles.clienteText}>Documento: {item.documentoCliente}</Text>
+        <Text style={styles.clienteText}>Estado: {item.estado}</Text>
+        <Text style={styles.clienteText}>Observación: {item.observacion}</Text>
+        <Text style={styles.clienteText}>Fecha de Pedido: {item.fechaPedido}</Text>
+        <Text style={styles.clienteText}>Fecha de entrega: {item.fechaEntrega}</Text>
+        <Text style={styles.clienteText}>Valor total: {item.valorTotal}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -63,7 +64,7 @@ const ListPedido = () => {
         data={data}
         SeparadorDeLineas={separador}
         renderItem={renderPedidoItem}
-        keyExtractor={(item) => item.documento.toString()} 
+        keyExtractor={(item) => item.documentoCliente} 
       />
       </View>
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
@@ -72,11 +73,12 @@ const ListPedido = () => {
           {selectedPedido && (
             <>
               <Text style={styles.modalTitle}>Actualizar datos del cliente</Text>
-              <Text style={styles.clienteText}>Documento: {selectedPedido.documento}</Text>
-              <Text style={styles.clienteText}>Nombre: {selectedPedido.nombre}</Text>
-              <Text style={styles.clienteText}>Apellido: {selectedPedido.apellido}</Text>
-              <Text style={styles.clienteText}>Dirección: {selectedPedido.direccion}</Text>
-              <Text style={styles.clienteText}>Teléfono: {selectedPedido.telefono}</Text>
+              <Text style={styles.clienteText}>Documento: {selectedPedido.documentoCliente}</Text>
+              <Text style={styles.clienteText}>observación: {selectedPedido.observacion}</Text>
+              <Text style={styles.clienteText}>Fecha de entrega: {selectedPedido.fechaEntrega}</Text>
+              <Text style={styles.clienteText}>Estado: {selectedPedido.estado}</Text>
+              <Text style={styles.clienteText}>Fecha pedido: {selectedPedido.fechaPedido}</Text>
+              <Text style={styles.clienteText}>Valor total: {selectedPedido.valorTotal}</Text>
               <Text style={styles.modalSubTitle}>Cambiar estado</Text>
             </>
           )}
