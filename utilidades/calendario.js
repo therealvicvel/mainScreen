@@ -3,6 +3,7 @@ import { View, TextInput, StyleSheet, Platform, DatePickerAndroid } from 'react-
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import styles from './styles';
 
 const DateInput = ({ onSelectDate }) => {
   const [date, setDate] = useState('');
@@ -57,6 +58,7 @@ const DateInput = ({ onSelectDate }) => {
     <View>
       {Platform.OS === 'web' ? (
         <DatePicker
+        style={styles.inputFecha}
           selected={date ? new Date(date) : null}
           onChange={handleDateChange}
           dateFormat="yyyy-MM-dd"
@@ -65,7 +67,7 @@ const DateInput = ({ onSelectDate }) => {
       ) : (
         <View>
           <TextInput
-            style={[styles.input, !isValidDate && styles.invalidInput]}
+            style={[styles.inputFecha, !isValidDate && styles.invalidInputFecha]}
             placeholder="yyyy-MM-dd"
             value={date}
             onChangeText={handleDateChange}
@@ -78,6 +80,7 @@ const DateInput = ({ onSelectDate }) => {
             }}
           />
           <DateTimePickerModal
+          style={styles.inputFecha}
             isVisible={isDatePickerVisible}
             mode="date"
             onConfirm={handleConfirm}
@@ -88,17 +91,5 @@ const DateInput = ({ onSelectDate }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    paddingHorizontal: 10,
-  },
-  invalidInput: {
-    borderColor: 'red',
-  },
-});
 
 export default DateInput;

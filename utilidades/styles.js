@@ -96,6 +96,14 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginTop: 20
   },
+  modalTitleInfoAdicional: {
+    marginTop: 10,
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: '#FFFFFF',
+  },
   modalContent: {
     padding: 16,
     backgroundColor: '#004187',
@@ -249,6 +257,43 @@ containerAddProd: {
   backgroundColor: '#FFFFFF',
   padding: 10,
   fontSize: 14,
+},
+inputForModalNewPedido: {
+  height: 40,
+  borderColor: '#ccc',
+  borderWidth: 1,
+  padding: 10,
+  borderRadius: 20,
+  marginBottom: 16,
+  color: "#FFFFFF"
+},
+inputForObservaciones: {
+  borderRadius: 20,
+  height: 40,
+  width: '100%',
+  borderColor: '#FFFFFF',
+  borderWidth: 1,
+  paddingHorizontal: 10,
+  marginBottom: 20,
+  marginTop: 20,
+  color: "#FFFFFF"
+},
+itemForBuscarCliente: {
+  padding: 10,
+  fontSize: 16,
+  color: '#FFFF',
+  borderBottomWidth: 1,
+  borderBottomColor: '#ccc',
+},
+inputFecha: {
+  height: 40,
+  borderColor: '004187',
+  borderWidth: 1,
+  paddingHorizontal: 10,
+  borderRadius: 20,
+},
+invalidInputFecha: {
+  borderColor: 'red',
 },
 })
 

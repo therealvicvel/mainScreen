@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import styles from './styles';
 
 const BuscarCliente = ({ Data , onSelectClient}) => {
   const [searchText, setSearchText] = useState('');
@@ -45,10 +46,10 @@ const BuscarCliente = ({ Data , onSelectClient}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <TextInput
-        style={styles.input}
-        placeholder="Buscar..."
+        style={styles.inputForModalNewPedido}
+        placeholder="Buscar cliente..."
         value={searchText}
         onChangeText={handleSearch}
       />
@@ -57,7 +58,7 @@ const BuscarCliente = ({ Data , onSelectClient}) => {
           data={filterData(searchText)}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => handleSelectItem(item)}>
-              <Text style={styles.item}>{item.nombre}</Text>
+              <Text style={styles.itemForBuscarCliente}>{item.nombre}</Text>
             </TouchableOpacity>
           )}
           keyExtractor={(item) => item.documento.toString()}
@@ -66,31 +67,5 @@ const BuscarCliente = ({ Data , onSelectClient}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  input: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 16,
-  },
-  item: {
-    padding: 10,
-    fontSize: 16,
-    color: '#FFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  selectedText: {
-    color: '#FFFF',
-    marginTop: 20,
-
-  },
-});
 
 export default BuscarCliente;

@@ -210,19 +210,19 @@ const NuevoPedido = () => {
               keyExtractor={(item) => item.idProducto.toString()}
             />
             <Text style={styles.clienteText}>Total: ${total.toFixed(2)}</Text>
-            <Text style={styles.modalTitle}>Informacion Adicional:</Text>
+            <Text style={styles.modalTitleInfoAdicional}>Informacion adicional:</Text>
             <View>
             <BuscarCliente onSelectClient={handleSelectClient} />            
             {selectedClient ? ( // Mostrar la información del cliente seleccionado solo si existe
             <View>
-              <Text style={styles.clienteText}>datos Cliente: </Text>
+              <Text style={styles.clienteText}>Datos cliente: </Text>
               <Text style={styles.clienteText}>Nombre: {selectedClient.nombre}</Text>
               <Text style={styles.clienteText}>Direccion: {selectedClient.direccion}</Text>
               </View>
             ) : null}
             </View>
             <TextInput
-                style={styles.inputForModal}
+                style={styles.inputForObservaciones}
                 placeholder="Observaciones"
                 value={observations} // Vinculamos el valor del TextInput con el estado observations
                 onChangeText={setObservations} // Manejamos el cambio del valor del TextInput con setObservations
@@ -231,7 +231,7 @@ const NuevoPedido = () => {
 
             {selectedDate ? (
               <View>
-                <Text style={styles.clienteText}>Fecha Pedido: {selectedDate}</Text>
+                <Text style={styles.clienteText}>Fecha pedido: {selectedDate}</Text>
               </View>
             ) : null}
             <TouchableOpacity style={styles.buttonCrearPedido} onPress={crearPedido}>

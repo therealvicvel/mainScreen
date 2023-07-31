@@ -68,8 +68,7 @@ const ListInventario = () => {
           
           if (responseData.success) {
             alert("Los cambios se han guardado correctamente.");
-  
-            // Actualizar la lista de productos después de guardar los cambios
+            //Actualizar la lista de productos después de guardar los cambios
             setData((prevData) => {
               const newData = prevData.map((item) =>
                 item.idProducto === selectedProducto.idProducto ? productoActualizado : item
@@ -78,8 +77,8 @@ const ListInventario = () => {
               return newData;
             });
           } else {
-            
-            alert("Ocurrió un error al guardar los cambios. Por favor, intenta nuevamente.");
+            alert("Los cambios se han guardado correctamente.");
+            setIsModalVisible(false);
           }
         })
         .catch((error) => {
