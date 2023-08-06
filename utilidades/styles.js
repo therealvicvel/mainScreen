@@ -295,6 +295,18 @@ inputFecha: {
 invalidInputFecha: {
   borderColor: 'red',
 },
+categoriaSelector: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginVertical: 10,
+},
+label: {
+  marginRight: 10,
+},
+picker: {
+  width: 150,
+},
 })
 
 export default styles;

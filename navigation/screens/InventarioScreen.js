@@ -1,6 +1,6 @@
 //Importaciones necesarias
 import React from "react";
-import { View, Text, FlatList, Image, Button, Modal, TextInput } from "react-native";
+import { View, Text, FlatList, Image, Button, Modal, TextInput, Picker } from "react-native";
 import styles from "../../utilidades/styles";
 import { ScrollView } from 'react-native-gesture-handler';
 import { useState, useEffect } from "react";
@@ -9,6 +9,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 //Creación de lista visual de inventario (declaración de variables y sus datos)
 const ListInventario = () => {
 
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
  
   //Funcion que llama los datos de la base de datos
@@ -119,20 +120,26 @@ const ListInventario = () => {
   };
 
   //Creación de campos para mostrar en ellos los datos anteriormente creados
-  const renderProductoItem = ({ item }) => (
-    <TouchableOpacity onPress={() => handleOpenModal(item)}>
-      <View style={styles.fondoListas}>
-        <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
-        <Text style={styles.clienteText}>Cantidad: {item.cantidad}</Text>
-        <Text style={styles.clienteText}>ID Producto: {item.idProducto}</Text>
-        <Text style={styles.clienteText}>Marca: {item.marca}</Text>
-        <Text style={styles.clienteText}>Valor venta: {item.valorVenta}</Text>
-        <Text style={styles.clienteText}>Valor compra: {item.valorCompra}</Text>
-        <Text style={styles.clienteText}>Unidad de medida: {item.unidadMedida}</Text>
-        <Text style={styles.clienteText}>Categoría: {item.categoria}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+  const renderProductoItem = ({ item }) => {
+    if (selectedCategory && item.categoria !== selectedCategory) {
+      return null; // No mostrar productos de otras categorías si hay una categoría seleccionada
+    }
+  
+    return (
+      <TouchableOpacity onPress={() => handleOpenModal(item)}>
+        <View style={styles.fondoListas}>
+          <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
+          <Text style={styles.clienteText}>Cantidad: {item.cantidad}</Text>
+          <Text style={styles.clienteText}>ID Producto: {item.idProducto}</Text>
+          <Text style={styles.clienteText}>Marca: {item.marca}</Text>
+          <Text style={styles.clienteText}>Valor venta: {item.valorVenta}</Text>
+          <Text style={styles.clienteText}>Valor compra: {item.valorCompra}</Text>
+          <Text style={styles.clienteText}>Unidad de medida: {item.unidadMedida}</Text>
+          <Text style={styles.clienteText}>Categoría: {item.categoria}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   //Separador visual para cada elemento de la lista
   const separador = () => {
@@ -156,6 +163,19 @@ const ListInventario = () => {
             onChangeText={setProductoId}
             keyboardType="numeric"
           />
+          <View style={styles.categoriaSelector}>
+            <Text style={styles.label}>Filtrar por categoría:</Text>
+            <Picker
+              selectedValue={selectedCategory}
+              onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+              style={styles.picker}>
+              <Picker.Item label="Todos" value={null} />
+              <Picker.Item label="Líquidos" value="Líquidos" />
+              <Picker.Item label="Sólidos" value="Sólidos" />
+              <Picker.Item label="Polvos" value="Polvos" />
+              <Picker.Item label="Otro" value="Otro" />
+            </Picker>
+          </View>
           {/* TouchableOpacity para buscar producto por ID */}
           <TouchableOpacity style={styles.buttonBuscarProducto} onPress={handleSearchProducto}>
             <Text style={styles.colorTextBuscarProducto}>Buscar</Text>
