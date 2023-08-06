@@ -55,7 +55,6 @@ const NuevoPedido = () => {
     }));
   };
 
-   // Función para guardar el pedido
     // Función para guardar el pedido
     const crearPedido = () => {
       // Aquí puedes obtener más detalles del cliente o cualquier otra información necesaria para el pedido

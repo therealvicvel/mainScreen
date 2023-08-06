@@ -1,45 +1,35 @@
-//Importaciones necesarias
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, Modal } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, Modal, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import styles from '../../utilidades/styles';
-import { ScrollView } from 'react-native'; 
-import { TextInput, TouchableOpacity } from 'react-native'; 
-import { useState, useEffect } from 'react';
+import { TextInput } from 'react-native';
+import BuscarCliente from '../../utilidades/BuscarCliente';
 
 const ListClientes = () => {
-  //Funcion que llama los datos de la base de datos 
-  console.log("Data de clientes:", data);
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-  fetch('https://viramsoftapi.onrender.com/costumer')
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Datos recibidos de la API:", data);
-      setData(data.clientes);
-    })
-    .catch((error) => {
-      console.error("Error fetching data", error);
-    });
-}, []);
-
-
-  //Variables para el manejo del Modal
   const [selectedCliente, setSelectedCliente] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // Función para abrir el modal y establecer el cliente seleccionado
+  useEffect(() => {
+    fetch('https://viramsoftapi.onrender.com/costumer')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Datos recibidos de la API:", data);
+        setData(data.clientes);
+      })
+      .catch((error) => {
+        console.error("Error fetching data", error);
+      });
+  }, []);
+
   const handleOpenModal = (cliente) => {
     setSelectedCliente(cliente);
     setIsModalVisible(true);
   };
 
-  // Función para cerrar el modal
   const handleCloseModal = () => {
     setIsModalVisible(false);
   };
 
-  //Creación de campos para mostrar en ellos los datos anteriormente creados
   const renderClienteItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleOpenModal(item)}>
       <View style={styles.fondoListas}>
@@ -51,19 +41,18 @@ const ListClientes = () => {
     </TouchableOpacity>
   );
 
-  //Separador visual para cada elemento de la lista
-  const separador = () => {
-    return <View style={styles.itemSeparador} />
-  }
-
   return (
-    //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
     <ScrollView contentContainerStyle={styles.container}>
       <View>
         <Text style={styles.title}>Lista de clientes</Text>
+        <View style= {{backgroundColor:'#AA16F0'}}>
+        <BuscarCliente
+          Data={data}
+          onSelectClient={handleOpenModal} // Actualiza el cliente seleccionado al hacer clic en un cliente en BuscarCliente
+        />
+        </View>
         <FlatList
           data={data}
-          SeparadorDeLineas={separador}
           renderItem={renderClienteItem}
           keyExtractor={(item) => item.documento.toString()}
         />
