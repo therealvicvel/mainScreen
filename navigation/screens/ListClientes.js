@@ -44,13 +44,10 @@ const ListClientes = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View>
-        <Text style={styles.title}>Lista de clientes</Text>
-        <View style= {{backgroundColor:'#AA16F0'}}>
         <BuscarCliente
           Data={data}
           onSelectClient={handleOpenModal} // Actualiza el cliente seleccionado al hacer clic en un cliente en BuscarCliente
         />
-        </View>
         <FlatList
           data={data}
           renderItem={renderClienteItem}

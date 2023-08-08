@@ -50,7 +50,7 @@ const BuscarCliente = ({ Data, onSelectClient }) => {
   return (
     <View>
       <TextInput
-        style={styles.inputForModalNewPedido}
+        style={styles.inputForBuscarCliente}
         placeholder="Buscar cliente..."
         value={searchText}
         onChangeText={handleSearch}

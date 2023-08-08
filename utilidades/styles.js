@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
   colorTextBuscarProducto: {
     color: "#FFFFFF",
     textAlign: 'center',
+  
   },
   buttonNext: {
     backgroundColor: '#6CAEF6',
@@ -249,7 +250,7 @@ picker: {
   color: "#004187",
   borderRadius: 20,
   padding: 8,
-marginTop: 20,
+  marginTop: 20,
   borderColor: '#004187',
   color: "#004187",
 },
@@ -281,9 +282,10 @@ inputForObservaciones: {
 itemForBuscarCliente: {
   padding: 10,
   fontSize: 16,
-  color: '#FFFF',
+  color: '#004187',
   borderBottomWidth: 1,
   borderBottomColor: '#ccc',
+  marginBottom: 20,
 },
 inputFecha: {
   height: 40,
@@ -302,11 +304,48 @@ categoriaSelector: {
   marginVertical: 10,
 },
 label: {
-  marginRight: 10,
+ alignContent: 'center',
+ padding: 10,
 },
-picker: {
+pickerforBuscarProducto: {
+  color: "#004187",
+  borderRadius: 20,
+  padding: 8,
+  borderColor: '#004187',
   width: 150,
 },
+searchContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginVertical: 10,
+  borderWidth: 1,
+  borderColor: '#004187',
+  borderRadius: 20,
+  overflow: 'hidden',
+},
+searchInput: {
+  flex: 1,
+  padding: 10,
+  color: '#004187',
+},
+searchButton: {
+  backgroundColor: '#004187',
+  padding: 10,
+},
+searchButtonText: {
+  color: 'white',
+},
+inputForBuscarCliente: {
+  marginTop: 20,
+  borderRadius: 20,
+  height: 40,
+  width: '100%',
+  borderColor: '#004187',
+  borderWidth: 1,
+  paddingHorizontal: 10,
+  color: "#004187",
+  padding: 10,
+  marginBottom: 10,
+},
 })
-
 export default styles;

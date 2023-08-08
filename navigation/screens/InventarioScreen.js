@@ -5,6 +5,7 @@ import styles from "../../utilidades/styles";
 import { ScrollView } from 'react-native-gesture-handler';
 import { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 //Creación de lista visual de inventario (declaración de variables y sus datos)
 const ListInventario = () => {
@@ -150,25 +151,26 @@ const ListInventario = () => {
     //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
     <ScrollView contentContainerStyle={styles.container}>
       {/* TextInput para ingresar el ID del producto */}
+      <View style={styles.searchContainer}>
       <TextInput
-            style={{
-              borderRadius: 20,
-              borderColor: '#004187',
-              borderWidth: 1,
-              padding: 10,
-              marginVertical: 10,
-              color: "#004187"}}
-            placeholder="ID del producto"
-            value={productoId}
-            onChangeText={setProductoId}
-            keyboardType="numeric"
-          />
+        style={styles.searchInput}
+        placeholder="ID del producto"
+        value={productoId}
+        onChangeText={setProductoId}
+        keyboardType="numeric"
+      />
+      <TouchableOpacity style={styles.searchButton} onPress={handleSearchProducto}>
+  <Icon name="search" size={20} color="white" />
+</TouchableOpacity>
+
+    </View>
+          {/* fin prueba */}
           <View style={styles.categoriaSelector}>
             <Text style={styles.label}>Filtrar por categoría:</Text>
             <Picker
               selectedValue={selectedCategory}
               onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-              style={styles.picker}>
+              style={styles.pickerforBuscarProducto}>
               <Picker.Item label="Todos" value={null} />
               <Picker.Item label="Líquidos" value="Líquidos" />
               <Picker.Item label="Sólidos" value="Sólidos" />
@@ -176,11 +178,7 @@ const ListInventario = () => {
               <Picker.Item label="Otro" value="Otro" />
             </Picker>
           </View>
-          {/* TouchableOpacity para buscar producto por ID */}
-          <TouchableOpacity style={styles.buttonBuscarProducto} onPress={handleSearchProducto}>
-            <Text style={styles.colorTextBuscarProducto}>Buscar</Text>
-          </TouchableOpacity>
-          {/* fin prueba */}
+          
       <View>
         <FlatList
           data={data}
