@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity, Modal, TextInput } from "react-native";
 import { Checkbox } from 'react-native-paper';
 import styles from "../../utilidades/styles";
-import DateInput from "../../utilidades/calendario";
 import BuscarCliente from "../../utilidades/BuscarCliente";
 
 const NuevoPedido = () => {
@@ -15,7 +14,6 @@ const NuevoPedido = () => {
   const [selectedQuantities, setSelectedQuantities] = useState({});
   const [total, setTotal] = useState(0);
   const [selectedClient, setSelectedClient] = useState(null); // Nuevo estado para el cliente seleccionado
-  const [selectedDate, setSelectedDate] = useState(''); // Nuevo estado para la fecha seleccionada
   const [observations, setObservations] = useState('');
 
   // Carga inicial de los productos desde la API al montar el componente
@@ -30,10 +28,7 @@ const NuevoPedido = () => {
       });
   }, []);
 
-   // Función para manejar el cambio de la fecha seleccionada
-   const handleSelectDate = (date) => {
-    setSelectedDate(date);
-  };
+  
   // Actualización del total cuando cambian las cantidades seleccionadas
   useEffect(() => {
     calculateTotal();
@@ -59,7 +54,6 @@ const NuevoPedido = () => {
     const crearPedido = () => {
       // Aquí puedes obtener más detalles del cliente o cualquier otra información necesaria para el pedido
       const clienteSeleccionado = selectedClient ? selectedClient.documento : ''; // Utilizamos el campo "documento" del cliente seleccionado
-      const fechaPedido = selectedDate;
     
       // Preparar la lista de productos seleccionados con sus cantidades
       const productosSeleccionados = data
@@ -73,7 +67,6 @@ const NuevoPedido = () => {
       const pedidoGuardado = {
         pedido: {
           documentoCliente: clienteSeleccionado,
-          fechaEntrega: fechaPedido,
           observacion: observations, // Usamos el estado "observations" para las observaciones del pedido
         },
         productos: productosSeleccionados,
@@ -225,14 +218,7 @@ const NuevoPedido = () => {
                 placeholder="Observaciones"
                 value={observations} // Vinculamos el valor del TextInput con el estado observations
                 onChangeText={setObservations} // Manejamos el cambio del valor del TextInput con setObservations
-            />            
-            <DateInput onSelectDate={handleSelectDate} />
-
-            {selectedDate ? (
-              <View>
-                <Text style={styles.clienteText}>Fecha pedido: {selectedDate}</Text>
-              </View>
-            ) : null}
+            />           
             <TouchableOpacity style={styles.buttonCrearPedido} onPress={crearPedido}>
               <Text style={styles.colorTextButtonCrearPedido}>Crear pedido</Text>
             </TouchableOpacity>
