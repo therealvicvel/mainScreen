@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Picker } from 'react-native';
 
-const CalendarioPedidos = () => {
+const CalendarioPedidos = ({ onDateChange }) => {
   const [numeroSeleccionado, setNumeroSeleccionado] = useState(new Date().getDate());
   const [mesSeleccionado, setMesSeleccionado] = useState(1); // Cambiado a número en vez de cadena
   const [anoSeleccionado, setAnoSeleccionado] = useState(new Date().getFullYear());
@@ -13,7 +13,7 @@ const CalendarioPedidos = () => {
 
   useEffect(() => {
     const fechaFormatoISO = `${anoSeleccionado}-${mesSeleccionado.toString().padStart(2, '0')}-${numeroSeleccionado.toString().padStart(2, '0')}`;
-    console.log(fechaFormatoISO);
+    onDateChange(fechaFormatoISO);
   }, [numeroSeleccionado, mesSeleccionado, anoSeleccionado]);
 
   const handleMesChange = (mes) => {
@@ -22,6 +22,7 @@ const CalendarioPedidos = () => {
       setNumeroSeleccionado(28);
     }
   };
+  
 
   const handleAnoChange = (ano) => {
     setAnoSeleccionado(ano);

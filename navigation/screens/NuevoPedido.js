@@ -16,6 +16,7 @@ const NuevoPedido = () => {
   const [total, setTotal] = useState(0);
   const [selectedClient, setSelectedClient] = useState(null); // Nuevo estado para el cliente seleccionado
   const [observations, setObservations] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
 
   // Carga inicial de los productos desde la API al montar el componente
   useEffect(() => {
@@ -29,7 +30,10 @@ const NuevoPedido = () => {
       });
   }, []);
 
-  
+   // Función para manejar el cambio de la fecha seleccionada
+   const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
   // Actualización del total cuando cambian las cantidades seleccionadas
   useEffect(() => {
     calculateTotal();
@@ -68,6 +72,7 @@ const NuevoPedido = () => {
       const pedidoGuardado = {
         pedido: {
           documentoCliente: clienteSeleccionado,
+          fechaEntrega: selectedDate, // Agregar la fecha seleccionada al objeto pedidoGuardado
           observacion: observations, // Usamos el estado "observations" para las observaciones del pedido
         },
         productos: productosSeleccionados,
@@ -220,7 +225,7 @@ const NuevoPedido = () => {
                 value={observations} // Vinculamos el valor del TextInput con el estado observations
                 onChangeText={setObservations} // Manejamos el cambio del valor del TextInput con setObservations
             />  
-            <CalendarioPedidos/>         
+            <CalendarioPedidos onDateChange={handleDateChange} /> {/* Pasar la función como prop */}
             <TouchableOpacity style={styles.buttonCrearPedido} onPress={crearPedido}>
               <Text style={styles.colorTextButtonCrearPedido}>Crear pedido</Text>
             </TouchableOpacity>
