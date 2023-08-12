@@ -4,6 +4,7 @@ import { View, Text, FlatList, TouchableOpacity, Modal, TextInput } from "react-
 import { Checkbox } from 'react-native-paper';
 import styles from "../../utilidades/styles";
 import BuscarCliente from "../../utilidades/BuscarCliente";
+import CalendarioPedidos from "../../utilidades/prueba";
 
 const NuevoPedido = () => {
   // Estados del componente
@@ -218,7 +219,8 @@ const NuevoPedido = () => {
                 placeholder="Observaciones"
                 value={observations} // Vinculamos el valor del TextInput con el estado observations
                 onChangeText={setObservations} // Manejamos el cambio del valor del TextInput con setObservations
-            />           
+            />  
+            <CalendarioPedidos/>         
             <TouchableOpacity style={styles.buttonCrearPedido} onPress={crearPedido}>
               <Text style={styles.colorTextButtonCrearPedido}>Crear pedido</Text>
             </TouchableOpacity>
