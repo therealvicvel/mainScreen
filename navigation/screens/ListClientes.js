@@ -33,10 +33,10 @@ const ListClientes = () => {
   const renderClienteItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleOpenModal(item)}>
       <View style={styles.fondoListas}>
-        <Text style={styles.clienteText}>Documento: {item.documento}</Text>
-        <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
-        <Text style={styles.clienteText}>Direccion: {item.direccion}</Text>
-        <Text style={styles.clienteText}>Telefono: {item.telefono}</Text>
+        <Text style={styles.clienteText}>{item.documento}</Text>
+        <Text style={styles.clienteText}>{item.nombre}</Text>
+        <Text style={styles.clienteText}>{item.direccion}</Text>
+        <Text style={styles.clienteText}>{item.telefono}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -60,14 +60,15 @@ const ListClientes = () => {
           {selectedCliente && (
             <>
               <Text style={styles.modalTitle}>Actualizar datos del cliente</Text>
-              <Text style={styles.clienteText}>Documento: {selectedCliente.documento}</Text>
-              <Text style={styles.clienteText}>Nombre: {selectedCliente.nombre}</Text>
-              <Text style={styles.clienteText}>Dirección: {selectedCliente.direccion}</Text>
-              <Text style={styles.clienteText}>Teléfono: {selectedCliente.telefono}</Text>
+              
+              
               <Text style={styles.modalSubTitle}>Agregar cambios</Text>
+              <Text style={styles.textAyuda}>Nombre</Text>
               <TextInput style={styles.inputForModal} placeholder= "Nombre"></TextInput>
+              <Text style={styles.textAyuda}>Dirección</Text>
               <TextInput style={styles.inputForModal} placeholder= "Direccion"></TextInput>
-              <TextInput style={styles.inputForModal} placeholder= "Telefono"></TextInput>
+              <Text style={styles.textAyuda}>Teléfono</Text>
+              <TextInput style={styles.inputForModal} placeholder= "Teléfono"></TextInput>
             </>
           )}
           <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>

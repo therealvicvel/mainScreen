@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#004187',
     padding: 16,
     flexDirection: 'row',
-    flexDirection: 'column',
+    
+    
     justifyContent:'center',
     borderRadius: 40,
     marginBottom: 12,
@@ -62,6 +63,11 @@ const styles = StyleSheet.create({
   },
   clienteText: {
     color: '#FFFFFF',
+    marginRight: 5,
+  },
+  textAyuda: {
+    color: '#FFFFFF',
+    marginBottom: 5,
   },
   infoPedidoText: {
     color: '#FFFFFF',

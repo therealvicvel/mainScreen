@@ -129,14 +129,14 @@ const ListInventario = () => {
     return (
       <TouchableOpacity onPress={() => handleOpenModal(item)}>
         <View style={styles.fondoListas}>
-          <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
+          <Text style={styles.clienteText}>{item.nombre}</Text>
           <Text style={styles.clienteText}>Cantidad: {item.cantidad}</Text>
-          <Text style={styles.clienteText}>ID Producto: {item.idProducto}</Text>
+          
           <Text style={styles.clienteText}>Marca: {item.marca}</Text>
           <Text style={styles.clienteText}>Valor venta: {item.valorVenta}</Text>
           <Text style={styles.clienteText}>Valor compra: {item.valorCompra}</Text>
           <Text style={styles.clienteText}>Unidad de medida: {item.unidadMedida}</Text>
-          <Text style={styles.clienteText}>Categoría: {item.categoria}</Text>
+          <Text style={styles.clienteText}>{item.categoria}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -193,27 +193,30 @@ const ListInventario = () => {
             {selectedProducto && (
               <>
                 <Text style={styles.modalTitle}>Actualizar campos de un producto</Text>
-                <Text style={styles.clienteText}>ID: {selectedProducto.idProducto}</Text>
-                <Text style={styles.clienteText}>Nombre: {selectedProducto.nombre}</Text>
-                <Text style={styles.clienteText}>Marca: {selectedProducto.marca}</Text>
-                <Text style={styles.clienteText}>Cantidad: {selectedProducto.cantidad}</Text>
-                <Text style={styles.clienteText}>Valor compra: {selectedProducto.valorCompra}</Text>
-                <Text style={styles.clienteText}>Valor venta: {selectedProducto.valorVenta}</Text>
-                <Text style={styles.clienteText}>Unidad medida: {selectedProducto.unidadMedida}</Text>
-                <Text style={styles.clienteText}>Categoría: {selectedProducto.categoria}</Text>
+                
+                <Text style={styles.clienteText}>{selectedProducto.nombre}</Text>
+                
+                
+                
+                
+                
+                <Text style={styles.clienteText}>{selectedProducto.categoria}</Text>
                 <Text style={styles.modalSubTitle}>Agregar Cambios</Text>
+                <Text style={styles.textAyuda}>Cantidad</Text>
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Cantidad"
                   onChangeText={handleCantidadChange}
                   value={cantidad}
                 />
+                <Text style={styles.textAyuda}>Valor venta</Text>
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Valor venta"
                   onChangeText={handleValorVentaChange}
                   value={valorVenta}
                 />
+                <Text style={styles.textAyuda}>Valor compra</Text>
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Valor compra"
