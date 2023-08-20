@@ -1,7 +1,8 @@
 //Importaciones necesarias
 import React from "react";
-import { View, Text, FlatList, Image, Button, Modal, TextInput, Picker } from "react-native";
+import { View, Text, FlatList, Image, Button, Modal, TextInput } from "react-native";
 import styles from "../../utilidades/styles";
+import { Picker } from "@react-native-picker/picker";
 import { ScrollView } from 'react-native-gesture-handler';
 import { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -21,15 +22,18 @@ const ListInventario = () => {
 
    //Función para buscar el producto por ID
    const handleSearchProducto = () => {
-     const productoEncontrado = data.find((producto) => producto.idProducto === parseInt(productoId));
-     if (productoEncontrado) {
-       setSelectedProducto(productoEncontrado);
-       setIsModalVisible(true);
-     } else {
-       //Mostrar una alerta o mensaje indicando que el producto no fue encontrado
-       alert('Producto no encontrado');
-     }
-   };
+    const productoEncontrado = data.find((producto) => producto.idProducto === parseInt(productoId));
+    if (productoEncontrado) {
+      setSelectedProducto(productoEncontrado);
+      setCantidad(productoEncontrado.cantidad);
+      setValorVenta(productoEncontrado.valorVenta);
+      setValorCompra(productoEncontrado.valorCompra);
+      setIsModalVisible(true);
+    } else {
+      //Mostrar una alerta o mensaje indicando que el producto no fue encontrado
+      alert('Producto no encontrado');
+    }
+  };
    //fin prueba
   
 
@@ -57,7 +61,7 @@ const ListInventario = () => {
         valorVenta: valorVenta,
         valorCompra: valorCompra,
       };
-      console.log(productoActualizado);
+
       fetch(`https://viramsoftapi.onrender.com/edit_product/${selectedProducto.idProducto}`, {
         method: "PUT",
         headers: {
@@ -67,17 +71,17 @@ const ListInventario = () => {
       })
         .then((response) => response.json())
         .then((responseData) => {
-          
           if (responseData.success) {
-            alert("Los cambios se han guardado correctamente.");
-            //Actualizar la lista de productos después de guardar los cambios
+            alert("Hubo un problema al guardar los cambios.");
+
+            // Actualizar el producto en la lista local sin recargar la página
             setData((prevData) => {
-              const newData = prevData.map((item) =>
+              return prevData.map((item) =>
                 item.idProducto === selectedProducto.idProducto ? productoActualizado : item
               );
-              setIsModalVisible(false);
-              return newData;
             });
+
+            setIsModalVisible(false);
           } else {
             alert("Los cambios se han guardado correctamente.");
             setIsModalVisible(false);
@@ -171,7 +175,7 @@ const ListInventario = () => {
               selectedValue={selectedCategory}
               onValueChange={(itemValue) => setSelectedCategory(itemValue)}
               style={styles.pickerforBuscarProducto}>
-              <Picker.Item label="Todos" value={null} />
+              <Picker.Item label="Todos" value="" />
               <Picker.Item label="Líquidos" value="Líquidos" />
               <Picker.Item label="Sólidos" value="Sólidos" />
               <Picker.Item label="Polvos" value="Polvos" />
@@ -188,53 +192,49 @@ const ListInventario = () => {
         />
       </View>
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            {selectedProducto && (
-              <>
-                <Text style={styles.modalTitle}>Actualizar campos de un producto</Text>
-                
-                <Text style={styles.clienteText}>{selectedProducto.nombre}</Text>
-                
-                
-                
-                
-                
-                <Text style={styles.clienteText}>{selectedProducto.categoria}</Text>
-                <Text style={styles.modalSubTitle}>Agregar Cambios</Text>
-                <Text style={styles.textAyuda}>Cantidad</Text>
-                <TextInput
-                  style={styles.inputForModal}
-                  placeholder="Cantidad"
-                  onChangeText={handleCantidadChange}
-                  value={cantidad}
-                />
-                <Text style={styles.textAyuda}>Valor venta</Text>
-                <TextInput
-                  style={styles.inputForModal}
-                  placeholder="Valor venta"
-                  onChangeText={handleValorVentaChange}
-                  value={valorVenta}
-                />
-                <Text style={styles.textAyuda}>Valor compra</Text>
-                <TextInput
-                  style={styles.inputForModal}
-                  placeholder="Valor compra"
-                  onChangeText={handleValorCompraChange}
-                  value={valorCompra}
-                />
-              </>
-            )}
-            <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>
+  <View style={styles.modalContainer}>
+    <View style={styles.modalContent}>
+      {selectedProducto && (
+        <>
+          <Text style={styles.modalTitle}>Actualizar campos de un producto</Text>
+          
+          <Text style={styles.clienteText}>{selectedProducto.nombre}</Text>
+          
+          <Text style={styles.clienteText}>{selectedProducto.categoria}</Text>
+          <Text style={styles.modalSubTitle}>Agregar Cambios</Text>
+          <Text style={styles.textAyuda}>Cantidad</Text>
+          <TextInput
+            style={styles.inputForModal}
+            placeholder="Cantidad"
+            onChangeText={handleCantidadChange}
+            value={cantidad}
+          />
+          <Text style={styles.textAyuda}>Valor venta</Text>
+          <TextInput
+            style={styles.inputForModal}
+            placeholder="Valor venta"
+            onChangeText={handleValorVentaChange}
+            value={valorVenta}
+          />
+          <Text style={styles.textAyuda}>Valor compra</Text>
+          <TextInput
+            style={styles.inputForModal}
+            placeholder="Valor compra"
+            onChangeText={handleValorCompraChange}
+            value={valorCompra}
+          />
+        </>
+      )}
+      <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>
               <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonGuardar}
               onPress={handleGuardarCambios}>
               <Text style={styles.colorTextButtonGuardar}>Guardar</Text>
             </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+    </View>
+  </View>
+</Modal>
     </ScrollView>
   );
 };
