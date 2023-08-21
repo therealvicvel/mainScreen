@@ -33,6 +33,8 @@ const NuevoPedido = () => {
    // Función para manejar el cambio de la fecha seleccionada
    const handleDateChange = (date) => {
     setSelectedDate(date);
+    console.log("Fecha seleccionada:", date);
+
   };
   // Actualización del total cuando cambian las cantidades seleccionadas
   useEffect(() => {

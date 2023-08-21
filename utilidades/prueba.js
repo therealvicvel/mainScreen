@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Picker } from 'react-native';
-
+import { View, Text,  } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 const CalendarioPedidos = ({ onDateChange }) => {
   const [numeroSeleccionado, setNumeroSeleccionado] = useState(new Date().getDate());
   const [mesSeleccionado, setMesSeleccionado] = useState(1); // Cambiado a número en vez de cadena
@@ -32,7 +32,6 @@ const CalendarioPedidos = ({ onDateChange }) => {
 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', padding: 20, flex: 0.05 }}>
-      <Text style={{ fontSize: 16, color: 'black' }}>Fecha Entrega: </Text>
       <Picker
         selectedValue={numeroSeleccionado}
         onValueChange={setNumeroSeleccionado}

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, Text } from 'react-native';
-
+import CalendarioPedidos from '../../utilidades/prueba';
 
 const HomeScreen = () => {
+  const handleDateChange = (date) => {
+    // Aquí puedes manejar la lógica cuando la fecha cambie
+    console.log('Nueva fecha seleccionada:', date);
+  };
+
   return (
     <View>
-      <Text>Este es otro documento</Text>
-      <View style={{  flex: 1,
-    backgroundColor: '#F5FCFF',}}>
-    </View>
+      <Text>¡Mi Aplicación React Native!</Text>
+      <CalendarioPedidos onDateChange={handleDateChange} />
     </View>
   );
 };
