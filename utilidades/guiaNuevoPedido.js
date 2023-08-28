@@ -14,6 +14,8 @@ const NuevoPedido = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [quantities, setQuantities] = useState({});
+  const [showQuantityInput, setShowQuantityInput] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
 
   useEffect(() => {
     fetch("https://viramsoftapi.onrender.com/product")
