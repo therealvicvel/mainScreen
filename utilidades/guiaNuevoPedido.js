@@ -10,7 +10,7 @@ import {
   Alert,
 } from "react-native";
 
-const NuevoPedido = () => {
+const maruchna = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [quantities, setQuantities] = useState({});
@@ -128,4 +128,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NuevoPedido;
+export default maruchna;
