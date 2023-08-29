@@ -58,14 +58,13 @@ const NuevoPedido = () => {
       // Actualiza el estado del botón presionado a "false"
       setButtonPressed({ ...buttonPressed, [item.idProducto]: false });
     } else {
-      // Si no está seleccionado, agrégalo a selectedItems
-      setSelectedItems([...selectedItems, { ...item, quantity }]);
+      // Si no está seleccionado, agrégalo a selectedItems con precio
+      setSelectedItems([...selectedItems, { ...item, quantity, precio: item.valorVenta }]);
   
       // Actualiza el estado del botón presionado a "true"
       setButtonPressed({ ...buttonPressed, [item.idProducto]: true });
     }
   };
-
   // Manejar la eliminación de un elemento
   const handleRemoveFromCart = (item) => {
     setSelectedItems(selectedItems.filter((selectedItem) => selectedItem.idProducto !== item.idProducto));

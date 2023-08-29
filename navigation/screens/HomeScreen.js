@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import CalendarioPedidos from '../../utilidades/prueba';
 
 const HomeScreen = () => {
   return (
