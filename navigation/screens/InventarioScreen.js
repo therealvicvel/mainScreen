@@ -1,11 +1,12 @@
 //Importaciones necesarias
 import React from "react";
-import { View, Text, FlatList, Image, Button, Modal, TextInput, Picker } from "react-native";
+import { View, Text, FlatList, Image, Button, Modal, TextInput,  } from "react-native";
 import styles from "../../utilidades/styles";
 import { ScrollView } from 'react-native-gesture-handler';
 import { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Picker } from '@react-native-picker/picker';
 
 //Creación de lista visual de inventario (declaración de variables y sus datos)
 const ListInventario = () => {

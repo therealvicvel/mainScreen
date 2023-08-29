@@ -2,7 +2,7 @@
 import React from "react";
 import { View, Text, Button, TextInput, StyleSheet, ScrollView, TouchableOpacity,
 } from "react-native";
-import { Picker } from "react-native";
+import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from "@react-navigation/native";
 import styles from "../../utilidades/styles";
 import { useState } from "react";

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Modal, Text, TouchableOpacity, StyleSheet, FlatList } from "react-native";
+import CalendarioPedidos from "../../utilidades/Calendario";
 
 const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }) => {
   // Inicializa el estado total
@@ -61,6 +62,7 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
             <View style={styles.modalContent}>
               {/* Contenido del segundo modal */}
               <Text>Detalles Pedido</Text>
+              <CalendarioPedidos onDateChange={(fecha) => console.log(fecha)} />
               <TouchableOpacity style={styles.button} onPress={() => setShowSecondModal(false)}>
                 <Text>volver</Text>
               </TouchableOpacity>
