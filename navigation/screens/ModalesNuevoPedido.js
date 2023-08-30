@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { View, Modal, Text, TouchableOpacity, StyleSheet, FlatList } from "react-native";
 import CalendarioPedidos from "../../utilidades/Calendario";
+import BuscarCliente from "../../utilidades/BuscarCliente";
 
 const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }) => {
   // Inicializa el estado total
   const [total, setTotal] = useState(0);
   // Estado para controlar si se muestra el segundo modal
   const [showSecondModal, setShowSecondModal] = useState(false);
+  const [selectedClient, setSelectedClient] = useState(null); // Nuevo estado para el cliente seleccionado
+  
 
   useEffect(() => {
     // Calcular el total de todos los productos
@@ -15,6 +18,9 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
     setTotal(calculatedTotal);
   }, [selectedItems]);
 
+  const handleSelectClient = (client) => {
+    setSelectedClient(client);
+  };
   return (
     <Modal
       visible={isVisible}
@@ -49,7 +55,7 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
           </View>
         </View>
       </View>
-  
+
       {/* Segundo Modal */}
       {showSecondModal && (
         <Modal
@@ -63,6 +69,19 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
               {/* Contenido del segundo modal */}
               <Text>Detalles Pedido</Text>
               <CalendarioPedidos onDateChange={(fecha) => console.log(fecha)} />
+
+              {/* Integra el componente BuscarCliente */}
+              <View>
+            <BuscarCliente onSelectClient={handleSelectClient} />            
+            {selectedClient ? ( // Mostrar la información del cliente seleccionado solo si existe
+            <View>
+              <Text style={styles.clienteText}>Datos cliente: </Text>
+              <Text style={styles.clienteText}>Nombre: {selectedClient.nombre}</Text>
+              <Text style={styles.clienteText}>Direccion: {selectedClient.direccion}</Text>
+              </View>
+            ) : null}
+            </View>
+
               <TouchableOpacity style={styles.button} onPress={() => setShowSecondModal(false)}>
                 <Text>volver</Text>
               </TouchableOpacity>
