@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Modal, Text, TouchableOpacity, StyleSheet, FlatList } from "react-native";
+import { View, Modal, Text, TouchableOpacity, StyleSheet, FlatList, TextInput } from "react-native";
 import CalendarioPedidos from "../../utilidades/Calendario";
 import BuscarCliente from "../../utilidades/BuscarCliente";
 
@@ -9,7 +9,9 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
   // Estado para controlar si se muestra el segundo modal
   const [showSecondModal, setShowSecondModal] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null); // Nuevo estado para el cliente seleccionado
-  
+  const [observations, setObservations] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     // Calcular el total de todos los productos
@@ -21,6 +23,53 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
   const handleSelectClient = (client) => {
     setSelectedClient(client);
   };
+
+  // Función para manejar el cambio de la fecha seleccionada
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  // Función para guardar el pedido
+  const crearPedido = () => {
+    // Aquí puedes obtener más detalles del cliente o cualquier otra información necesaria para el pedido
+    const clienteSeleccionado = selectedClient ? selectedClient.documento : ''; // Utilizamos el campo "documento" del cliente seleccionado
+
+    // Preparar la lista de productos seleccionados con sus cantidades
+    const productosSeleccionados = selectedItems.map(item => ({
+      idProducto: item.idProducto,
+      cantidad: item.quantity || 0, // Usamos la cantidad del producto directamente
+    }));
+
+    // Construir el objeto pedidoGuardado con todos los datos
+    const pedidoGuardado = {
+      pedido: {
+        documentoCliente: clienteSeleccionado,
+        fechaEntrega: selectedDate, // Agregar la fecha seleccionada al objeto pedidoGuardado
+        observacion: observations, // Usamos el estado "observations" para las observaciones del pedido
+      },
+      productos: productosSeleccionados,
+    };
+    console.log('Pedido Guardado:', pedidoGuardado);
+
+    // Enviar el pedido a la API utilizando fetch
+    fetch('https://viramsoftapi.onrender.com/create_order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(pedidoGuardado),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Respuesta de la API:", data);
+      // Resto del código para manejar la respuesta de la API
+    })
+    .catch((error) => {
+      console.error("Error al guardar el pedido: ", error);
+      alert("Ocurrió un error al guardar el pedido. Por favor, intenta nuevamente.");
+    });
+  };
+
   return (
     <Modal
       visible={isVisible}
@@ -37,7 +86,9 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
             keyExtractor={(item) => item.idProducto.toString()}
             renderItem={({ item }) => (
               <View style={styles.itemContainer}>
-                <Text>{item.nombre} cantidad: {item.quantity} val.Unidad: {item.precio} </Text>
+                <Text>{item.nombre}   </Text>
+                <Text>cantidad: {item.quantity || 0}</Text>
+                <Text>val.Unidad: {item.precio}</Text>
                 <TouchableOpacity onPress={() => onRemoveItem(item)} style={styles.button}>
                   <Text>Eliminar</Text>
                 </TouchableOpacity>
@@ -68,20 +119,27 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
             <View style={styles.modalContent}>
               {/* Contenido del segundo modal */}
               <Text>Detalles Pedido</Text>
-              <CalendarioPedidos onDateChange={(fecha) => console.log(fecha)} />
+              <CalendarioPedidos onDateChange={handleDateChange} />
 
               {/* Integra el componente BuscarCliente */}
               <View>
-            <BuscarCliente onSelectClient={handleSelectClient} />            
-            {selectedClient ? ( // Mostrar la información del cliente seleccionado solo si existe
-            <View>
-              <Text style={styles.clienteText}>Datos cliente: </Text>
-              <Text style={styles.clienteText}>Nombre: {selectedClient.nombre}</Text>
-              <Text style={styles.clienteText}>Direccion: {selectedClient.direccion}</Text>
+                <BuscarCliente onSelectClient={handleSelectClient} />
+                {selectedClient ? ( // Mostrar la información del cliente seleccionado solo si existe
+                  <View>
+                    <Text style={styles.clienteText}>Datos cliente: </Text>
+                    <Text style={styles.clienteText}>Nombre: {selectedClient.nombre}</Text>
+                    <Text style={styles.clienteText}>Direccion: {selectedClient.direccion}</Text>
+                  </View>
+                ) : null}
+                <TextInput
+                  placeholder="Observaciones"
+                  value={observations} // Vinculamos el valor del TextInput con el estado observations
+                  onChangeText={setObservations} // Manejamos el cambio del valor del TextInput con setObservations
+                />
+                <TouchableOpacity onPress={crearPedido}>
+                  <Text>Crear pedido</Text>
+                </TouchableOpacity>
               </View>
-            ) : null}
-            </View>
-
               <TouchableOpacity style={styles.button} onPress={() => setShowSecondModal(false)}>
                 <Text>volver</Text>
               </TouchableOpacity>
@@ -131,6 +189,9 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "#ccc",
     width: "100%",
+  },
+  clienteText: {
+    marginBottom: 5,
   },
 });
 

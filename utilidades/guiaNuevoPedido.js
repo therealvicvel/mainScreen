@@ -34,7 +34,9 @@ const NuevoPedido = () => {
    // Función para manejar el cambio de la fecha seleccionada
    const handleDateChange = (date) => {
     setSelectedDate(date);
+    console.log('Fecha seleccionada:', date);
   };
+  
   // Actualización del total cuando cambian las cantidades seleccionadas
   useEffect(() => {
     calculateTotal();
@@ -58,13 +60,19 @@ const NuevoPedido = () => {
 
     // Función para guardar el pedido
     const crearPedido = () => {
-      // Aquí puedes obtener más detalles del cliente o cualquier otra información necesaria para el pedido
-      const clienteSeleccionado = selectedClient ? selectedClient.documento : ''; // Utilizamos el campo "documento" del cliente seleccionado
+      // Verificar si todos los datos necesarios están disponibles antes de crear el pedido
+      if (!selectedDate || !selectedClient || !total) {
+        alert("Por favor, completa todos los campos obligatorios antes de crear el pedido.");
+        return;
+      }
     
-      // Preparar la lista de productos seleccionados con sus cantidades
+      // Obtener el ID del cliente seleccionado
+      const clienteSeleccionado = selectedClient.documento;
+    
+      // Obtener la lista de productos seleccionados con sus cantidades
       const productosSeleccionados = data
-        .filter(item => selectedItems[item.idProducto] && (selectedQuantities[item.idProducto] || 0) > 0)
-        .map(item => ({
+        .filter((item) => selectedItems[item.idProducto] && (selectedQuantities[item.idProducto] || 0) > 0)
+        .map((item) => ({
           idProducto: item.idProducto,
           cantidad: selectedQuantities[item.idProducto] || 0,
         }));
@@ -73,13 +81,13 @@ const NuevoPedido = () => {
       const pedidoGuardado = {
         pedido: {
           documentoCliente: clienteSeleccionado,
-          fechaEntrega: selectedDate, // Agregar la fecha seleccionada al objeto pedidoGuardado
-          observacion: observations, // Usamos el estado "observations" para las observaciones del pedido
+          fechaEntrega: selectedDate,
+          observacion: observations,
         },
         productos: productosSeleccionados,
       };
+    
       console.log('Pedido Guardado:', pedidoGuardado);
-
     
       // Enviar el pedido a la API utilizando fetch
       fetch('https://viramsoftapi.onrender.com/create_order', {
@@ -89,17 +97,16 @@ const NuevoPedido = () => {
         },
         body: JSON.stringify(pedidoGuardado),
       })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Respuesta de la API:", data);
-        // Resto del código para manejar la respuesta de la API
-      })
-      .catch((error) => {
-        console.error("Error al guardar el pedido: ", error);
-        alert("Ocurrió un error al guardar el pedido. Por favor, intenta nuevamente.");
-      });
-    // Llamar a la función para guardar el pedido y pasarle los datos necesarios
-  };
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Respuesta de la API:", data);
+          // Resto del código para manejar la respuesta de la API
+        })
+        .catch((error) => {
+          console.error("Error al guardar el pedido: ", error);
+          alert("Ocurrió un error al guardar el pedido. Por favor, intenta nuevamente.");
+        });
+    };
   // Función para decrementar la cantidad de un producto seleccionado
   const decrementQuantity = (itemId) => {
     setSelectedQuantities(prevState => ({
