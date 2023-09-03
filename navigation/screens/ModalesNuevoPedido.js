@@ -28,7 +28,10 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
-
+  const handleCloseModal = () => {
+    setResetState(true); // Establece resetState en true al cerrar el modal
+    onClose();
+  };
   // Función para guardar el pedido
   const crearPedido = () => {
     // Aquí puedes obtener más detalles del cliente o cualquier otra información necesaria para el pedido
