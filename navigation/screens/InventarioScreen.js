@@ -172,7 +172,7 @@ const ListInventario = () => {
               selectedValue={selectedCategory}
               onValueChange={(itemValue) => setSelectedCategory(itemValue)}
               style={styles.pickerforBuscarProducto}>
-              <Picker.Item label="Todos" value={null} />
+              <Picker.Item label="Todos" value={""} />
               <Picker.Item label="Líquidos" value="Líquidos" />
               <Picker.Item label="Sólidos" value="Sólidos" />
               <Picker.Item label="Polvos" value="Polvos" />
