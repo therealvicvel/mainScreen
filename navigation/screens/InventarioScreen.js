@@ -70,6 +70,8 @@ const ListInventario = () => {
         .then((responseData) => {
           
           if (responseData.success) {
+            alert("Hubo un error al guardar los cambios.");
+          } else {
             alert("Los cambios se han guardado correctamente.");
             //Actualizar la lista de productos después de guardar los cambios
             setData((prevData) => {
@@ -79,9 +81,7 @@ const ListInventario = () => {
               setIsModalVisible(false);
               return newData;
             });
-          } else {
-            alert("Los cambios se han guardado correctamente.");
-            setIsModalVisible(false);
+            
           }
         })
         .catch((error) => {

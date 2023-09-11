@@ -36,6 +36,8 @@ const ListClientes = () => {
         .then((response) => response.json())
         .then((responseData) => {
           if (responseData.success) {
+            alert("Hubo un error al guardar los cambios.");
+          } else {
             alert("Los cambios se han guardado correctamente.");
             //Actualizar la lista de clientes después de guardar los cambios
             setData((prevData) => {
@@ -47,9 +49,7 @@ const ListClientes = () => {
               setIsModalVisible(false);
               return newData;
             });
-          } else {
-            alert("Los cambios se han guardado correctamente.");
-            setIsModalVisible(false);
+            
           }
         })
         .catch((error) => {
