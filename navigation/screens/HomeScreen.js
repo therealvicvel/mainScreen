@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import Calendario from '../../utilidades/Calendario';
-
+import FiltrarBuscar from '../../utilidades/filtrarBuscarProd';
 function MiCalendario() {
   return (
+
     <View style={styles.container}>
       <Calendario/>
+      <FiltrarBuscar
+      />
     </View>
   );
 }

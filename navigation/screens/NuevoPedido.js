@@ -4,6 +4,7 @@ import CustomModal from "./ModalesNuevoPedido";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Picker } from '@react-native-picker/picker';
 
+
 const NuevoPedido = () => {
   // Estados iniciales
   const [data, setData] = useState([]);

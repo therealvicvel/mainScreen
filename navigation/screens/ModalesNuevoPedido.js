@@ -3,7 +3,8 @@ import { View, Modal, Text, TouchableOpacity, StyleSheet, FlatList, TextInput } 
 import BuscarCliente from "../../utilidades/BuscarCliente";
 import Calendario from "../../utilidades/Calendario";
 
-const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }) => {
+
+const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext, selectedDate, setFechaSeleccionada}) => {
   // Inicializa el estado total
   const [total, setTotal] = useState(0);
   // Estado para controlar si se muestra el segundo modal
@@ -42,7 +43,7 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
     const pedidoGuardado = {
       pedido: {
         documentoCliente: clienteSeleccionado,
-        //fechaEntrega: selectedDate, // Agregar la fecha seleccionada al objeto pedidoGuardado
+        fechaEntrega: selectedDate ,
         observacion: observations, // Usamos el estado "observations" para las observaciones del pedido
       },
       productos: productosSeleccionados,

@@ -3,12 +3,13 @@ import DatePicker from 'react-native-datepicker';
 import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
-function Calendario({ onDateSelect }) { // Agrega onDateSelect como prop
+function Calendario() {
   const [selectedDate, setSelectedDate] = useState('');
+  const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
+  const [calendarVisible, setCalendarVisible] = useState(false);
 
   const handleDateSelect = (date) => {
-    setSelectedDate(date);
-    onDateSelect(date); // Llama a la función onDateSelect y pasa la fecha seleccionada
+    setFechaSeleccionada(date.dateString);
   };
 
   const toggleCalendar = () => {
@@ -22,7 +23,6 @@ function Calendario({ onDateSelect }) { // Agrega onDateSelect como prop
         <View>
           <Text>Fecha seleccionada: {selectedDate}</Text>
           <DatePicker
-            style={{ width: 200 }}
             date={selectedDate}
             mode="date"
             placeholder="Selecciona una fecha"
@@ -36,7 +36,6 @@ function Calendario({ onDateSelect }) { // Agrega onDateSelect como prop
         </View>
       );
     } else {
-      // Utiliza el componente Calendar de react-native-calendars para otras plataformas
       return (
         <View>
           <TouchableOpacity onPress={toggleCalendar}>
@@ -45,7 +44,6 @@ function Calendario({ onDateSelect }) { // Agrega onDateSelect como prop
           {calendarVisible && (
             <Calendar
               onDayPress={handleDateSelect}
-              // Configura otras propiedades del calendario según tus necesidades
             />
           )}
         </View>
@@ -55,7 +53,7 @@ function Calendario({ onDateSelect }) { // Agrega onDateSelect como prop
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Fecha Seleccionada: <Text style={styles.blueText}>{fechaSeleccionada}</Text></Text>
+      <Text style={styles.text}>Fecha Seleccionada: <Text>{fechaSeleccionada}</Text></Text>
       {renderCalendar()}
     </View>
   );
@@ -72,9 +70,5 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     marginBottom: 20,
-  },
-  blueText: {
-    color: 'blue',
-    fontWeight: 'bold',
   },
 });

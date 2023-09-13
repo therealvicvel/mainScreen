@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
-const BuscarCliente = ({ Data, onSelectClient }) => {
+const FiltrarBuscar = ({ Data }) => {
   const [searchText, setSearchText] = useState('');
+  const [isListVisible, setIsListVisible] = useState(false); // Variable de estado para controlar la visibilidad de la lista
+  const [filteredData, setFilteredData] = useState([]);
   const [data, setData] = useState([]);
-  const [selectedItem, setSelectedItem] = useState('');
-  const [isListVisible, setIsListVisible] = useState(true); // Variable de estado para controlar la visibilidad de la lista
 
-  // Se ejecuta al montar el componente y obtiene los datos de la API
+
   useEffect(() => {
-    fetch('https://viramsoftapi.onrender.com/costumer')
+    // Se ejecuta al montar el componente y obtiene los datos de la API
+    fetch('https://viramsoftapi.onrender.com/product')
       .then((response) => response.json())
       .then((data) => {
         console.log("Datos recibidos de la API:", data);
-        setData(data.productos);
+        Data(data.prod); // Actualiza los datos en el componente padre (NuevoPedido)
       })
       .catch((error) => {
         console.error("Error fetching data", error);
@@ -25,11 +26,12 @@ const BuscarCliente = ({ Data, onSelectClient }) => {
   const handleSearch = (text) => {
     setSearchText(text);
     setIsListVisible(true);
+    setFilteredData(filterData(text));
   };
 
   // Maneja la selección de un elemento de la lista y actualiza el estado
   const handleSelectItem = (item) => {
-    setSelectedItem(item);
+    setSearchText(item.nombre); // Establece el texto de búsqueda como el nombre seleccionado
     setIsListVisible(false);
     onSelectClient(item); // Llama a la función desde la prop 'onSelectClient' para actualizar el estado del cliente en el componente padre (NuevoPedido)
   };
@@ -40,34 +42,33 @@ const BuscarCliente = ({ Data, onSelectClient }) => {
       return [];
     }
 
-    const filteredData = data.filter((item) =>
+    return Data.filter((item) =>
       item.nombre.toLowerCase().includes(text.toLowerCase()) ||
       item.documento.toLowerCase().includes(text.toLowerCase())
     );
-    return filteredData;
   };
 
   return (
     <View>
       <TextInput
         style={styles.inputForBuscarCliente}
-        placeholder="Buscar productos..."
+        placeholder="Buscar Producto..."
         value={searchText}
         onChangeText={handleSearch}
       />
       {isListVisible && (
         <FlatList
-          data={filterData(searchText)}
+          data={filteredData}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => handleSelectItem(item)}>
               <Text style={styles.itemForBuscarCliente}>{item.nombre}</Text>
             </TouchableOpacity>
           )}
-          keyExtractor={(item) => item.documento.toString()}
+          keyExtractor={(item) => item.idProducto.toString()}
         />
       )}
     </View>
   );
 };
 
-export default BuscarCliente;
+export default FiltrarBuscar;
