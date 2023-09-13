@@ -69,6 +69,7 @@ const ListClientes = () => {
         console.error("Error fetching data", error);
       });
   }, []);
+  
 
   const handleOpenModal = (cliente) => {
     setSelectedCliente(cliente);

@@ -64,7 +64,7 @@ const ListPedido = () => {
         data={data}
         SeparadorDeLineas={separador}
         renderItem={renderPedidoItem}
-        keyExtractor={(item) => item.documentoCliente} 
+        keyExtractor={(item) => item.idPedido} 
       />
       </View>
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>

@@ -1,104 +1,80 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import React, { useState } from 'react';
+import DatePicker from 'react-native-datepicker';
+import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 
-const CalendarioPedidos = ({ onDateChange }) => {
-  const [numeroSeleccionado, setNumeroSeleccionado] = useState(new Date().getDate());
-  const [mesSeleccionado, setMesSeleccionado] = useState(1);
-  const [anoSeleccionado, setAnoSeleccionado] = useState(new Date().getFullYear());
+function Calendario({ onDateSelect }) { // Agrega onDateSelect como prop
+  const [selectedDate, setSelectedDate] = useState('');
 
-  useEffect(() => {
-    const mesActual = new Date().getMonth();
-    setMesSeleccionado(mesActual + 1);
-    if (mesActual === 1 && numeroSeleccionado > 28) {
-      setNumeroSeleccionado(28);
-    }
-  }, []);
-
-  useEffect(() => {
-    const fechaFormatoISO = `${anoSeleccionado}-${mesSeleccionado.toString().padStart(2, '0')}-${numeroSeleccionado.toString().padStart(2, '0')}`;
-    onDateChange(fechaFormatoISO);
-  }, [numeroSeleccionado, mesSeleccionado, anoSeleccionado]);
-
-  const handleMesChange = (mes) => {
-    setMesSeleccionado(mes);
-    if (mes === 2 && numeroSeleccionado > 28) {
-      setNumeroSeleccionado(28);
-    }
+  const handleDateSelect = (date) => {
+    setSelectedDate(date);
+    onDateSelect(date); // Llama a la función onDateSelect y pasa la fecha seleccionada
   };
 
-  const handleAnoChange = (ano) => {
-    setAnoSeleccionado(ano);
+  const toggleCalendar = () => {
+    setCalendarVisible(!calendarVisible);
   };
 
-  const currentYear = new Date().getFullYear();
+  const renderCalendar = () => {
+    if (Platform.OS === 'ios') {
+      // Utiliza el componente DatePicker para iOS
+      return (
+        <View>
+          <Text>Fecha seleccionada: {selectedDate}</Text>
+          <DatePicker
+            style={{ width: 200 }}
+            date={selectedDate}
+            mode="date"
+            placeholder="Selecciona una fecha"
+            format="YYYY-MM-DD"
+            confirmBtnText="Confirmar"
+            cancelBtnText="Cancelar"
+            onDateChange={(date) => {
+              setSelectedDate(date);
+            }}
+          />
+        </View>
+      );
+    } else {
+      // Utiliza el componente Calendar de react-native-calendars para otras plataformas
+      return (
+        <View>
+          <TouchableOpacity onPress={toggleCalendar}>
+            <Text>Mostrar Calendario</Text>
+          </TouchableOpacity>
+          {calendarVisible && (
+            <Calendar
+              onDayPress={handleDateSelect}
+              // Configura otras propiedades del calendario según tus necesidades
+            />
+          )}
+        </View>
+      );
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Fecha de Entrega:</Text>
-      <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={numeroSeleccionado}
-          onValueChange={setNumeroSeleccionado}
-          style={styles.picker}
-          itemStyle={styles.pickerItem}
-        >
-          {Array.from({ length: 31 }, (_, index) => (
-            <Picker.Item label={`${index + 1}`} value={index + 1} key={index} />
-          ))}
-        </Picker>
-        <Picker
-          selectedValue={mesSeleccionado}
-          onValueChange={handleMesChange}
-          style={styles.picker}
-          itemStyle={styles.pickerItem}
-        >
-          {[
-            'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-            'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
-          ].map((mes, index) => (
-            <Picker.Item label={mes} value={index + 1} key={mes} />
-          ))}
-        </Picker>
-        <Picker
-          selectedValue={anoSeleccionado}
-          onValueChange={handleAnoChange}
-          style={styles.picker}
-          itemStyle={styles.pickerItem}
-        >
-          <Picker.Item label={`${currentYear}`} value={currentYear} />
-          <Picker.Item label={`${currentYear + 1}`} value={currentYear + 1} />
-        </Picker>
-      </View>
+      <Text style={styles.text}>Fecha Seleccionada: <Text style={styles.blueText}>{fechaSeleccionada}</Text></Text>
+      {renderCalendar()}
     </View>
   );
-};
+}
+
+export default Calendario;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 20,
-    borderBottomWidth: 1, // Agregar un borde inferior
-    borderBottomColor: '#ccc', // Color del borde inferior
-  },
-  label: {
-    fontSize: 16,
-    color: 'black',
-    marginRight: 10, // Espacio entre el texto y los Pickers
-  },
-  pickerContainer: {
-    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  picker: {
-    flex: 1, // Para ocupar todo el espacio disponible
-    height: 40, // Altura de los Pickers
-    fontSize: 14, // Tamaño de fuente de los Pickers
+  text: {
+    fontSize: 18,
+    marginBottom: 20,
   },
-  pickerItem: {
-    fontSize: 14, // Tamaño de fuente de los elementos del Picker
+  blueText: {
+    color: 'blue',
+    fontWeight: 'bold',
   },
 });
-
-export default CalendarioPedidos;
