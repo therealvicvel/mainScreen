@@ -43,17 +43,7 @@ const NuevoPedido = () => {
       });
   }, []);
 
-  // Función para buscar un producto por ID
-  const handleSearchProducto = () => {
-    const productoEncontrado = data.find((producto) => producto.idProducto === parseInt(productoId));
-    if (productoEncontrado) {
-      setSelectedProducto(productoEncontrado);
-      setIsModalVisible(true);
-    } else {
-      // Mostrar una alerta o mensaje indicando que el producto no fue encontrado
-      alert('Producto no encontrado');
-    }
-  };
+ 
 
   // Manejar la selección de un elemento
   const handleAddToCart = (item, quantity) => {
@@ -113,39 +103,7 @@ const NuevoPedido = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      
-        {/* Barra de búsqueda */}
-        <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="ID del producto"
-            value={productoId}
-            onChangeText={setProductoId}
-            keyboardType="numeric"
-          />
-          <TouchableOpacity style={styles.searchButton} onPress={handleSearchProducto}>
-            <Icon name="search" size={20} color="white" />
-          </TouchableOpacity>
-        </View>
-
-        {/* Selector de categoría */}
-        <View style={styles.categoriaSelector}>
-          <Text style={styles.label}>Filtrar por categoría:</Text>
-          <Picker
-            selectedValue={selectedCategory}
-            onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-            style={styles.pickerforBuscarProducto}
-          >
-            <Picker.Item label="Todos" value={null} />
-            <Picker.Item label="Líquidos" value="Líquidos" />
-            <Picker.Item label="Sólidos" value="Sólidos" />
-            <Picker.Item label="Polvos" value="Polvos" />
-            <Picker.Item label="Otro" value="Otro" />
-          </Picker>
-        </View>
-      
-
+    <View style={{ flex: 1 }}>     
       {/* Lista de productos */}
       <FlatList
         data={data}
@@ -193,28 +151,6 @@ const NuevoPedido = () => {
         selectedItems={selectedItems}
         onRemoveItem={handleRemoveFromCart}
       />
-      <Modal visible={isModalVisible} animationType="slide" transparent={true}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            {selectedProducto && (
-              <>
-                <Text style={styles.clienteText}>ID: {selectedProducto.idProducto}</Text>
-                <Text style={styles.clienteText}>Nombre: {selectedProducto.nombre}</Text>
-                <Text style={styles.clienteText}>Marca: {selectedProducto.marca}</Text>
-                <Text style={styles.clienteText}>Cantidad: {selectedProducto.cantidad}</Text>
-                <Text style={styles.clienteText}>Valor compra: {selectedProducto.valorCompra}</Text>
-                <Text style={styles.clienteText}>Valor venta: {selectedProducto.valorVenta}</Text>
-                <Text style={styles.clienteText}>Unidad medida: {selectedProducto.unidadMedida}</Text>
-                <Text style={styles.clienteText}>Categoría: {selectedProducto.categoria}</Text>
-                <Text style={styles.modalSubTitle}>Agregar Cambios</Text>
-              </>
-            )}
-            <TouchableOpacity style={styles.boton} onPress={handleCloseModal}>
-              <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 };

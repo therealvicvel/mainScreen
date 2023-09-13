@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Modal, Text, TouchableOpacity, StyleSheet, FlatList, TextInput } from "react-native";
-import CalendarioPedidos from "../../utilidades/Calendario";
 import BuscarCliente from "../../utilidades/BuscarCliente";
+import Calendario from "../../utilidades/Calendario";
 
 const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }) => {
   // Inicializa el estado total
@@ -10,7 +10,6 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
   const [showSecondModal, setShowSecondModal] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null); // Nuevo estado para el cliente seleccionado
   const [observations, setObservations] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -24,10 +23,6 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
     setSelectedClient(client);
   };
 
-  // Función para manejar el cambio de la fecha seleccionada
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
   const handleCloseModal = () => {
     setResetState(true); // Establece resetState en true al cerrar el modal
     onClose();
@@ -47,7 +42,7 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
     const pedidoGuardado = {
       pedido: {
         documentoCliente: clienteSeleccionado,
-        fechaEntrega: selectedDate, // Agregar la fecha seleccionada al objeto pedidoGuardado
+        //fechaEntrega: selectedDate, // Agregar la fecha seleccionada al objeto pedidoGuardado
         observacion: observations, // Usamos el estado "observations" para las observaciones del pedido
       },
       productos: productosSeleccionados,
@@ -122,18 +117,19 @@ const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext }
             <View style={styles.modalContent}>
               {/* Contenido del segundo modal */}
               <Text>Detalles Pedido</Text>
-              <CalendarioPedidos onDateChange={handleDateChange} />
 
               {/* Integra el componente BuscarCliente */}
               <View>
                 <BuscarCliente onSelectClient={handleSelectClient} />
                 {selectedClient ? ( // Mostrar la información del cliente seleccionado solo si existe
                   <View>
+                    
                     <Text style={styles.clienteText}>Datos cliente: </Text>
                     <Text style={styles.clienteText}>Nombre: {selectedClient.nombre}</Text>
                     <Text style={styles.clienteText}>Direccion: {selectedClient.direccion}</Text>
                   </View>
                 ) : null}
+                <Calendario/>
                 <TextInput
                   placeholder="Observaciones"
                   value={observations} // Vinculamos el valor del TextInput con el estado observations
