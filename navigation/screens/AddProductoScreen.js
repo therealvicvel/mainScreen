@@ -1,13 +1,9 @@
-//Importaciones necesarias
-import React from "react";
-import { View, Text, Button, TextInput, StyleSheet, ScrollView, TouchableOpacity,
-} from "react-native";
-import { Picker } from '@react-native-picker/picker';
-import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
+import {View,Text,TextInput,TouchableOpacity,ScrollView,Image,} from "react-native";
 import styles from "../../utilidades/styles";
-import { useState } from "react";
+import { Picker } from '@react-native-picker/picker';
+import ImagePicker from "react-native-image-picker";
 
-//Creación del formulario para agregar un nuevo producto
 export default function AddProductoScreen({ navigation }) {
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState("");
@@ -16,16 +12,15 @@ export default function AddProductoScreen({ navigation }) {
   const [unidadMedida, setUnidadMedida] = useState("");
   const [marca, setMarca] = useState("");
   const [categoria, setCategoria] = useState("");
-  
-  const opcionesCategoria = [
-  { label: "Seleccionar categoría", value: "" }, 
-  { label: "Líquidos", value: "Líquidos" },
-  { label: "Sólidos", value: "Sólidos" },
-  { label: "Polvos", value: "Polvos" },
-  { label: "Otro", value: "Otro" },
-  ];
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  const [data, setData] = useState([]);
+  const opcionesCategoria = [
+    { label: "Seleccionar categoría", value: "" },
+    { label: "Líquidos", value: "Líquidos" },
+    { label: "Sólidos", value: "Sólidos" },
+    { label: "Polvos", value: "Polvos" },
+    { label: "Otro", value: "Otro" },
+  ];
 
   const validarCampos = () => {
     if (
@@ -44,8 +39,8 @@ export default function AddProductoScreen({ navigation }) {
 
   const handleAgregarProducto = () => {
     if (!validarCampos()) {
-        alert("Por favor, completa todos los campos antes de agregar el producto.");
-        return;
+      alert("Por favor, completa todos los campos antes de agregar el producto.");
+      return;
     }
 
     const nuevoProducto = {
@@ -56,7 +51,10 @@ export default function AddProductoScreen({ navigation }) {
       unidadMedida: unidadMedida,
       categoria: categoria,
       marca: marca,
+      // Agregamos la URI de la imagen seleccionada
+      imagen: selectedImage.uri,
     };
+
     fetch("https://viramsoftapi.onrender.com/create_product", {
       method: "POST",
       headers: {
@@ -68,7 +66,9 @@ export default function AddProductoScreen({ navigation }) {
       .then((responseData) => {
         console.log("Respuesta de la API:", responseData);
         if (responseData.success) {
-          alert("Ocurrió un error al agregar el producto. Por favor, intenta nuevamente.");
+          alert(
+            "Ocurrió un error al agregar el producto. Por favor, intenta nuevamente."
+          );
         } else {
           setNombre("");
           setCantidad("");
@@ -77,6 +77,7 @@ export default function AddProductoScreen({ navigation }) {
           setUnidadMedida("");
           setMarca("");
           setCategoria("");
+          setSelectedImage(null); // Limpiamos la imagen seleccionada
           alert("El producto se ha agregado correctamente.");
         }
       })
@@ -109,8 +110,15 @@ export default function AddProductoScreen({ navigation }) {
     setUnidadMedida(text);
   };
 
+  const handleSelectImage = () => {
+    ImagePicker.showImagePicker({}, (response) => {
+      if (response.uri) {
+        setSelectedImage(response);
+      }
+    });
+  };
+
   return (
-    //Captura de datos, diseño y decoración del formulario
     <ScrollView contentContainerStyle={styles.containerAddProd}>
       <View style={styles.containerAddProd}>
         <TextInput
@@ -153,14 +161,35 @@ export default function AddProductoScreen({ navigation }) {
           value={unidadMedida}
         />
         <Picker
-        style={styles.picker}
+          style={styles.picker}
           selectedValue={categoria}
           onValueChange={(itemValue) => setCategoria(itemValue)}
         >
           {opcionesCategoria.map((opcion) => (
-            <Picker.Item key={opcion.value} label={opcion.label} value={opcion.value} />
+            <Picker.Item
+              key={opcion.value}
+              label={opcion.label}
+              value={opcion.value}
+            />
           ))}
         </Picker>
+
+        {/* Botón para seleccionar imagen */}
+        <TouchableOpacity
+          style={styles.buttonSelectImage}
+          onPress={handleSelectImage}
+        >
+          <Text style={styles.colorTextButtonGuardar}>Seleccionar Imagen</Text>
+        </TouchableOpacity>
+
+        {/* Mostrar la imagen seleccionada */}
+        {selectedImage && (
+          <Image
+            source={{ uri: selectedImage.uri }}
+            style={{ width: 200, height: 200 }}
+          />
+        )}
+
         <TouchableOpacity
           style={styles.buttonAddProd}
           onPress={handleAgregarProducto}

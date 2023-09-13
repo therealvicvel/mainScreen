@@ -12,12 +12,12 @@ const PedidosScreen = ({ navigation }) => {
     const TopTab = createMaterialTopTabNavigator();
 //importacion de la vista ListPedido
     const MiniScreenListPed = () => (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
             <View>
                 <Text style={styles.title}>Lista de pedidos</Text>
              <ListPedido/>
             </View>
-        </ScrollView>   
+        </View>   
          );
 //importacion de la vita NuevoPedido    
     const MiniScreenNewPed = () => (
