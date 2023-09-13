@@ -94,7 +94,7 @@ const ListClientes = () => {
   );
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View contentContainerStyle={styles.container}>
       <View>
         <BuscarCliente
           Data={data}
@@ -162,7 +162,7 @@ const ListClientes = () => {
           </View>
         </View>
       </Modal>
-    </ScrollView>
+    </View>
   );
 };
 

@@ -58,7 +58,7 @@ const ListPedido = () => {
 
   return (
     //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
-    <ScrollView contentContainerStyle={styles.container}>
+    <View contentContainerStyle={styles.container}>
       <View   >
         <FlatList
         data={data}
@@ -93,7 +93,7 @@ const ListPedido = () => {
           </View>
         </View>
       </Modal>
-    </ScrollView>
+    </View>
   );
 };
 

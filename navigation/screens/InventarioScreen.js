@@ -150,7 +150,7 @@ const ListInventario = () => {
 
   return (
     //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
-    <ScrollView contentContainerStyle={styles.container}>
+    <View contentContainerStyle={styles.container}>
       {/* TextInput para ingresar el ID del producto */}
       <View style={styles.searchContainer}>
       <TextInput
@@ -166,7 +166,7 @@ const ListInventario = () => {
 
     </View>
           {/* fin prueba */}
-          <View style={styles.categoriaSelector}>
+          { <View style={styles.categoriaSelector}>
             <Text style={styles.label}>Filtrar por categoría:</Text>
             <Picker
               selectedValue={selectedCategory}
@@ -178,7 +178,7 @@ const ListInventario = () => {
               <Picker.Item label="Polvos" value="Polvos" />
               <Picker.Item label="Otro" value="Otro" />
             </Picker>
-          </View>
+          </View> }
           
       <View>
         <FlatList
@@ -233,17 +233,17 @@ const ListInventario = () => {
           </View>
         </View>
       </Modal>
-    </ScrollView>
+    </View>
   );
 };
 
 export default function InventarioScreen({ navigation }) {
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View contentContainerStyle={styles.container}>
       <View>
         <ListInventario />
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

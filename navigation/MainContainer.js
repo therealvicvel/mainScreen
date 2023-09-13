@@ -45,16 +45,16 @@ const ClientesTopTabNavigator = () => (
 
 //Menú superior para ver los clientes existentes para la pantalla AddClientesScreen
 const MiniScreenClientes = () => (
-  <ScrollView>
+  <View>
     <ListClientes />
-  </ScrollView>
+  </View>
 );
 
 //Menú superior de agregar nuevo cliente para la pantalla AddClientesScreen
 const MiniScreenAddClientes = () => (
-  <ScrollView>
+  <View>
     <AddClientesScreen />
-  </ScrollView>
+  </View>
 );
 
 //Menú superior para agregar nuevo producto para la pantalla InventarioScreen
