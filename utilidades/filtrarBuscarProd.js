@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import styles from './styles';
 
-const FiltrarBuscar = ({ Data }) => {
+const FiltrarBuscar = ({ Data, onSelectProd, onAddToCart }) => {
   const [searchText, setSearchText] = useState('');
   const [data, setData] = useState([]);
   const [selectedItem, setSelectedItem] = useState('');
   const [isListVisible, setIsListVisible] = useState(true); // Variable de estado para controlar la visibilidad de la lista
+  const [selectedQuantity, setSelectedQuantity] = useState(''); // Estado para la cantidad seleccionada
 
   // Se ejecuta al montar el componente y obtiene los datos de la API
   useEffect(() => {
@@ -31,7 +32,8 @@ const FiltrarBuscar = ({ Data }) => {
   const handleSelectItem = (item) => {
     setSelectedItem(item);
     setIsListVisible(false);
-    onSelectClient(item); // Llama a la función desde la prop 'onSelectClient' para actualizar el estado del cliente en el componente padre (NuevoPedido)
+    setSelectedQuantity(''); // Restablece la cantidad cuando se selecciona un nuevo producto
+    onSelectProd(item);
   };
 
   // Filtra los datos según el texto de búsqueda
@@ -43,9 +45,29 @@ const FiltrarBuscar = ({ Data }) => {
     const filteredData = data.filter((item) =>
       item.nombre.toLowerCase().includes(text.toLowerCase()) ||
       item.idProducto.toString().includes(text) // Convierte idProducto a cadena y realiza la búsqueda
-
     );
     return filteredData;
+  };
+
+  // Maneja el evento de agregar el producto al carrito
+  const handleAddProductToCart = () => {
+    if (selectedItem && selectedQuantity) {
+      // Validar que la cantidad no sea mayor al stock
+      if (parseInt(selectedQuantity) <= selectedItem.cantidad) {
+        // Agregar el producto con la cantidad al CustomModal
+        onAddToCart(selectedItem, parseInt(selectedQuantity));
+        // Restablecer el estado
+        setSelectedItem('');
+        setSelectedQuantity('');
+        setIsListVisible(true);
+      } else {
+        // Mostrar una alerta si la cantidad es mayor al stock
+        alert('La cantidad no puede ser mayor al stock disponible.');
+      }
+    } else {
+      // Mostrar una alerta si no se ha seleccionado un producto o no se ha ingresado una cantidad
+      alert('Selecciona un producto y especifica una cantidad válida.');
+    }
   };
 
   return (
@@ -66,6 +88,27 @@ const FiltrarBuscar = ({ Data }) => {
           )}
           keyExtractor={(item) => item.idProducto.toString()}
         />
+      )}
+
+      {/* Agregar TextInput y TouchableOpacity en el modal */}
+      {selectedItem && (
+        <View style={styles.modalContent}>
+          <Text>Detalles del producto:</Text>
+          <Text>Nombre: {selectedItem.nombre}</Text>
+          <Text>Marca: {selectedItem.marca}</Text>
+          <Text>Precio: {selectedItem.valorVenta}</Text>
+          <Text>Stock disponible: {selectedItem.cantidad}</Text>
+          <TextInput
+            style={styles.quantityInput}
+            placeholder="Cantidad"
+            keyboardType="numeric"
+            value={selectedQuantity}
+            onChangeText={(text) => setSelectedQuantity(text)}
+          />
+          <TouchableOpacity onPress={handleAddProductToCart} style={styles.addButton}>
+            <Text>Agregar al carrito</Text>
+          </TouchableOpacity>
+        </View>
       )}
     </View>
   );

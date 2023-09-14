@@ -11,6 +11,7 @@ const NuevoPedido = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [quantities, setQuantities] = useState({});
   const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedProducto, setSelectedProducto] = useState(null);
 
   useEffect(() => {
     fetch('https://viramsoftapi.onrender.com/product')
@@ -62,21 +63,25 @@ const NuevoPedido = () => {
           ...selectedItems,
           { ...item, quantity, precio: item.valorVenta },
         ]);
-
-
       }
     } else {
       // Mostrar una alerta si la cantidad es menor o igual a 0
       Alert.alert('Cantidad no válida', 'La cantidad debe ser mayor a 0.');
     }
   };
-  useEffect(() => {
-    filterProductsByCategory();
-  }, [selectedCategory]);
+  
+  // Función para abrir el modal con los detalles del producto seleccionado
+  const abrirModal = (producto) => {
+    setSelectedProducto(producto);
+    setIsModalVisible(true);
+  };
 
   return (
     <View style={{ flex: 1 }}>
-      <FiltrarBuscar />
+      <FiltrarBuscar 
+        Data={filteredData} // Usar filteredData en lugar de data
+        onSelectProd={abrirModal} // Pasar la función abrirModal como prop
+      />
       <View style={styles.categoriaSelector}>
         <Text style={styles.label}>Filtrar por categoría:</Text>
         <Picker
@@ -90,9 +95,10 @@ const NuevoPedido = () => {
           <Picker.Item label="Polvos" value="Polvos" />
           <Picker.Item label="Otro" value="Otro" />
         </Picker>
+        
       </View>
       <FlatList
-        data={filteredData} 
+        data={filteredData} // Usar filteredData en lugar de data
         keyExtractor={(item) => item.idProducto.toString()}
         numColumns={2}
         renderItem={({ item }) => (
@@ -101,9 +107,8 @@ const NuevoPedido = () => {
             <Text>Marca: {item.marca}</Text>
             <Text>Precio: {item.valorVenta}</Text>
             <Text>Stock: {item.cantidad}</Text>
-            <View style={{    flexDirection: 'row'}}>
+            <View >
             <TextInput
-              style={styles.quantityInput}
               placeholder="Cantidad"
               keyboardType="numeric"
               onChangeText={(text) => {
@@ -132,6 +137,7 @@ const NuevoPedido = () => {
        onClose={handleCloseModal}
        selectedItems={selectedItems}
        onRemoveItem={handleRemoveFromCart}
+       producto={selectedProducto} // Pasar el producto seleccionado al modal
       />
     </View>
   );
