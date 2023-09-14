@@ -14,7 +14,7 @@ const BuscarCliente = ({ Data, onSelectClient }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Datos recibidos de la API:", data);
-        setData(data.productos);
+        setData(data.clientes);
       })
       .catch((error) => {
         console.error("Error fetching data", error);
@@ -51,7 +51,7 @@ const BuscarCliente = ({ Data, onSelectClient }) => {
     <View>
       <TextInput
         style={styles.inputForBuscarCliente}
-        placeholder="Buscar productos..."
+        placeholder="Buscar Clientes..."
         value={searchText}
         onChangeText={handleSearch}
       />

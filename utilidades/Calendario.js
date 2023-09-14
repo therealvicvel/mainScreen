@@ -38,8 +38,8 @@ function Calendario() {
     } else {
       return (
         <View>
-          <TouchableOpacity onPress={toggleCalendar}>
-            <Text>Mostrar Calendario</Text>
+          <TouchableOpacity onPress={toggleCalendar} style= {styles.buttonText}>
+            <Text>Calendario</Text>
           </TouchableOpacity>
           {calendarVisible && (
             <Calendar
@@ -71,4 +71,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 20,
   },
+  buttonText: {
+    backgroundColor: '#6CAEF6',
+    padding: 10,
+    borderRadius: 70,
+    marginTop: 10,
+    
+  }
 });
