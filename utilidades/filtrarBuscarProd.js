@@ -41,7 +41,9 @@ const FiltrarBuscar = ({ Data }) => {
     }
 
     const filteredData = data.filter((item) =>
-      item.nombre.toLowerCase().includes(text.toLowerCase()) 
+      item.nombre.toLowerCase().includes(text.toLowerCase()) ||
+      item.idProducto.toString().includes(text) // Convierte idProducto a cadena y realiza la búsqueda
+
     );
     return filteredData;
   };

@@ -7,8 +7,9 @@ function MiCalendario() {
 
     <View style={styles.container}>
       <Calendario/>
-      <View><FiltrarBuscar
-/></View>
+      <View>
+      <FiltrarBuscar
+      /></View>
     </View>
   );
 }

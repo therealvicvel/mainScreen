@@ -19,21 +19,6 @@ const ListInventario = () => {
   const [data, setData] = useState([]);
    //Variable para almacenar el ID del producto ingresado
    const [productoId, setProductoId] = useState('');
-
-   //Función para buscar el producto por ID
-   const handleSearchProducto = () => {
-     const productoEncontrado = data.find((producto) => producto.idProducto === parseInt(productoId));
-     if (productoEncontrado) {
-       setSelectedProducto(productoEncontrado);
-       setIsModalVisible(true);
-     } else {
-       //Mostrar una alerta o mensaje indicando que el producto no fue encontrado
-       alert('Producto no encontrado');
-     }
-   };
-   //fin prueba
-  
-
   const [cantidad, setCantidad] = useState("");
   const [valorVenta, setValorVenta] = useState("");
   const [valorCompra, setValorCompra] = useState("");
@@ -151,21 +136,6 @@ const ListInventario = () => {
   return (
     //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
     <View contentContainerStyle={styles.container}>
-      {/* TextInput para ingresar el ID del producto */}
-      <View style={styles.searchContainer}>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="ID del producto"
-        value={productoId}
-        onChangeText={setProductoId}
-        keyboardType="numeric"
-      />
-      <TouchableOpacity style={styles.searchButton} onPress={handleSearchProducto}>
-  <Icon name="search" size={20} color="white" />
-</TouchableOpacity>
-
-    </View>
-          {/* fin prueba */}
           { <View style={styles.categoriaSelector}>
             <Text style={styles.label}>Filtrar por categoría:</Text>
             <Picker
