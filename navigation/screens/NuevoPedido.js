@@ -15,12 +15,6 @@ const NuevoPedido = () => {
   const [productosAgregados, setProductosAgregados] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const handleItemSelected = (item) => {
-    setSelectedItem(item);
-    setModalVisible(true);
-  };
- 
-
   useEffect(() => {
     fetch('https://viramsoftapi.onrender.com/product')
       .then((response) => response.json())
@@ -59,13 +53,16 @@ const NuevoPedido = () => {
     return filteredData;
   };
   const handleAddPress = (item) => {
-    setSelectedItem(item);
     setSelectedProduct(item);
+    setSelectedItem(item);
+    setQuantity('1');  // Por defecto, inicializar la cantidad en 1 al abrir el modal
     setModalVisible(true);
   };
+  
   const handleAddProduct = () => {
     // Verificar si la cantidad es un número válido
     const parsedQuantity = parseInt(quantity, 10);
+
     if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
       Alert.alert("Error", "Por favor, ingrese una cantidad válida.");
       return;
@@ -116,8 +113,11 @@ const NuevoPedido = () => {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.categoriaSelector}>
-        <FiltrarBuscar onItemSelected={handleItemSelected} />
-        <Picker
+      <FiltrarBuscar
+         Data={filteredData} // Pasa los datos filtrados en lugar de toda la lista de productos
+         onItemSelected={handleAddPress}// Actualiza selectedProduct cuando se selecciona un producto
+        />    
+         <Picker
           selectedValue={selectedCategory}
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
           style={styles.pickerforBuscarProducto}>
@@ -164,13 +164,12 @@ const NuevoPedido = () => {
                 <Text>Stock: {selectedItem?.cantidad}</Text>
               </>
                  ) : null }
-                 <TextInput
-                  style={styles.quantityInput}
-                  placeholder="Agregar cantidad"
-                  keyboardType="numeric"
-                  value={quantity}
-                  onChangeText={(text) => setQuantity(text)}
-                />
+                 <TextInput style={styles.quantityInput}
+                   placeholder="Agregar cantidad"
+                   keyboardType="numeric"
+                   value={quantity.toString()}  // Asegurarse de que quantity sea una string
+                   onChangeText={(text) => setQuantity(text)}
+                  />
       <TouchableOpacity
         style={styles.boton}
         onPress={handleAddProduct}
@@ -194,7 +193,8 @@ const NuevoPedido = () => {
         modalVisible={listaModalVisible}
         setModalVisible={setListaModalVisible}
         products={productosAgregados}
-      />
+        setProducts={setProductosAgregados} 
+        />
     </View>
   );
 };  
