@@ -1,17 +1,25 @@
-import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity, Modal, StyleSheet, TextInput, Alert } from "react-native";
-import CustomModal from "./ModalesNuevoPedido";
+import ModalesNuevoPedido from "./ModalesNuevoPedido";
 import { Picker } from '@react-native-picker/picker';
+import React, { useState, useEffect } from "react";
 import FiltrarBuscar from "../../utilidades/filtrarBuscarProd";
 
 const NuevoPedido = () => {
   const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
-  const [quantities, setQuantities] = useState({});
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [selectedProducto, setSelectedProducto] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [quantity, setQuantity] = useState("");
+  const [listaModalVisible, setListaModalVisible] = useState(false);
+  const [productosAgregados, setProductosAgregados] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const handleItemSelected = (item) => {
+    setSelectedItem(item);
+    setModalVisible(true);
+  };
+ 
 
   useEffect(() => {
     fetch('https://viramsoftapi.onrender.com/product')
@@ -19,19 +27,12 @@ const NuevoPedido = () => {
       .then((data) => {
         console.log("Datos recibidos de la API:", data);
         setData(data.productos);
-        setFilteredData(data.productos); // Inicialmente, muestra todos los productos
+        setFilteredData(data.productos);
       })
       .catch((error) => {
         console.error("Error fetching data", error);
       });
   }, []);
-
-  const handleRemoveFromCart = (item) => {
-    setSelectedItems(selectedItems.filter((selectedItem) => selectedItem.idProducto !== item.idProducto));
-  };
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
-  };
 
   const filterProductsByCategory = () => {
     if (!selectedCategory) {
@@ -41,64 +42,94 @@ const NuevoPedido = () => {
       setFilteredData(filteredProducts);
     }
   };
-  const handleAddToCart = (item, quantity) => {
 
-    if (quantity > 0) {
-      // Verificar si el elemento ya está en selectedItems
-      const isSelected = selectedItems.some(
-        (selectedItem) => selectedItem.idProducto === item.idProducto
-      );
+  useEffect(() => {
+    filterProductsByCategory();
+  }, [selectedCategory]);
 
-      if (isSelected) {
-        // Si está seleccionado, eliminarlo de selectedItems
-        setSelectedItems(
-          selectedItems.filter(
-            (selectedItem) => selectedItem.idProducto !== item.idProducto
-          )
-        );
-
-      } else {
-        // Si no está seleccionado, agregarlo a selectedItems con precio
-        setSelectedItems([
-          ...selectedItems,
-          { ...item, quantity, precio: item.valorVenta },
-        ]);
-      }
-    } else {
-      // Mostrar una alerta si la cantidad es menor o igual a 0
-      Alert.alert('Cantidad no válida', 'La cantidad debe ser mayor a 0.');
+  const filterData = (text) => {
+    if (text === '') {
+      return [];
     }
+
+    const filteredData = data.filter((item) =>
+      item.nombre.toLowerCase().includes(text.toLowerCase()) ||
+      item.idProducto.toString().includes(text)
+    );
+    return filteredData;
+  };
+  const handleAddPress = (item) => {
+    setSelectedItem(item);
+    setSelectedProduct(item);
+    setModalVisible(true);
+  };
+  const handleAddProduct = () => {
+    // Verificar si la cantidad es un número válido
+    const parsedQuantity = parseInt(quantity, 10);
+    if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
+      Alert.alert("Error", "Por favor, ingrese una cantidad válida.");
+      return;
+    }
+  
+    if (!selectedProduct) {
+      Alert.alert("Error", "Por favor, seleccione un producto.");
+      return;
+    }
+  
+    if (parsedQuantity > selectedProduct.cantidad) {
+      Alert.alert(
+        "Error",
+        "La cantidad ingresada excede el stock disponible para este producto."
+      );
+      return;
+    }
+  
+    // Verificar si el producto ya ha sido agregado
+    const isProductAdded = productosAgregados.some(
+      (product) => product.idProducto === selectedProduct.idProducto
+    );
+  
+    if (isProductAdded) {
+      Alert.alert("Error", "Este producto ya ha sido agregado.");
+      return;
+    }
+  
+    // Agregar el producto a la lista de productos seleccionados
+    setProductosAgregados([
+      ...productosAgregados,
+      { ...selectedProduct, quantity: parsedQuantity }
+    ]);
+  
+    setModalVisible(false);
+    setQuantity("");  // Limpiar el input de cantidad
+  };
+
+  
+  const handleModalClose = () => {
+    setModalVisible(false);
+    setQuantity("");  // Clear the quantity input
   };
   
-  // Función para abrir el modal con los detalles del producto seleccionado
-  const abrirModal = (producto) => {
-    setSelectedProducto(producto);
-    setIsModalVisible(true);
+  const handleListaPress = () => {
+    setListaModalVisible(true);
   };
-
   return (
     <View style={{ flex: 1 }}>
-      <FiltrarBuscar 
-        Data={filteredData} // Usar filteredData en lugar de data
-        onSelectProd={abrirModal} // Pasar la función abrirModal como prop
-      />
       <View style={styles.categoriaSelector}>
-        <Text style={styles.label}>Filtrar por categoría:</Text>
+        <FiltrarBuscar onItemSelected={handleItemSelected} />
         <Picker
           selectedValue={selectedCategory}
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-          style={styles.pickerforBuscarProducto}
-        >
+          style={styles.pickerforBuscarProducto}>
           <Picker.Item label="Todos" value={""} />
           <Picker.Item label="Líquidos" value="Líquidos" />
           <Picker.Item label="Sólidos" value="Sólidos" />
           <Picker.Item label="Polvos" value="Polvos" />
           <Picker.Item label="Otro" value="Otro" />
         </Picker>
-        
       </View>
       <FlatList
-        data={filteredData} // Usar filteredData en lugar de data
+        data={filteredData}
         keyExtractor={(item) => item.idProducto.toString()}
         numColumns={2}
         renderItem={({ item }) => (
@@ -107,42 +138,66 @@ const NuevoPedido = () => {
             <Text>Marca: {item.marca}</Text>
             <Text>Precio: {item.valorVenta}</Text>
             <Text>Stock: {item.cantidad}</Text>
-            <View >
-            <TextInput
-              placeholder="Cantidad"
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                const quantity = parseInt(text) || 0;
-                setQuantities({ ...quantities, [item.idProducto]: quantity });
-              }}
-            />
-              <TouchableOpacity
-              style={styles.fixedButton}
-              onPress={() => handleAddToCart(item, quantities[item.idProducto])}
-            >
-              <Text style={{ color: "#FDFDFD" }}>add</Text>
-            </TouchableOpacity>
+            <View>
+              <TouchableOpacity onPress={() => handleAddPress(item)}>
+                <Text>Add</Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}
       />
-      <TouchableOpacity
-        style={styles.fixedButton}
-        onPress={() => setIsModalVisible(true)}
+      <Modal
+        animationType="slide"     
+  transparent={true}
+  visible={modalVisible}
+  onRequestClose={() => {
+    setModalVisible(!modalVisible);
+        }}
       >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            {selectedItem ? (
+              <>
+                <Text>Producto: {selectedItem?.nombre}</Text>
+                <Text>Marca: {selectedItem?.marca}</Text>
+                <Text>Precio: {selectedItem?.valorVenta}</Text>
+                <Text>Stock: {selectedItem?.cantidad}</Text>
+              </>
+                 ) : null }
+                 <TextInput
+                  style={styles.quantityInput}
+                  placeholder="Agregar cantidad"
+                  keyboardType="numeric"
+                  value={quantity}
+                  onChangeText={(text) => setQuantity(text)}
+                />
+      <TouchableOpacity
+        style={styles.boton}
+        onPress={handleAddProduct}
+      >
+        <Text>Agregar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+         style={styles.boton}
+         onPress={handleModalClose}
+      >
+        <Text>Cerrar</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+</Modal>
+      <TouchableOpacity style={styles.fixedButton} onPress={handleListaPress}>
         <Text style={styles.buttonText}>Lista</Text>
       </TouchableOpacity>
-      <CustomModal
-       isVisible={isModalVisible}
-       onClose={handleCloseModal}
-       selectedItems={selectedItems}
-       onRemoveItem={handleRemoveFromCart}
-       producto={selectedProducto} // Pasar el producto seleccionado al modal
+
+      <ModalesNuevoPedido
+        modalVisible={listaModalVisible}
+        setModalVisible={setListaModalVisible}
+        products={productosAgregados}
       />
     </View>
   );
-};
-
+};  
 const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: "row",
@@ -224,6 +279,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
   },
 });
 
