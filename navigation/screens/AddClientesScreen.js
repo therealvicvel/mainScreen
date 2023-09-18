@@ -88,20 +88,21 @@ export default function AddClientesScreen({ navigation }) {
                     placeholder="Documento del cliente"
                     onChangeText={handleDocumentoChange}
                     value={documento}
+                    keyboardType="phone-pad"
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Nombre del cliente"
                     onChangeText={handleNombreChange}
                     value={nombre}
-                    keyboardType="phone-pad"
+                    
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Direccion del cliente"
                     onChangeText={handleDireciconChange}
                     value={direccion}
-                    keyboardType="phone-pad"
+                    
                 />
                 <TextInput
                     style={styles.input}

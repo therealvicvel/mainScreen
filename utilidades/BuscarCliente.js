@@ -49,7 +49,7 @@ const BuscarCliente = ({ Data, onSelectClient }) => {
   return (
     <View>
       <TextInput
-        style={styles.inputForBuscarCliente}
+        style={styles.inputForBuscarClienteInd}
         placeholder="Buscar Clientes..."
         value={searchText}
         onChangeText={handleSearch}

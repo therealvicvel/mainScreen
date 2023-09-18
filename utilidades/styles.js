@@ -6,6 +6,19 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
   },
+  containerTwo: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+  },
+  containerThree: {
+    backgroundColor: '#FFFFFF',
+    padding: 10,
+    minHeight: '100%'
+  },
+  containerPrueba: {
+    backgroundColor: 'green',
+    padding: 10,
+  },
   containerAddCliente: {
     backgroundColor: '#FFFFFF',
     flex: 1,
@@ -313,6 +326,8 @@ pickerforBuscarProducto: {
   padding: 8,
   borderColor: '#004187',
   width: 150,
+  backgroundColor: '#FFFFFF',
+  alignContent: 'center'
 },
 searchContainer: {
   flexDirection: 'row',
@@ -343,6 +358,17 @@ inputForBuscarCliente: {
   borderColor: '#004187',
   borderWidth: 1,
   paddingHorizontal: 10,
+  color: "#004187",
+  padding: 10,
+  marginBottom: 10,
+},
+inputForBuscarClienteInd: {
+
+  borderRadius: 20,
+  height: 40,
+  width: '100%',
+  borderColor: '#004187',
+  borderWidth: 1,
   color: "#004187",
   padding: 10,
   marginBottom: 10,
