@@ -135,8 +135,8 @@ const ListInventario = () => {
 
   return (
     //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
-    <View contentContainerStyle={styles.container}>
-          { <View style={styles.categoriaSelector}>
+    <View style={styles.containerThree}>
+            <View style={styles.categoriaSelector}>
             <Text style={styles.label}>Filtrar por categoría:</Text>
             <Picker
               selectedValue={selectedCategory}
@@ -148,16 +148,14 @@ const ListInventario = () => {
               <Picker.Item label="Polvos" value="Polvos" />
               <Picker.Item label="Otro" value="Otro" />
             </Picker>
-          </View> }
-          
-      <View>
+            </View>
         <FlatList
           data={data}
+          style={{flex: 1}}
           SeparadorDeLineas={separador}
           renderItem={renderProductoItem}
           keyExtractor={(item) => item.idProducto.toString()}
-        />
-      </View>
+        /> 
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>

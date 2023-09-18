@@ -95,18 +95,17 @@ const ListClientes = () => {
   );
 
   return (
-    <View contentContainerStyle={styles.container}>
-      <View>
+    <View style={styles.containerTwo}>
         <BuscarCliente
           Data={data}
-          onSelectClient={handleOpenModal} // Actualiza el cliente seleccionado al hacer clic en un cliente en BuscarCliente
+          onSelectClient={handleOpenModal} //Actualiza el cliente seleccionado al hacer clic en un cliente en BuscarCliente
         />
         <FlatList
           data={data}
           renderItem={renderClienteItem}
           keyExtractor={(item) => item.documento.toString()}
         />
-      </View>
+      
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>

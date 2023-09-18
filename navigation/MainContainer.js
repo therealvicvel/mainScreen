@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import BuscarCliente from "../utilidades/BuscarCliente";
 
 //Importaciones de otras pantallas
 import HomeScreen from "./screens/HomeScreen";
@@ -14,6 +15,7 @@ import PedidosScreen from "./screens/PedidosScreen";
 import { ScrollView } from "react-native-gesture-handler";
 import AddClientesScreen from "./screens/AddClientesScreen";
 import AddProductoScreen from "./screens/AddProductoScreen";
+import styles from "../utilidades/styles";
 
 //Variables con nombres de las demás pantallas
 const homeName = "Inicio";
@@ -30,7 +32,7 @@ const TopTab = createMaterialTopTabNavigator();
 //Creación de componente por separado para el topTabNavigator de Inventario
 const InventarioTopTabNavigator = () => (
   <TopTab.Navigator>
-    <TopTab.Screen name="Inventario" component={InventarioScreen} />
+    <TopTab.Screen name="Productos" component={InventarioScreen} />
     <TopTab.Screen name="Agregar producto" component={AddProductoScreen} />
   </TopTab.Navigator>
 );
@@ -38,15 +40,16 @@ const InventarioTopTabNavigator = () => (
 //Creación de componente por separado para el topTabNavigator de Clientes
 const ClientesTopTabNavigator = () => (
   <TopTab.Navigator>
-    <TopTab.Screen name="Clientes" component={MiniScreenClientes} />
+    <TopTab.Screen name="Listado" component={MiniScreenClientes} />
     <TopTab.Screen name="Agregar nuevo cliente" component={AddClientesScreen} />
   </TopTab.Navigator>
 );
 
 //Menú superior para ver los clientes existentes para la pantalla AddClientesScreen
 const MiniScreenClientes = () => (
-  <View>
+  <View style={styles.container}>
     <ListClientes />
+    
   </View>
 );
 
@@ -66,7 +69,7 @@ const MiniScreenAddProducto = () => (
 
 //Menú superior para ver los productos existentes en el inventario de InventarioScreen
 const MiniScreenInventario = () => (
-  <View>
+  <View  style={styles.container}>
     <InventarioScreen/>
   </View>
 );

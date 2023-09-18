@@ -14,7 +14,6 @@ const PedidosScreen = ({ navigation }) => {
     const MiniScreenListPed = () => (
         <View style={styles.container}>
             <View>
-                <Text style={styles.title}>Lista de pedidos</Text>
              <ListPedido/>
             </View>
         </View>   
