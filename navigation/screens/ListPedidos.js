@@ -1,95 +1,85 @@
-//Importaciones necesarias
-import React from 'react';
-import { View, Text, FlatList, Modal } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, Modal, ScrollView, TouchableOpacity } from 'react-native';
 import styles from '../../utilidades/styles';
-import { ScrollView } from 'react-native'; 
-import { TextInput, TouchableOpacity } from 'react-native'; 
-import { useState,useEffect} from 'react';
 
-//Creación de lista visual de clientes (declaración de variables y sus datos)
 const ListPedido = () => {
-  //prueba
   const [data, setData] = useState([]);
+  const [selectedPedido, setSelectedPedido] = useState(null);
+  const [detallesPedido, setDetallesPedido] = useState(null);
 
   useEffect(() => {
     fetch('https://viramsoftapi.onrender.com/order')
       .then((response) => response.json())
       .then((data) => {
-        setData(data.pedidos); 
+        setData(data.pedidos);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }, []);
-  //Variables para el manejo del Modal
-  const [selectedPedido, setSelectedPedido] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-//  //validar estado pedido
 
-  // Función para abrir el modal y establecer el cliente seleccionado
   const handleOpenModal = (pedido) => {
     setSelectedPedido(pedido);
-    setIsModalVisible(true);
+    handleDetallesPedido(pedido);
   };
 
-  // Función para cerrar el modal
   const handleCloseModal = () => {
-    setIsModalVisible(false);
+    setSelectedPedido(null);
   };
 
-  //Creación de campos para mostrar en ellos los datos anteriormente creados
-  const renderPedidoItem = ({ item }) => (
-    <TouchableOpacity onPress={() => handleOpenModal(item)}>
-      <View style={styles.fondoListas}>
-        <Text style={styles.clienteText}>Documento: {item.documentoCliente}</Text>
-        <Text style={styles.clienteText}>Estado: {item.estado}</Text>
-        <Text style={styles.clienteText}>Observación: {item.observacion}</Text>
-        <Text style={styles.clienteText}>Fecha de Pedido: {item.fechaPedido}</Text>
-        <Text style={styles.clienteText}>Fecha de entrega: {item.fechaEntrega}</Text>
-        <Text style={styles.clienteText}>Valor total: {item.valorTotal}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-
-  //Separador visual para cada elemento de la lista
-  const separador = () => {
-    return <View style={styles.itemSeparador} />
-  }
+  const handleDetallesPedido = () => {
+    if (selectedPedido) {
+      fetch(`https://viramsoftapi.onrender.com/detalle_pedido/${selectedPedido.idPedido}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Detalles del pedido:', data); // Mostrar en la consola la respuesta de la API
+          setDetallesPedido(data.detalle_pedido);
+        })
+        .catch((error) => {
+          console.error('Error al obtener los detalles del pedido:', error);
+        });
+    }
+  };
 
   return (
-    //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
-    <View contentContainerStyle={styles.container}>
-      <View   >
-        <FlatList
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <FlatList
         data={data}
-        SeparadorDeLineas={separador}
-        renderItem={renderPedidoItem}
-        keyExtractor={(item) => item.idPedido} 
+        keyExtractor={(item) => item.idPedido.toString()}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <View style={{ flex: 1, backgroundColor: '#ffffff', margin: 5, padding: 10, borderRadius: 5 }}>
+            <TouchableOpacity onPress={() => handleOpenModal(item)}>
+              <Text>idPedido: {item.idPedido}</Text>
+              <Text>cliente: {item.documentoCliente}</Text>
+              <Text>fecha Entrega: {item.fechaEntrega}</Text>
+              <Text>estado: {item.estado}</Text>
+              <Text>Valor: {item.valorTotal}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       />
-      </View>
-      <Modal visible={isModalVisible} animationType="slide" transparent={true}>
+<Modal visible={detallesPedido !== null} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-          {selectedPedido && (
-            <>
-              <Text style={styles.modalTitle}>Actualizar datos del cliente</Text>
-              <Text style={styles.clienteText}>Documento: {selectedPedido.documentoCliente}</Text>
-              <Text style={styles.clienteText}>observación: {selectedPedido.observacion}</Text>
-              <Text style={styles.clienteText}>Fecha de entrega: {selectedPedido.fechaEntrega}</Text>
-              <Text style={styles.clienteText}>Estado: {selectedPedido.estado}</Text>
-              <Text style={styles.clienteText}>Fecha pedido: {selectedPedido.fechaPedido}</Text>
-              <Text style={styles.clienteText}>Valor total: {selectedPedido.valorTotal}</Text>
-              <Text style={styles.modalSubTitle}>Cambiar estado</Text>
-            </>
-          )}
-            <TouchableOpacity style={styles.buttonGuardar} 
-            onPress={() => alert("Se ha cambiado el estado del pedido")}>
-              <Text style={styles.colorTextButtonGuardar}>Cambiar a entregado</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>
-            <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
-          </TouchableOpacity>
-          
+            <Text style={styles.modalTitle}>Detalles del Pedido</Text>
+            {detallesPedido && detallesPedido.length > 0 ? (
+              <ScrollView>
+                {detallesPedido.map((producto, index) => (
+                  <View key={index}>
+                    <Text>Nombre: {producto['nombre']}</Text>
+                    <Text>Cantidad: {producto['cantidad']}</Text>
+                    <Text>Valor unitario: {producto['valor unitario']}</Text>
+                    <Text>Valor total: {producto['valor total']}</Text>
+                  </View>
+                ))}
+              </ScrollView>
+            ) : (
+              <Text>No hay detalles disponibles para este pedido.</Text>
+            )}
+            <TouchableOpacity style={styles.buttonCerrar} onPress={() => setDetallesPedido(null)}>
+              <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>

@@ -19,7 +19,6 @@ const NuevoPedido = () => {
     fetch('https://viramsoftapi.onrender.com/product')
       .then((response) => response.json())
       .then((data) => {
-        console.log("Datos recibidos de la API:", data);
         setData(data.productos);
         setFilteredData(data.productos);
       })

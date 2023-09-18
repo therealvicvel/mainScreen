@@ -13,7 +13,6 @@ const BuscarCliente = ({ Data, onSelectClient }) => {
     fetch('https://viramsoftapi.onrender.com/costumer')
       .then((response) => response.json())
       .then((data) => {
-        console.log("Datos recibidos de la API:", data);
         setData(data.clientes);
       })
       .catch((error) => {
