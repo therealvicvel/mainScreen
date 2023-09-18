@@ -3,13 +3,12 @@ import DatePicker from 'react-native-datepicker';
 import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
-function Calendario() {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
+function Calendario({ selectedDate, setSelectedDate }) {
   const [calendarVisible, setCalendarVisible] = useState(false);
 
   const handleDateSelect = (date) => {
-    setFechaSeleccionada(date.dateString);
+    setSelectedDate(date.dateString);
+    setCalendarVisible(false); // Cerrar el calendario después de seleccionar la fecha
   };
 
   const toggleCalendar = () => {
@@ -53,7 +52,7 @@ function Calendario() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Fecha Seleccionada: <Text>{fechaSeleccionada}</Text></Text>
+      <Text style={styles.text}>Fecha Seleccionada: <Text>{selectedDate}</Text></Text>
       {renderCalendar()}
     </View>
   );
