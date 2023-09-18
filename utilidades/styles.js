@@ -271,6 +271,7 @@ containerAddProd: {
   backgroundColor: '#FFFFFF',
   padding: 10,
   fontSize: 14,
+  flex: 1,
 },
 inputForModalNewPedido: {
   height: 40,
