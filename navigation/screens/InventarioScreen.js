@@ -1,6 +1,6 @@
 //Importaciones necesarias
 import React from "react";
-import { View, Text, FlatList, Image, Button, Modal, TextInput,  } from "react-native";
+import { View, Text, FlatList, Image, Button, Modal, TextInput, ImageBackground,  } from "react-native";
 import styles from "../../utilidades/styles";
 import { ScrollView } from 'react-native-gesture-handler';
 import { useState, useEffect } from "react";
@@ -15,8 +15,8 @@ const ListInventario = () => {
 
  
   //Funcion que llama los datos de la base de datos
-
   const [data, setData] = useState([]);
+
    //Variable para almacenar el ID del producto ingresado
    const [productoId, setProductoId] = useState('');
   const [cantidad, setCantidad] = useState("");
@@ -115,14 +115,12 @@ const ListInventario = () => {
     return (
       <TouchableOpacity onPress={() => handleOpenModal(item)}>
         <View style={styles.fondoListas}>
-          <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
+          <Text style={styles.clienteText}>{item.nombre}</Text>
           <Text style={styles.clienteText}>Cantidad: {item.cantidad}</Text>
-          <Text style={styles.clienteText}>ID Producto: {item.idProducto}</Text>
-          <Text style={styles.clienteText}>Marca: {item.marca}</Text>
+          <Text style={styles.clienteText}>{item.marca}</Text>
           <Text style={styles.clienteText}>Valor venta: {item.valorVenta}</Text>
           <Text style={styles.clienteText}>Valor compra: {item.valorCompra}</Text>
-          <Text style={styles.clienteText}>Unidad de medida: {item.unidadMedida}</Text>
-          <Text style={styles.clienteText}>Categoría: {item.categoria}</Text>
+          <Text style={styles.clienteText}>{item.categoria}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -136,7 +134,7 @@ const ListInventario = () => {
   return (
     //Utilización del FlatList para mostrar los datos, decoración y diseño de la lista y pantalla
     <View style={styles.containerThree}>
-            <View style={styles.categoriaSelector}>
+            
             <Text style={styles.label}>Filtrar por categoría:</Text>
             <Picker
               selectedValue={selectedCategory}
@@ -148,7 +146,7 @@ const ListInventario = () => {
               <Picker.Item label="Polvos" value="Polvos" />
               <Picker.Item label="Otro" value="Otro" />
             </Picker>
-            </View>
+
         <FlatList
           data={data}
           style={{flex: 1}}

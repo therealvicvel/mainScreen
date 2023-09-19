@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
   inputForModal: {
     borderRadius: 20,
     height: 40,
-    width: '100%',
     borderColor: '#FFFFFF',
     borderWidth: 1,
     paddingHorizontal: 10,
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#6CAEF6',
     padding: 10,
     borderRadius: 70,
-    marginTop: 100,
+    marginTop: 20,
     alignSelf: 'center'
   },
   colorTextButtonAddProd: {
@@ -143,8 +142,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#6CAEF6',
     padding: 10,
     borderRadius: 70,
-    marginTop: 10,
-    alignSelf: 'center'
+    marginTop: 40,
+    alignSelf: 'center',
   },
   colorTextButtonAddCliente: {
     color: "#FFFFFF",

@@ -120,7 +120,7 @@ export default function AddProductoScreen({ navigation }) {
 
   return (
     <ScrollView contentContainerStyle={styles.containerAddProd}>
-      <View style={styles.containerAddProd}>
+      <ScrollView style={styles.containerAddProd}>
         <TextInput
           style={styles.input}
           placeholder="Nombre del producto"
@@ -196,7 +196,7 @@ export default function AddProductoScreen({ navigation }) {
         >
           <Text style={styles.colorTextButtonGuardar}>Agregar producto</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </ScrollView>
   );
 }

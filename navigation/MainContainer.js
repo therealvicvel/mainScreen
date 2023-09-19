@@ -69,7 +69,7 @@ const MiniScreenAddProducto = () => (
 
 //Menú superior para ver los productos existentes en el inventario de InventarioScreen
 const MiniScreenInventario = () => (
-  <View  style={styles.container}>
+  <View>
     <InventarioScreen/>
   </View>
 );

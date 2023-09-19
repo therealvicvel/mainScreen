@@ -82,7 +82,7 @@ export default function AddClientesScreen({ navigation }) {
     return (
         //Captura de datos, diseño y decoración del formulario
         <ScrollView contentContainerStyle={styles.container}>
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <TextInput
                     style={styles.input}
                     placeholder="Documento del cliente"
@@ -114,7 +114,7 @@ export default function AddClientesScreen({ navigation }) {
                 <TouchableOpacity style={styles.buttonAddCliente} onPress={handleAgregarCliente}>
                     <Text style={styles.colorTextButtonAddCliente}>Agregar cliente</Text>
                 </TouchableOpacity>
-            </View>
+            </ScrollView>
         </ScrollView>
     );
 }
