@@ -4,16 +4,12 @@ import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native
 import { Calendar } from 'react-native-calendars';
 
 function Calendario({ selectedDate, setSelectedDate }) {
-  const [calendarVisible, setCalendarVisible] = useState(false);
 
   const handleDateSelect = (date) => {
     setSelectedDate(date.dateString);
     setCalendarVisible(false); // Cerrar el calendario después de seleccionar la fecha
   };
 
-  const toggleCalendar = () => {
-    setCalendarVisible(!calendarVisible);
-  };
 
   const renderCalendar = () => {
     if (Platform.OS === 'ios') {
@@ -37,14 +33,9 @@ function Calendario({ selectedDate, setSelectedDate }) {
     } else {
       return (
         <View>
-          <TouchableOpacity onPress={toggleCalendar} style= {styles.buttonText}>
-            <Text>Calendario</Text>
-          </TouchableOpacity>
-          {calendarVisible && (
             <Calendar
               onDayPress={handleDateSelect}
             />
-          )}
         </View>
       );
     }

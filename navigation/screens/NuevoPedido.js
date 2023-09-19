@@ -16,7 +16,7 @@ const NuevoPedido = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
-    fetch('https://viramsoftapi.onrender.com/product')
+    fetch('https://viramsoftapi.onrender.com/product_available')
       .then((response) => response.json())
       .then((data) => {
         setData(data.productos);
@@ -163,7 +163,7 @@ const NuevoPedido = () => {
                 <Text>Stock: {selectedItem?.cantidad}</Text>
               </>
                  ) : null }
-                 <TextInput style={styles.quantityInput}
+                 <TextInput style = {{borderColor: '#004187', color: '#004187'}}
                    placeholder="Agregar cantidad"
                    keyboardType="numeric"
                    value={quantity.toString()}  // Asegurarse de que quantity sea una string
@@ -251,9 +251,6 @@ const styles = StyleSheet.create({
   quantityInput: {
     flex: 1,
     borderColor: 'gray',
-    borderWidth: 1,
-    paddingHorizontal: 5,
-    height: 30,
   },
   boton: {
     backgroundColor: "#6CAEF6",
