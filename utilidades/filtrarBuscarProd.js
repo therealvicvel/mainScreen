@@ -7,7 +7,7 @@ const FiltrarBuscar = ({ Data, onItemSelected }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('https://viramsoftapi.onrender.com/product_available')
+    fetch('https://viramsoftapi.onrender.com/product')
       .then((response) => response.json())
       .then((data) => {
         setData(data.productos);

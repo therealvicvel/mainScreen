@@ -1,198 +1,212 @@
-import React, { useEffect, useState } from "react";
-import { View, Modal, Text, TouchableOpacity, StyleSheet, FlatList, TextInput } from "react-native";
-import BuscarCliente from "../../utilidades/BuscarCliente";
-import Calendario from "../../utilidades/Calendario";
+//Importaciones necesarias
+import React from "react";
+import { View, Text, FlatList, Image, Button, Modal, TextInput, ImageBackground,  } from "react-native";
+import { useState, useEffect } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Picker } from '@react-native-picker/picker';
+import FiltrarBuscar from "../../utilidades/filtrarBuscarProd";
 
-
-const CustomModal = ({ isVisible, onClose, selectedItems, onRemoveItem, onNext, selectedDate, setFechaSeleccionada}) => {
-  // Inicializa el estado total
-  const [total, setTotal] = useState(0);
-  // Estado para controlar si se muestra el segundo modal
-  const [showSecondModal, setShowSecondModal] = useState(false);
-  const [selectedClient, setSelectedClient] = useState(null); // Nuevo estado para el cliente seleccionado
-  const [observations, setObservations] = useState('');
+//Creación de lista visual de inventario (declaración de variables y sus datos)
+const ListInventario = () => {
   const [data, setData] = useState([]);
+  const [productoId, setProductoId] = useState('');
+  const [cantidad, setCantidad] = useState("");
+  const [valorVenta, setValorVenta] = useState("");
+  const [valorCompra, setValorCompra] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [filteredData, setFilteredData] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
-  useEffect(() => {
-    // Calcular el total de todos los productos
-    const calculatedTotal = selectedItems.reduce((acc, item) => acc + item.quantity * item.precio, 0);
-    // Actualizar el estado del total
-    setTotal(calculatedTotal);
-  }, [selectedItems]);
 
-  const handleSelectClient = (client) => {
-    setSelectedClient(client);
+
+  const handleCantidadChange = (text) => {
+    setCantidad(text);
+  };
+
+  const handleValorVentaChange = (text) => {
+    setValorVenta(text);
+  };
+
+  const handleValorCompraChange = (text) => {
+    setValorCompra(text);
+  };
+
+  const handleGuardarCambios = () => {
+    if (selectedProduct) {
+      const productoActualizado = {
+        ...selectedProduct,
+        cantidad: cantidad,
+        valorVenta: valorVenta,
+        valorCompra: valorCompra,
+      };
+
+      console.log(productoActualizado);
+      fetch(`https://viramsoftapi.onrender.com/edit_product/${selectedProduct.idProducto}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productoActualizado),
+      })
+        .then((response) => response.json())
+        .then((responseData) => {
+          
+          if (responseData.success) {
+            alert("Hubo un error al guardar los cambios.");
+          } else {
+            alert("Los cambios se han guardado correctamente.");
+            //Actualizar la lista de productos después de guardar los cambios
+            setData((prevData) => {
+              const newData = prevData.map((item) =>
+                item.idProducto === selectedProducto.idProducto ? productoActualizado : item
+              );
+              setIsModalVisible(false);
+              return newData;
+            });
+            
+          }
+        })
+        .catch((error) => {
+          console.log("Error al guardar los cambios: ", error);
+        });
+    }
+  };
+  
+  const handleAddPress = (product) => {
+    setSelectedProduct(product);
+    setIsModalVisible(true);
   };
 
   const handleCloseModal = () => {
-    setResetState(true); // Establece resetState en true al cerrar el modal
-    onClose();
-  };
-  // Función para guardar el pedido
-  const crearPedido = () => {
-    // Aquí puedes obtener más detalles del cliente o cualquier otra información necesaria para el pedido
-    const clienteSeleccionado = selectedClient ? selectedClient.documento : ''; // Utilizamos el campo "documento" del cliente seleccionado
-
-    // Preparar la lista de productos seleccionados con sus cantidades
-    const productosSeleccionados = selectedItems.map(item => ({
-      idProducto: item.idProducto,
-      cantidad: item.quantity || 0, // Usamos la cantidad del producto directamente
-    }));
-
-    // Construir el objeto pedidoGuardado con todos los datos
-    const pedidoGuardado = {
-      pedido: {
-        documentoCliente: clienteSeleccionado,
-        fechaEntrega: selectedDate ,
-        observacion: observations, // Usamos el estado "observations" para las observaciones del pedido
-      },
-      productos: productosSeleccionados,
-    };
-    console.log('Pedido Guardado:', pedidoGuardado);
-
-    // Enviar el pedido a la API utilizando fetch
-    fetch('https://viramsoftapi.onrender.com/create_order', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(pedidoGuardado),
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Respuesta de la API:", data);
-      // Resto del código para manejar la respuesta de la API
-    })
-    .catch((error) => {
-      console.error("Error al guardar el pedido: ", error);
-      alert("Ocurrió un error al guardar el pedido. Por favor, intenta nuevamente.");
-    });
+    setIsModalVisible(false);
   };
 
+  const filterProductsByCategory = () => {
+    if (!selectedCategory) {
+      setFilteredData(data);
+    } else {
+      const filteredProducts = data.filter((item) => item.categoria === selectedCategory);
+      setFilteredData(filteredProducts);
+    }
+  };
+
+  useEffect(() => {
+    filterProductsByCategory();
+  }, [selectedCategory]);
+
+  const filterData = (text) => {
+    if (text === '') {
+      return [];
+    }
+
+    const filteredData = data.filter((item) =>
+      item.nombre.toLowerCase().includes(text.toLowerCase()) ||
+      item.idProducto.toString().includes(text)
+    );
+    return filteredData;
+  };
+
+  useEffect(() => {
+    fetch('https://viramsoftapi.onrender.com/product')
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data.productos);
+        console.log(data)
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error)
+      });
+  }, []);
+
+  //Creación de campos para mostrar en ellos los datos anteriormente creados
   return (
-    <Modal
-      visible={isVisible}
-      animationType="slide"
-      transparent={true}
-      onRequestClose={onClose}
-    >
-      <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
-          <Text>Elementos seleccionados:</Text>
-          <Text>Total: <Text>${total.toFixed(2)}</Text></Text>
-          <FlatList
-            data={selectedItems}
-            keyExtractor={(item) => item.idProducto.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.itemContainer}>
-                <Text>{item.nombre}   </Text>
-                <Text>cantidad: {item.quantity || 0}</Text>
-                <Text>val.Unidad: {item.precio}</Text>
-                <TouchableOpacity onPress={() => onRemoveItem(item)} style={styles.button}>
-                  <Text>Eliminar</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-            style={styles.flatList}
-          />
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={onClose}>
-              <Text>Cerrar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => setShowSecondModal(true)}>
-              <Text>Siguiente</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+    <View style={{ flex: 1 }}>
+      <FiltrarBuscar Data={filteredData}/>    
+      <View style={{ borderWidth: 1, borderColor: 'black', padding: 10 }}>
+         <Picker
+          selectedValue={selectedCategory}
+          onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+          >
+          <Picker.Item label="Todos" value={""} />
+          <Picker.Item label="Líquidos" value="Líquidos" />
+          <Picker.Item label="Sólidos" value="Sólidos" />
+          <Picker.Item label="Polvos" value="Polvos" />
+          <Picker.Item label="Otro" value="Otro" />
+        </Picker>
       </View>
-
-      {/* Segundo Modal */}
-      {showSecondModal && (
-        <Modal
-          visible={showSecondModal}
-          animationType="slide"
-          transparent={true}
-          onRequestClose={() => setShowSecondModal(false)}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              {/* Contenido del segundo modal */}
-              <Text>Detalles Pedido</Text>
-
-              {/* Integra el componente BuscarCliente */}
-              <View>
-                <BuscarCliente onSelectClient={handleSelectClient} />
-                {selectedClient ? ( // Mostrar la información del cliente seleccionado solo si existe
-                  <View>
-                    
-                    <Text style={styles.clienteText}>Datos cliente: </Text>
-                    <Text style={styles.clienteText}>Nombre: {selectedClient.nombre}</Text>
-                    <Text style={styles.clienteText}>Direccion: {selectedClient.direccion}</Text>
-                  </View>
-                ) : null}
-                <Calendario/>
-                <TextInput
-                  placeholder="Observaciones"
-                  value={observations} // Vinculamos el valor del TextInput con el estado observations
-                  onChangeText={setObservations} // Manejamos el cambio del valor del TextInput con setObservations
-                />
-                <TouchableOpacity onPress={crearPedido}>
-                  <Text>Crear pedido</Text>
-                </TouchableOpacity>
-              </View>
-              <TouchableOpacity style={styles.button} onPress={() => setShowSecondModal(false)}>
-                <Text>volver</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-      )}
-    </Modal>
+     
+  <FlatList
+    data={filteredData}
+    keyExtractor={(item) => item.idProducto.toString()}
+    numColumns={2}
+    renderItem={({ item }) => (
+      <View style={{ flex: 1 }}>
+        <Text>Nombre: {item.nombre}</Text>
+        <Text>Marca: {item.marca}</Text>
+        <Text>Precio: {item.valorVenta}</Text>
+        <Text>Stock: {item.cantidad}</Text>
+        <TouchableOpacity onPress={() => handleAddPress(item)}>
+          <Text>Actualizar</Text>
+        </TouchableOpacity>
+      </View>
+    )}
+  />
+   <Modal visible={isModalVisible} animationType="slide" transparent={true}>
+    <View>
+      <View style= {{ padding: 16,
+    backgroundColor: '#004187',
+    borderRadius: 20,}}>
+        {selectedProduct && (
+          <>
+            <Text>Actualizar campos de un producto</Text>
+            <Text>ID: {selectedProduct.idProducto}</Text>
+            <Text>Nombre: {selectedProduct.nombre}</Text>
+            <Text>Marca: {selectedProduct.marca}</Text>
+            <Text>Cantidad: {selectedProduct.cantidad}</Text>
+            <Text>Valor compra: {selectedProduct.valorCompra}</Text>
+            <Text>Valor venta: {selectedProduct.valorVenta}</Text>
+            <Text>Unidad medida: {selectedProduct.unidadMedida}</Text>
+            <Text>Categoría: {selectedProduct.categoria}</Text>
+            <Text>Agregar Cambios</Text>
+            <TextInput
+              placeholder="Cantidad"
+              onChangeText={handleCantidadChange}
+              value={cantidad}
+            />
+            <TextInput
+              placeholder="Valor venta"
+              onChangeText={handleValorVentaChange}
+              value={valorVenta}
+            />
+            <TextInput
+              placeholder="Valor compra"
+              onChangeText={handleValorCompraChange}
+              value={valorCompra}
+            />
+          </>
+        )}
+        <TouchableOpacity onPress={handleCloseModal}>
+          <Text>Cerrar</Text>
+        </TouchableOpacity>
+          <TouchableOpacity onPress={handleGuardarCambios}>
+            <Text>Guardar</Text>
+           </TouchableOpacity>
+         </View>
+         </View>
+      </Modal>
+    </View>
+    
   );
 };
 
-const styles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 10,
-    width: 300,
-    alignItems: "center",
-  },
-  itemContainer: {
-    marginVertical: 5,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    paddingVertical: 10,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 10,
-  },
-  button: {
-    backgroundColor: "#007AFF",
-    padding: 5,
-    borderRadius: 5,
-  },
-  flatList: {
-    borderTopWidth: 1,
-    borderTopColor: "#ccc",
-    width: "100%",
-  },
-  clienteText: {
-    marginBottom: 5,
-  },
-});
+export default function InventarioScreen({ navigation }) {
+  return (
+    <View>
+      <View>
+        <ListInventario />
+      </View>
+    </View>
+  );
+}
 
-export default CustomModal;
