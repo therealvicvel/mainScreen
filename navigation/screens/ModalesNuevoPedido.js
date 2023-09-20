@@ -11,6 +11,7 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
   const [observations, setObservations] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const [editQuantityIndex, setEditQuantityIndex] = useState(null);
+  const [showThirdModal, setShowThirdModal] = useState(false); // Nuevo estado
 
   const handleEditQuantity = (index) => {
     setEditQuantityIndex(index);
@@ -115,6 +116,8 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
     setShowSecondModal(false);
     setModalVisible(false);
   };
+
+  
   return (
     <Modal
       animationType="slide"
@@ -200,7 +203,24 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
                       <Text>Direccion: {selectedClient.direccion}</Text>
                     </View>
                   )}
-                  <Calendario selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+                  <Modal
+                   visible={showThirdModal}
+                   animationType="slide"
+                   transparent={true}
+                   onRequestClose={() => setShowThirdModaldModal(false)}
+                  >
+                    <View style = {styles.container}>
+                    <View style={styles.content}>                  
+                    <View style={styles.content}>                  
+                      <Calendario selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+                    </View>
+                      <TouchableOpacity onPress={() => setShowThirdModal(false)}><Text style={styles.link}> Aceptar</Text></TouchableOpacity>
+                    </View>
+                    </View>
+                  </Modal>
+                  <TouchableOpacity onPress={() => setShowThirdModal(true)} style= {styles.buttonContainer}>
+                    <Text style={styles.link}>Seleccionar Fecha</Text>
+                  </TouchableOpacity>
                   <TextInput
                     placeholder="Observaciones"
                     value={observations}

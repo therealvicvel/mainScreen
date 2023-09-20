@@ -93,7 +93,6 @@ const ListClientes = () => {
       </View>
     </TouchableOpacity>
   );
-
   return (
     <View style={styles.containerTwo}>
         <BuscarCliente
@@ -143,6 +142,7 @@ const ListClientes = () => {
                   style={styles.inputForModal}
                   placeholder="Telefono"
                   value={telefono}
+                  keyboardType="phone-pad"
                   onChangeText={(text) => setTelefono(text)}
                 />
               </>

@@ -7,7 +7,6 @@ function Calendario({ selectedDate, setSelectedDate }) {
 
   const handleDateSelect = (date) => {
     setSelectedDate(date.dateString);
-    setCalendarVisible(false); // Cerrar el calendario después de seleccionar la fecha
   };
 
 

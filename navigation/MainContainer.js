@@ -16,6 +16,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import AddClientesScreen from "./screens/AddClientesScreen";
 import AddProductoScreen from "./screens/AddProductoScreen";
 import styles from "../utilidades/styles";
+import InventarioScreenPrueba from "./screens/InventarioScreenPrueba";
 
 //Variables con nombres de las demás pantallas
 const homeName = "Inicio";
@@ -32,7 +33,7 @@ const TopTab = createMaterialTopTabNavigator();
 //Creación de componente por separado para el topTabNavigator de Inventario
 const InventarioTopTabNavigator = () => (
   <TopTab.Navigator>
-    <TopTab.Screen name="Productos" component={InventarioScreen} />
+    <TopTab.Screen name="Productos" component={InventarioScreenPrueba} />
     <TopTab.Screen name="Agregar producto" component={AddProductoScreen} />
   </TopTab.Navigator>
 );
