@@ -48,6 +48,16 @@ const ListInventario = () => {
         valorVenta: valorVenta,
         valorCompra: valorCompra,
       };
+
+      if (
+        productoActualizado.cantidad.trim() === "" ||
+        productoActualizado.valorVenta.trim() === "" ||
+        productoActualizado.valorCompra.trim() === ""
+      ) {
+        alert("Por favor, completa todos los campos antes de guardar los cambios.");
+        return;
+      }
+
       console.log(productoActualizado);
       fetch(`https://viramsoftapi.onrender.com/edit_product/${selectedProducto.idProducto}`, {
         method: "PUT",
@@ -138,32 +148,37 @@ const ListInventario = () => {
             {selectedProducto && (
               <>
                 <Text style={styles.modalTitle}>Actualizar campos de un producto</Text>
-                <Text style={styles.clienteText}>ID: {selectedProducto.idProducto}</Text>
-                <Text style={styles.clienteText}>Nombre: {selectedProducto.nombre}</Text>
-                <Text style={styles.clienteText}>Marca: {selectedProducto.marca}</Text>
+                <Text style={styles.clienteText}>{selectedProducto.nombre}</Text>
                 <Text style={styles.clienteText}>Cantidad: {selectedProducto.cantidad}</Text>
-                <Text style={styles.clienteText}>Valor compra: {selectedProducto.valorCompra}</Text>
                 <Text style={styles.clienteText}>Valor venta: {selectedProducto.valorVenta}</Text>
-                <Text style={styles.clienteText}>Unidad medida: {selectedProducto.unidadMedida}</Text>
-                <Text style={styles.clienteText}>Categoría: {selectedProducto.categoria}</Text>
+                <Text style={styles.clienteText}>Valor compra: {selectedProducto.valorCompra}</Text>
                 <Text style={styles.modalSubTitle}>Agregar Cambios</Text>
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Cantidad"
                   onChangeText={handleCantidadChange}
                   value={String(cantidad)}
+                  keyboardType="numeric"
+                  cursorColor={"#FFFFFF"}
+                  placeholderTextColor={"#FFFFFF"}
                 />
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Valor venta"
                   onChangeText={handleValorVentaChange}
                   value={String(valorVenta)}
+                  keyboardType="numeric"
+                  cursorColor={"#FFFFFF"}
+                  placeholderTextColor={"#FFFFFF"}
                 />
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Valor compra"
                   onChangeText={handleValorCompraChange}
                   value={String(valorCompra)}
+                  keyboardType="numeric"
+                  cursorColor={"#FFFFFF"}
+                  placeholderTextColor={"#FFFFFF"}
                 />
               </>
             )}

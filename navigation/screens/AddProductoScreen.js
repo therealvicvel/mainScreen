@@ -126,39 +126,51 @@ export default function AddProductoScreen({ navigation }) {
           placeholder="Nombre del producto"
           onChangeText={handleNombreChange}
           value={nombre}
+          cursorColor={"#004187"}
+          placeholderTextColor={"#004187"}
         />
         <TextInput
           style={styles.input}
           placeholder="Marca"
           onChangeText={handleMarcaChange}
           value={marca}
+          cursorColor={"#004187"}
+          placeholderTextColor={"#004187"}
         />
         <TextInput
           style={styles.input}
           placeholder="Cantidad"
           onChangeText={handleCantidadChange}
           value={cantidad}
-          keyboardType="phone-pad"
+          keyboardType="numeric"
+          cursorColor={"#004187"}
+          placeholderTextColor={"#004187"}
         />
         <TextInput
           style={styles.input}
           placeholder="Valor de compra"
           onChangeText={handleValorCompraChange}
           value={valorCompra}
-          keyboardType="phone-pad"
+          keyboardType="numeric"
+          cursorColor={"#004187"}
+          placeholderTextColor={"#004187"}
         />
         <TextInput
           style={styles.input}
           placeholder="Valor de venta"
           onChangeText={handleValorVentaChange}
           value={valorVenta}
-          keyboardType="phone-pad"
+          keyboardType="numeric"
+          cursorColor={"#004187"}
+          placeholderTextColor={"#004187"}
         />
         <TextInput
           style={styles.input}
           placeholder="Unidad de medida"
           onChangeText={handleUnidadMedidaChange}
           value={unidadMedida}
+          cursorColor={"#004187"}
+          placeholderTextColor={"#004187"}
         />
         <Picker
           style={styles.picker}

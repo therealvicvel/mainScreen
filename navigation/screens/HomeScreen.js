@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Platform, TouchableOpacity} from 'react-native';
 import Calendario from '../../utilidades/Calendario';
+import ImagePicker from "react-native-image-picker";
 function MiCalendario() {
   return (
 

@@ -1,6 +1,6 @@
 //Importaciones necesarias
 import React from "react";
-import { View, Text, Button, TextInput, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Button, TextInput, StyleSheet, ScrollView} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import styles from "../../utilidades/styles";
 import { useState } from "react";
@@ -12,7 +12,7 @@ export default function AddClientesScreen({ navigation }) {
     const [nombre, setNombre] = useState('');
     const [direccion, setDireccion] = useState('');
     const [telefono, setTelefono] = useState('');
-
+    
     const [data, setData] = useState([]);
     const validarCampos = () => {
         if (
@@ -88,13 +88,17 @@ export default function AddClientesScreen({ navigation }) {
                     placeholder="Documento del cliente"
                     onChangeText={handleDocumentoChange}
                     value={documento}
-                    keyboardType="phone-pad"
+                    keyboardType="numeric"
+                    cursorColor={"#004187"}
+                    placeholderTextColor={"#004187"}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Nombre del cliente"
                     onChangeText={handleNombreChange}
                     value={nombre}
+                    cursorColor={"#004187"}
+                    placeholderTextColor={"#004187"}
                     
                 />
                 <TextInput
@@ -102,6 +106,8 @@ export default function AddClientesScreen({ navigation }) {
                     placeholder="Direccion del cliente"
                     onChangeText={handleDireciconChange}
                     value={direccion}
+                    cursorColor={"#004187"}
+                    placeholderTextColor={"#004187"}
                     
                 />
                 <TextInput
@@ -109,8 +115,13 @@ export default function AddClientesScreen({ navigation }) {
                     placeholder="Teléfono del cliente"
                     onChangeText={handleTelefonoChange}
                     value={telefono}
-                    keyboardType="phone-pad"
+                    keyboardType="numeric"
+                    cursorColor={"#004187"}
+                    placeholderTextColor={"#004187"}
                 />
+                <ImagePicker>
+                  
+                </ImagePicker>
                 <TouchableOpacity style={styles.buttonAddCliente} onPress={handleAgregarCliente}>
                     <Text style={styles.colorTextButtonAddCliente}>Agregar cliente</Text>
                 </TouchableOpacity>

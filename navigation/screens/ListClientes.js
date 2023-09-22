@@ -22,6 +22,17 @@ const ListClientes = () => {
         direccion: direccion,
         telefono: telefono,
       };
+  
+      // Validar los campos
+      if (
+        clienteActualizado.nombre.trim() === "" ||
+        clienteActualizado.direccion.trim() === "" ||
+        clienteActualizado.telefono.trim() === ""
+      ) {
+        alert("Por favor, completa todos los campos antes de guardar los cambios.");
+        return;
+      }
+  
       console.log(clienteActualizado);
       fetch(
         `https://viramsoftapi.onrender.com/edit_costumer/${selectedCliente.documento}`,
@@ -69,7 +80,6 @@ const ListClientes = () => {
         console.error("Error fetching data", error);
       });
   }, []);
-  
 
   const handleOpenModal = (cliente) => {
     setSelectedCliente(cliente);
@@ -86,10 +96,10 @@ const ListClientes = () => {
   const renderClienteItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleOpenModal(item)}>
       <View style={styles.fondoListas}>
-        <Text style={styles.clienteText}>Documento: {item.documento}</Text>
-        <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
-        <Text style={styles.clienteText}>Direccion: {item.direccion}</Text>
-        <Text style={styles.clienteText}>Telefono: {item.telefono}</Text>
+        <Text style={styles.clienteText}>{item.documento}</Text>
+        <Text style={styles.clienteText}>{item.nombre}</Text>
+        <Text style={styles.clienteText}>{item.direccion}</Text>
+        <Text style={styles.clienteText}>{item.telefono}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -103,6 +113,7 @@ const ListClientes = () => {
           data={data}
           renderItem={renderClienteItem}
           keyExtractor={(item) => item.documento.toString()}
+          
         />
       
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
@@ -113,17 +124,15 @@ const ListClientes = () => {
                 <Text style={styles.modalTitle}>
                   Actualizar datos del cliente
                 </Text>
+                
                 <Text style={styles.clienteText}>
-                  Documento: {selectedCliente.documento}
+                  {selectedCliente.nombre}
                 </Text>
                 <Text style={styles.clienteText}>
-                  Nombre: {selectedCliente.nombre}
+                  {selectedCliente.direccion}
                 </Text>
                 <Text style={styles.clienteText}>
-                  Dirección: {selectedCliente.direccion}
-                </Text>
-                <Text style={styles.clienteText}>
-                  Teléfono: {selectedCliente.telefono}
+                  {selectedCliente.telefono}
                 </Text>
                 <Text style={styles.modalSubTitle}>Agregar cambios</Text>
                 <TextInput
@@ -131,19 +140,25 @@ const ListClientes = () => {
                   placeholder="Nombre"
                   value={nombre}
                   onChangeText={(text) => setNombre(text)}
+                  cursorColor={"#FFFFFF"}
+                  placeholderTextColor={"#FFFFFF"}
                 />
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Direccion"
                   value={direccion}
                   onChangeText={(text) => setDireccion(text)}
+                  cursorColor={"#FFFFFF"}
+                  placeholderTextColor={"#FFFFFF"}
                 />
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Telefono"
                   value={telefono}
-                  keyboardType="phone-pad"
+                  keyboardType="numeric"
                   onChangeText={(text) => setTelefono(text)}
+                  cursorColor={"#FFFFFF"}
+                  placeholderTextColor={"#FFFFFF"}
                 />
               </>
             )}
