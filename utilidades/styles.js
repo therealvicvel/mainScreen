@@ -145,6 +145,14 @@ const styles = StyleSheet.create({
     marginTop: 40,
     alignSelf: 'center',
   },
+  buttonLimpiarCampos: {
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 70,
+    marginTop: 40,
+    alignSelf: 'center',
+    color: 'white',
+  },
   colorTextButtonAddCliente: {
     color: "#FFFFFF",
     textAlign: 'center',

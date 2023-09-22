@@ -119,9 +119,6 @@ export default function AddClientesScreen({ navigation }) {
                     cursorColor={"#004187"}
                     placeholderTextColor={"#004187"}
                 />
-                <ImagePicker>
-                  
-                </ImagePicker>
                 <TouchableOpacity style={styles.buttonAddCliente} onPress={handleAgregarCliente}>
                     <Text style={styles.colorTextButtonAddCliente}>Agregar cliente</Text>
                 </TouchableOpacity>

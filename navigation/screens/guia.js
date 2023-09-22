@@ -1,202 +1,236 @@
-import React from "react";
-import { View, Text, FlatList, TouchableOpacity, Modal, TextInput } from "react-native";
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
+import {View,Text,TextInput,TouchableOpacity,ScrollView,Image,Button} from "react-native";
+import styles from "../../utilidades/styles";
 import { Picker } from '@react-native-picker/picker';
-import FiltrarBuscar from "../../utilidades/filtrarBuscarProd";
+import ImagePicker from "react-native-image-picker";
+import * as ImagePicker from 'expo-image-picker';
 
-const ListInventario = () => {
-  const [data, setData] = useState([]);
+export default function AddProductoScreen({ navigation }) {
+  const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState("");
-  const [valorVenta, setValorVenta] = useState("");
   const [valorCompra, setValorCompra] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [filteredData, setFilteredData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [valorVenta, setValorVenta] = useState("");
+  const [unidadMedida, setUnidadMedida] = useState("");
+  const [marca, setMarca] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [image, setImage] = useState(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  const opcionesCategoria = [
+    { label: "Seleccionar categoría", value: "" },
+    { label: "Líquidos", value: "Líquidos" },
+    { label: "Sólidos", value: "Sólidos" },
+    { label: "Polvos", value: "Polvos" },
+    { label: "Otro", value: "Otro" },
+  ];
+
+  const validarCampos = () => {
+    if (
+      nombre.trim() === "" ||
+      cantidad.trim() === "" ||
+      valorCompra.trim() === "" ||
+      valorVenta.trim() === "" ||
+      unidadMedida.trim() === "" ||
+      marca.trim() === "" ||
+      categoria === ""
+    ) {
+      return false;
+    }
+    return true;
+  };
+
+  const handleAgregarProducto = () => {
+    if (!validarCampos()) {
+      alert("Por favor, completa todos los campos antes de agregar el producto.");
+      return;
+    }
+
+    const nuevoProducto = {
+      nombre: nombre,
+      cantidad: cantidad,
+      valorCompra: valorCompra,
+      valorVenta: valorVenta,
+      unidadMedida: unidadMedida,
+      categoria: categoria,
+      marca: marca,
+      // Agregamos la URI de la imagen seleccionada
+      imagen: selectedImage.uri,
+    };
+
+    fetch("https://viramsoftapi.onrender.com/create_product", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(nuevoProducto),
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log("Respuesta de la API:", responseData);
+        if (responseData.success) {
+          alert(
+            "Ocurrió un error al agregar el producto. Por favor, intenta nuevamente."
+          );
+        } else {
+          setNombre("");
+          setCantidad("");
+          setValorCompra("");
+          setValorVenta("");
+          setUnidadMedida("");
+          setMarca("");
+          setCategoria("");
+          setSelectedImage(null); // Limpiamos la imagen seleccionada
+          alert("El producto se ha agregado correctamente.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error al agregar el producto: ", error);
+      });
+  };
+
+  const handleNombreChange = (text) => {
+    setNombre(text);
+  };
 
   const handleCantidadChange = (text) => {
     setCantidad(text);
   };
 
-  const handleValorVentaChange = (text) => {
-    setValorVenta(text);
-  };
-
   const handleValorCompraChange = (text) => {
     setValorCompra(text);
   };
-
-  const handleGuardarCambios = () => {
-    if (selectedProduct) {
-      const productoActualizado = {
-        ...selectedProduct,
-        cantidad: cantidad,
-        valorVenta: valorVenta,
-        valorCompra: valorCompra,
-      };
-  
-      console.log('Producto actualizado:', productoActualizado);
-      fetch(`https://viramsoftapi.onrender.com/edit_product/${selectedProduct.idProducto}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(productoActualizado),
-      })
-        .then((response) => response.json())
-        .then((responseData) => {
-          
-          if (responseData.success) {
-            alert("Hubo un error al guardar los cambios.");
-          } else {
-            alert("Los cambios se han guardado correctamente.");
-            //Actualizar la lista de productos después de guardar los cambios
-            setData((prevData) => {
-              const newData = prevData.map((item) =>
-                item.idProducto === selectedProduct.idProducto ? productoActualizado : item
-              );
-              setIsModalVisible(false);
-              return newData;
-            });
-            
-          }
-        })
-        .catch((error) => {
-          console.log("Error al guardar los cambios: ", error);
-        });
-    }
+  const handleCategoriaChange = (text) => {
+    setCategoria(text);
   };
-  
-  const handleAddPress = (product) => {
-    setSelectedProduct(product);
-    setCantidad(product.cantidad);
-    setValorVenta(product.valorVenta);
-    setValorCompra(product.valorCompra);
-    setIsModalVisible(true);
+  const handleMarcaChange = (text) => {
+    setMarca(text);
+  };
+  const handleValorVentaChange = (text) => {
+    setValorVenta(text);
+  };
+  const handleUnidadMedidaChange = (text) => {
+    setUnidadMedida(text);
   };
 
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
+  const handleSelectImage = () => {
+    ImagePicker.showImagePicker({}, (response) => {
+      if (response.uri) {
+        setSelectedImage(response);
+      }
+    });
   };
-
-  const filterProductsByCategory = () => {
-    if (!selectedCategory) {
-      setFilteredData(data);
-    } else {
-      const filteredProducts = data.filter((item) => item.categoria === selectedCategory);
-      setFilteredData(filteredProducts);
-    }
-  };
-
-  useEffect(() => {
-    filterProductsByCategory();
-  }, [selectedCategory]);
-
-  const filterData = (text) => {
-    if (text === '') {
-      return [];
-    }
-
-    const filteredData = data.filter((item) =>
-      item.nombre.toLowerCase().includes(text.toLowerCase()) ||
-      item.idProducto.toString().includes(text)
-    );
-    return filteredData;
-  };
-
-  useEffect(() => {
-    fetch('https://viramsoftapi.onrender.com/product')
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data.productos);
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
-  }, []);
 
   return (
-    <View style={{ flex: 1 }}>
-      <Picker
-        selectedValue={selectedCategory}
-        onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-      >
-        <Picker.Item label="Todos" value={""} />
-        <Picker.Item label="Líquidos" value="Líquidos" />
-        <Picker.Item label="Sólidos" value="Sólidos" />
-        <Picker.Item label="Polvos" value="Polvos" />
-        <Picker.Item label="Otro" value="Otro" />
-      </Picker>
-      <FiltrarBuscar Data={filteredData} onItemSelected={handleAddPress} />
-      <FlatList
-        data={filteredData}
-        keyExtractor={(item) => item.idProducto.toString()}
-        numColumns={2}
-        renderItem={({ item }) => (
-          <View style={{ flex: 1, padding: 16, backgroundColor: '#f0f0f0', margin: 8, borderRadius: 8 }}>
-            <Text>Nombre: {item.nombre}</Text>
-            <Text>Marca: {item.marca}</Text>
-            <Text>Precio: {item.valorVenta}</Text>
-            <Text>Stock: {item.cantidad}</Text>
-            <TouchableOpacity onPress={() => handleAddPress(item)}>
-              <Text>Actualizar</Text>
-            </TouchableOpacity>
-          </View>
+    <ScrollView contentContainerStyle={styles.containerAddProd}>
+      <ScrollView style={styles.containerAddProd}>
+        <TextInput
+          style={styles.input}
+          placeholder="Nombre del producto"
+          onChangeText={handleNombreChange}
+          value={nombre}
+          cursorColor={"#004187"}
+          placeholderTextColor={"#004187"}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Marca"
+          onChangeText={handleMarcaChange}
+          value={marca}
+          cursorColor={"#004187"}
+          placeholderTextColor={"#004187"}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Cantidad"
+          onChangeText={handleCantidadChange}
+          value={cantidad}
+          keyboardType="numeric"
+          cursorColor={"#004187"}
+          placeholderTextColor={"#004187"}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Valor de compra"
+          onChangeText={handleValorCompraChange}
+          value={valorCompra}
+          keyboardType="numeric"
+          cursorColor={"#004187"}
+          placeholderTextColor={"#004187"}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Valor de venta"
+          onChangeText={handleValorVentaChange}
+          value={valorVenta}
+          keyboardType="numeric"
+          cursorColor={"#004187"}
+          placeholderTextColor={"#004187"}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Unidad de medida"
+          onChangeText={handleUnidadMedidaChange}
+          value={unidadMedida}
+          cursorColor={"#004187"}
+          placeholderTextColor={"#004187"}
+        />
+        <Picker
+          style={styles.picker}
+          selectedValue={categoria}
+          onValueChange={(itemValue) => setCategoria(itemValue)}
+        >
+          {opcionesCategoria.map((opcion) => (
+            <Picker.Item
+              key={opcion.value}
+              label={opcion.label}
+              value={opcion.value}
+            />
+          ))}
+        </Picker>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button title="Pick an image from camera roll" onPress={pickImage} />
+      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+    </View>
+        {/* Botón para seleccionar imagen */}
+        <Button
+        title="hola"
+          style={styles.buttonAddCliente}
+          onPress={handleSelectImage}
+        >
+          <Text style={styles.colorTextButtonGuardar}>Seleccionar Imagen</Text>
+        </Button>
+
+        {/* Mostrar la imagen seleccionada */}
+        {selectedImage && (
+          <Image
+            source={{ uri: selectedImage.uri }}
+            style={{ width: 200, height: 200 }}
+          />
         )}
-      />
-      <Modal visible={isModalVisible} animationType="slide" transparent={true}>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <View style={{ padding: 16, backgroundColor: '#004187', borderRadius: 20, width: '80%' }}>
-            {selectedProduct && (
-              <>
-                <Text style={{ color: 'white' }}>Actualizar campos de un producto</Text>
-                <Text style={{ color: 'white' }}>ID: {selectedProduct.idProducto}</Text>
-                <Text style={{ color: 'white' }}>Nombre: {selectedProduct.nombre}</Text>
-                <Text style={{ color: 'white' }}>Marca: {selectedProduct.marca}</Text>
-                <Text style={{ color: 'white' }}>Cantidad: {selectedProduct.cantidad}</Text>
-                <Text style={{ color: 'white' }}>Valor compra: {selectedProduct.valorCompra}</Text>
-                <Text style={{ color: 'white' }}>Valor venta: {selectedProduct.valorVenta}</Text>
-                <Text style={{ color: 'white' }}>Unidad medida: {selectedProduct.unidadMedida}</Text>
-                <Text style={{ color: 'white' }}>Categoría: {selectedProduct.categoria}</Text>
-                <Text style={{ color: 'white' }}>Agregar Cambios</Text>
-                <TextInput
-                  placeholder="Cantidad"
-                  onChangeText={handleCantidadChange}
-                  value={cantidad}
-                  style={{ backgroundColor: 'white', padding: 8, marginBottom: 8 }}
-                />
-                <TextInput
-                  placeholder="Valor venta"
-                  onChangeText={handleValorVentaChange}
-                  value={valorVenta}
-                  style={{ backgroundColor: 'white', padding: 8, marginBottom: 8 }}
-                />
-                <TextInput
-                  placeholder="Valor compra"
-                  onChangeText={handleValorCompraChange}
-                  value={valorCompra}
-                  style={{ backgroundColor: 'white', padding: 8, marginBottom: 16 }}
-                />
-                <TouchableOpacity onPress={handleCloseModal}>
-                  <Text style={{ color: 'white' }}>Cerrar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleGuardarCambios}>
-                  <Text style={{ color: 'white' }}>Guardar</Text>
-                </TouchableOpacity>
-              </>
-            )}
-          </View>
-        </View>
-      </Modal>
-    </View>
-  );
-};
 
-export default function InventarioScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <ListInventario />
-    </View>
+        <TouchableOpacity
+          style={styles.buttonAddProd}
+          onPress={handleAgregarProducto}
+        >
+          <Text style={styles.colorTextButtonGuardar}>Agregar producto</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </ScrollView>
   );
 }

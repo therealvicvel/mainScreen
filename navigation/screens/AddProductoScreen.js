@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import {View,Text,TextInput,TouchableOpacity,ScrollView,Image,} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, Button } from "react-native";
 import styles from "../../utilidades/styles";
 import { Picker } from '@react-native-picker/picker';
-import ImagePicker from "react-native-image-picker";
+import * as ImagePicker from 'expo-image-picker';
 
 export default function AddProductoScreen({ navigation }) {
   const [nombre, setNombre] = useState("");
@@ -37,12 +37,23 @@ export default function AddProductoScreen({ navigation }) {
     return true;
   };
 
+  const handleCancelarTodo = () => {
+    setNombre("");
+    setCantidad("");
+    setValorCompra("");
+    setValorVenta("");
+    setUnidadMedida("");
+    setMarca("");
+    setCategoria("");
+    setSelectedImage("");
+  }
+
   const handleAgregarProducto = () => {
     if (!validarCampos()) {
       alert("Por favor, completa todos los campos antes de agregar el producto.");
       return;
     }
-
+  
     const nuevoProducto = {
       nombre: nombre,
       cantidad: cantidad,
@@ -51,8 +62,7 @@ export default function AddProductoScreen({ navigation }) {
       unidadMedida: unidadMedida,
       categoria: categoria,
       marca: marca,
-      // Agregamos la URI de la imagen seleccionada
-      imagen: selectedImage.uri,
+      imagenes: selectedImage ? selectedImage.base64 : null, // Convertir la imagen a base64
     };
 
     fetch("https://viramsoftapi.onrender.com/create_product", {
@@ -110,13 +120,20 @@ export default function AddProductoScreen({ navigation }) {
     setUnidadMedida(text);
   };
 
-  const handleSelectImage = () => {
-    ImagePicker.showImagePicker({}, (response) => {
-      if (response.uri) {
-        setSelectedImage(response);
-      }
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      base64: true, // Solicitar la imagen en formato base64
     });
+  
+    if (!result.cancelled) {
+      setSelectedImage(result);
+    }
   };
+
 
   return (
     <ScrollView contentContainerStyle={styles.containerAddProd}>
@@ -188,20 +205,20 @@ export default function AddProductoScreen({ navigation }) {
 
         {/* Botón para seleccionar imagen */}
         <TouchableOpacity
-          style={styles.buttonSelectImage}
-          onPress={handleSelectImage}
+          style={styles.buttonAddCliente}
+          onPress={pickImage}
+
         >
-          <Text style={styles.colorTextButtonGuardar}>Seleccionar Imagen</Text>
+          <Text style={styles.colorTextButtonGuardar}>Seleccionar imagen</Text>
         </TouchableOpacity>
-
-        {/* Mostrar la imagen seleccionada */}
-        {selectedImage && (
-          <Image
-            source={{ uri: selectedImage.uri }}
-            style={{ width: 200, height: 200 }}
-          />
-        )}
-
+        <View>
+          {selectedImage && <Image source={{ uri: selectedImage }} style={{ width: 200, height: 200 }} />}
+        </View>
+        <TouchableOpacity
+          style={styles.buttonLimpiarCampos}
+          onPress={handleCancelarTodo}>
+          <Text>Cancelar</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonAddProd}
           onPress={handleAgregarProducto}
