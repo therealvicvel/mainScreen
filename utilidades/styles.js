@@ -41,6 +41,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: "#FFFFFF",
   },
+  itemContainer: {
+    flex: 1,
+    backgroundColor: '#004187',
+    margin: 5,
+    padding: 10,
+    borderRadius: 5,
+  },
   input: {
     marginTop: 20,
     borderRadius: 20,
@@ -121,6 +128,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#004187',
     borderRadius: 20,
   },
+  fixedButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: '#6CAEF6',
+    padding: 10,
+    borderRadius: 5,
+    zIndex: 1,
+  },
   buttonCerrar: {
     backgroundColor: '#FFFFFF',
     padding: 10,
@@ -170,16 +186,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   
   },
-  buttonNext: {
-    backgroundColor: '#6CAEF6',
-    padding: 10,
-    borderRadius: 70,
-    alignSelf: 'center'
-  },
-  colorTextButtonNext: {
-    color: "#FFFFFF",
-    textAlign: 'center',
-  },
+
   closeButton: {
     marginTop: 10,
     padding: 10,
@@ -196,29 +203,12 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     textAlign: 'center'
   },
-  buttonCrearPedido: {
-    backgroundColor: '#6CAEF6',
-    padding: 10,
-    borderRadius: 70,
-    marginTop: 10,
-  },
-  colorTextButtonCrearPedido: {
-    color: "#FFFFFF",
-    textAlign: 'center'
-  },
+
   colorTextButtonCerrar: {
     color: "#004187",
     textAlign: 'center',
   },
-  containerTotal: {
-    backgroundColor: '#004187',
-    flex: 0.2,
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-  },
+
 listItem: {
   flexDirection: 'row',
   alignItems: 'center',
@@ -248,24 +238,7 @@ buttonText: {
   fontSize: 16,
   textAlign: 'center',
 },
-quantityInput: {
-  width: 50,
-  paddingVertical: 5,
-  paddingHorizontal: 10,
-  borderWidth: 1,
-  borderColor: '#ccc',
-},
-quantityButton: {
-  paddingHorizontal: 10,
-  justifyContent: 'center',
-  fontSize: 20,
-  fontWeight: 'bold',
-},
-colorTextTotal: {
-  color: "#FFFFFF",
-  textAlign: 'center',
-  fontWeight: 'bold',
-},
+
 picker: {
   color: "#004187",
   borderRadius: 20,
@@ -274,32 +247,7 @@ picker: {
   borderColor: '#004187',
   color: "#004187",
 },
-containerAddProd: {
-  backgroundColor: '#FFFFFF',
-  padding: 10,
-  fontSize: 14,
-  flex: 1,
-},
-inputForModalNewPedido: {
-  height: 40,
-  borderColor: '#ccc',
-  borderWidth: 1,
-  padding: 10,
-  borderRadius: 20,
-  marginBottom: 16,
-  color: "#FFFFFF"
-},
-inputForObservaciones: {
-  borderRadius: 20,
-  height: 40,
-  width: '100%',
-  borderColor: '#FFFFFF',
-  borderWidth: 1,
-  paddingHorizontal: 10,
-  marginBottom: 20,
-  marginTop: 20,
-  color: "#FFFFFF"
-},
+
 itemForBuscarCliente: {
   padding: 10,
   fontSize: 16,
@@ -371,7 +319,6 @@ inputForBuscarCliente: {
   marginBottom: 10,
 },
 inputForBuscarClienteInd: {
-
   borderRadius: 20,
   height: 40,
   width: '100%',
