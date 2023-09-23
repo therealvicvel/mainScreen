@@ -3,6 +3,7 @@ import ModalesNuevoPedido from "./ModalesNuevoPedido";
 import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from "react";
 import FiltrarBuscar from "../../utilidades/filtrarBuscarProd";
+import styles from "../../utilidades/styles";
 
 const NuevoPedido = () => {
   const [data, setData] = useState([]);
@@ -16,7 +17,7 @@ const NuevoPedido = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
-    fetch('https://viramsoftapi.onrender.com/product_available')
+    fetch('https://viramsoftapi.onrender.com/product')
       .then((response) => response.json())
       .then((data) => {
         setData(data.productos);
@@ -44,7 +45,6 @@ const NuevoPedido = () => {
     if (text === '') {
       return [];
     }
-
     const filteredData = data.filter((item) =>
       item.nombre.toLowerCase().includes(text.toLowerCase()) ||
       item.idProducto.toString().includes(text)
@@ -66,12 +66,10 @@ const NuevoPedido = () => {
       Alert.alert("Error", "Por favor, ingrese una cantidad válida.");
       return;
     }
-  
     if (!selectedProduct) {
       Alert.alert("Error", "Por favor, seleccione un producto.");
       return;
     }
-  
     if (parsedQuantity > selectedProduct.cantidad) {
       Alert.alert(
         "Error",
@@ -79,7 +77,7 @@ const NuevoPedido = () => {
       );
       return;
     }
-  
+
     // Verificar si el producto ya ha sido agregado
     const isProductAdded = productosAgregados.some(
       (product) => product.idProducto === selectedProduct.idProducto
@@ -111,13 +109,14 @@ const NuevoPedido = () => {
   };
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.categoriaSelector}>
       <FiltrarBuscar
          Data={filteredData} // Pasa los datos filtrados en lugar de toda la lista de productos
          onItemSelected={handleAddPress}// Actualiza selectedProduct cuando se selecciona un producto
-        />    
+        />  
+      <View  style={styles.categoriaSelector} >  
          <Picker
           selectedValue={selectedCategory}
+         
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
           style={styles.pickerforBuscarProducto}>
           <Picker.Item label="Todos" value={""} />
@@ -132,14 +131,16 @@ const NuevoPedido = () => {
         keyExtractor={(item) => item.idProducto.toString()}
         numColumns={2}
         renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            <Text>Nombre: {item.nombre}</Text>
-            <Text>Marca: {item.marca}</Text>
-            <Text>Precio: {item.valorVenta}</Text>
-            <Text>Stock: {item.cantidad}</Text>
+          <View style= {styles.itemContainer}>
+            <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
+            <Text style={styles.clienteText}>Marca: {item.marca}</Text>
+            <Text style={styles.clienteText}>Precio: {item.valorVenta}</Text>
+            <Text style={styles.clienteText}>Stock: {item.cantidad}</Text>
             <View>
-              <TouchableOpacity onPress={() => handleAddPress(item)}>
-                <Text>Add</Text>
+              <TouchableOpacity 
+              style={styles.buttonGuardar}
+              onPress={() => handleAddPress(item)}>
+                <Text  style={styles.colorTextButtonGuardar}>Add</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -153,39 +154,42 @@ const NuevoPedido = () => {
     setModalVisible(!modalVisible);
         }}
       >
-        <View style={styles.modalContainer}>
+        <View style={styles.modalContainer} >
           <View style={styles.modalContent}>
             {selectedItem ? (
               <>
-                <Text>Producto: {selectedItem?.nombre}</Text>
-                <Text>Marca: {selectedItem?.marca}</Text>
-                <Text>Precio: {selectedItem?.valorVenta}</Text>
-                <Text>Stock: {selectedItem?.cantidad}</Text>
+                <Text  style={styles.clienteText}>Producto: {selectedItem?.nombre}</Text>
+                <Text  style={styles.clienteText}>Marca: {selectedItem?.marca}</Text>
+                <Text  style={styles.clienteText}>Precio: {selectedItem?.valorVenta}</Text>
+                <Text  style={styles.clienteText}>Stock: {selectedItem?.cantidad}</Text>
               </>
                  ) : null }
-                 <TextInput style = {{borderColor: '#004187', color: '#004187'}}
+                 <TextInput 
+                 style={styles.inputForModal}
                    placeholder="Agregar cantidad"
                    keyboardType="numeric"
                    value={quantity.toString()}  // Asegurarse de que quantity sea una string
                    onChangeText={(text) => setQuantity(text)}
                   />
       <TouchableOpacity
-        style={styles.boton}
+       style={styles.buttonGuardar}
         onPress={handleAddProduct}
       >
-        <Text>Agregar</Text>
+        <Text style={styles.colorTextButtonGuardar}>Agregar</Text>
       </TouchableOpacity>
       <TouchableOpacity
-         style={styles.boton}
+        style={styles.buttonCerrar}
          onPress={handleModalClose}
       >
-        <Text>Cerrar</Text>
+        <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
       </TouchableOpacity>
     </View>
   </View>
 </Modal>
-      <TouchableOpacity style={styles.fixedButton} onPress={handleListaPress}>
-        <Text style={styles.buttonText}>Lista</Text>
+      <TouchableOpacity  
+      style= {styles.fixedButton}
+      onPress={handleListaPress}> 
+        <Text  style={styles.colorTextButtonGuardar}>Lista</Text>
       </TouchableOpacity>
 
       <ModalesNuevoPedido
@@ -197,96 +201,5 @@ const NuevoPedido = () => {
     </View>
   );
 };  
-const styles = StyleSheet.create({
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  categoriaSelector: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 10,
-  },
-  label: {
-    alignContent: 'center',
-    padding: 10,
-  },
-  pickerforBuscarProducto: {
-    color: "#004187",
-    borderRadius: 20,
-    padding: 8,
-    borderColor: '#004187',
-    width: 150,
-  },
-  searchInput: {
-    flex: 1,
-    borderColor: 'gray',
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    height: 40,
-  },
-  searchButton: {
-    backgroundColor: "#6CAEF6",
-    padding: 10,
-    marginLeft: 10,
-    borderRadius: 5,
-  },
-  categoriaSelector: {
-    marginTop: 10,
-  },
-  label: {
-    fontWeight: "bold",
-  },
-  pickerforBuscarProducto: {
-    width: "100%",
-  },
-  itemContainer: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    margin: 5,
-    padding: 10,
-    borderRadius: 5,
-  },
-  quantityInput: {
-    flex: 1,
-    borderColor: 'gray',
-  },
-  boton: {
-    backgroundColor: "#6CAEF6",
-    padding: 5,
-    borderRadius: 5,
-    marginTop: 10,
-  },
-  fixedButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    zIndex: 1,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-});
 
 export default NuevoPedido;

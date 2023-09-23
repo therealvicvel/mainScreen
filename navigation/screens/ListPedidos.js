@@ -18,7 +18,6 @@ const ListPedido = () => {
       .then((response) => response.json())
       .then((data) => {
         setData(data.pedidos);
-        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -59,13 +58,13 @@ const ListPedido = () => {
             numColumns={2}
         renderItem={({ item }) => (
           <View style = {styles.FlatListestilo}>
-              <Text style={styles.listItemText}>cliente: {item.documentoCliente}</Text>
+              <Text style={styles.listItemText}>cliente: {item.nombre}</Text>
               <Text style={styles.listItemText}>fecha Entrega: {item.fechaEntrega}</Text>
               <Text style={styles.listItemText}>{item.estado}</Text>
-              <TouchableOpacity><Text>cambiar</Text></TouchableOpacity>
+              <TouchableOpacity style= {styles.buttonGuardar} ><Text  style={{color: '#FFFFFF'}}>cambiar</Text></TouchableOpacity>
               <Text style={styles.listItemText}>Valor: {item.valorTotal}</Text>
-              <TouchableOpacity onPress={() => handleOpenModal(item)}>
-                <Text>Detalles</Text>
+              <TouchableOpacity style= {styles.buttonGuardar} onPress={() => handleOpenModal(item)}>
+                <Text style={{color: '#FFFFFF'}}>Detalles</Text>
               </TouchableOpacity>
           </View>
         )}
@@ -83,10 +82,10 @@ const ListPedido = () => {
               <View>
                 {detallesPedido.map((producto, index) => (
                   <View key={index}>
-                    <Text style={styles.listItemText}>Nombre: {producto['nombre']}</Text>
-                    <Text style={styles.listItemText}>Cantidad: {producto['cantidad']}</Text>
-                    <Text style={styles.listItemText}>Valor unitario: {producto['valor unitario']}</Text>
-                    <Text style={styles.listItemText}>Valor total: {producto['valor total']}</Text>
+                    <Text >Nombre: {producto['nombre']}</Text>
+                    <Text >Cantidad: {producto['cantidad']}</Text>
+                    <Text >Valor unitario: {producto['valor unitario']}</Text>
+                    <Text >Valor total: {producto['valor total']}</Text>
                   </View>
                 ))}
               </View>
@@ -116,11 +115,18 @@ const styles = {
   listItemText: {
     fontSize: 16,
     marginBottom: 5,
+    color: '#FFFFFF'
   },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonGuardar: {
+    backgroundColor: '#6CAEF6',
+    padding: 10,
+    borderRadius: 70,
+    marginTop: 10,
   },
   modalContent: {
     backgroundColor: 'white',
@@ -145,7 +151,7 @@ const styles = {
   },
  FlatListestilo :{
   flex: 1,
-  backgroundColor: '#ffffff',
+  backgroundColor: '#004187',
   margin: 5,
   padding: 10,
   borderRadius: 5,

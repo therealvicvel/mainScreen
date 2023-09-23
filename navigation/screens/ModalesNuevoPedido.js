@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Modal, Text, TouchableOpacity, StyleSheet, TextInput, Alert } from "react-native";
 import BuscarCliente from "../../utilidades/BuscarCliente";
 import Calendario from "../../utilidades/Calendario";
-
+import styles from "../../utilidades/styles";
 
 const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProducts }) => {
   const [total, setTotal] = useState(0);
@@ -124,18 +124,21 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => setModalVisible(!modalVisible)}
+    
     >
-      <View style={styles.container}>
-        <View style={styles.content}>
-          <Text style={styles.header}>Elementos seleccionados:</Text>
-          <Text>Total: <Text style={styles.total}>${total.toFixed(2)}</Text></Text>
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>Elementos seleccionados:</Text>
+          <Text style={styles.clienteText}>Total: <Text>${total.toFixed(2)}</Text></Text>
           {products.map((product, index) => (
-            <View key={index} style={styles.productItem}>
-              <Text>Producto: {product.nombre}</Text>
-              <Text>Cantidad: {product.quantity}</Text>
-              <Text>Precio: {product.valorVenta}</Text>
-              <TouchableOpacity onPress={() => handleEditQuantity(index)}>
-                <Text style={styles.link}>Editar Cantidad</Text>
+            <View key={index} >
+              <Text style={styles.clienteText}>Producto: {product.nombre}</Text>
+              <Text style={styles.clienteText}>Cantidad: {product.quantity}</Text>
+              <Text style={styles.clienteText}>Precio: {product.valorVenta}</Text>
+              <TouchableOpacity 
+              style={styles.buttonGuardar}
+              onPress={() => handleEditQuantity(index)}>
+                <Text style={styles.colorTextButtonGuardar}>Editar Cantidad</Text>
                 {editQuantityIndex !== null && (
                   <Modal
                     visible={editQuantityIndex !== null}
@@ -143,32 +146,40 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
                     transparent={true}
                     onRequestClose={() => setEditQuantityIndex(null)}
                   >
-                    <View style={styles.modalContent}>
-                      <View style={styles.innerContent}>
+                    <View style={styles.modalContainer} >
+                      <View style={styles.modalContent}>
                         <TextInput
+                        style={styles.inputForModal}
                           placeholder="Nueva cantidad"
                           keyboardType="numeric"
                           value={products[editQuantityIndex].quantity.toString()}
                           onChangeText={(text) => handleEditQuantityChange(text)}
                         />
-                        <TouchableOpacity onPress={handleSaveQuantity}>
-                          <Text style={styles.link}>Guardar Cantidad</Text>
+                        <TouchableOpacity
+                        style={styles.buttonGuardar}
+                        onPress={handleSaveQuantity}>
+                          <Text  style={styles.colorTextButtonGuardar}>Guardar Cantidad</Text>
                         </TouchableOpacity>
                       </View>
                     </View>
                   </Modal>
                 )}
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleRemoveProduct(index)}>
-                <Text style={styles.link}>Eliminar</Text>
+              <TouchableOpacity
+              style={styles.buttonCerrar}
+              onPress={() => handleRemoveProduct(index)}>
+                <Text style={styles.colorTextButtonCerrar}>Eliminar</Text>
               </TouchableOpacity>
             </View>
           ))}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={handleCloseModal}>
-              <Text style={styles.link}>Cerrar</Text>
+          <View >
+            <TouchableOpacity 
+            style={styles.buttonCerrar}
+            onPress={handleCloseModal}>
+              <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
             </TouchableOpacity>
             <TouchableOpacity
+              style={styles.buttonGuardar}
               onPress={() => {
                 if (products.length > 0) {
                   setShowSecondModal(true);
@@ -178,7 +189,7 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
               }}
               disabled={products.length === 0}
             >
-              <Text style={styles.link}>Siguiente</Text>
+              <Text style={styles.colorTextButtonGuardar}>Siguiente</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -190,17 +201,18 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
             transparent={true}
             onRequestClose={() => setShowSecondModal(false)}
           >
-            <View style={styles.container}>
-              <View style={styles.content}>
-                <Text style={styles.header}>Detalles Pedido</Text>
+            <View style={styles.modalContainer}>
+              <View style={{padding: 16,backgroundColor: '#DDE0F1',borderRadius: 20,}} >
+                <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: "bold", marginBottom: 10,}}>
+                  Detalles Pedido</Text>
                 <View>
                
                   <BuscarCliente onSelectClient={handleSelectClient} />
                   {selectedClient && (
                     <View>
-                      <Text>Datos cliente:</Text>
+                      <Text >Datos cliente:</Text>
                       <Text>Nombre: {selectedClient.nombre}</Text>
-                      <Text>Direccion: {selectedClient.direccion}</Text>
+                      <Text >Direccion: {selectedClient.direccion}</Text>
                     </View>
                   )}
                   <Modal
@@ -208,31 +220,35 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
                    animationType="slide"
                    transparent={true}
                    onRequestClose={() => setShowThirdModaldModal(false)}
-                  >
-                    <View style = {styles.container}>
-                    <View style={styles.content}>                  
-                    <View style={styles.content}>                  
+                  > 
+                    <View style={styles.modalContainer}>
+                      <View style={styles.modalContent} >
                       <Calendario selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-                    </View>
-                      <TouchableOpacity onPress={() => setShowThirdModal(false)}><Text style={styles.link}> Aceptar</Text></TouchableOpacity>
-                    </View>
-                    </View>
+                        <TouchableOpacity
+                          style={styles.buttonGuardar}
+                          onPress={() => setShowThirdModal(false)}>
+                            <Text style={styles.colorTextButtonGuardar} > Aceptar</Text></TouchableOpacity>
+                        </View>             
+                      </View>
                   </Modal>
-                  <TouchableOpacity onPress={() => setShowThirdModal(true)} style= {styles.buttonContainer}>
-                    <Text style={styles.link}>Seleccionar Fecha</Text>
+                  <TouchableOpacity 
+                  style={styles.buttonGuardar}
+                  onPress={() => setShowThirdModal(true)} >
+                    <Text style={styles.colorTextButtonGuardar}>Seleccionar Fecha</Text>
                   </TouchableOpacity>
                   <TextInput
+                    style={styles.input}
                     placeholder="Observaciones"
                     value={observations}
                     onChangeText={setObservations}
                   />
                    
-                  <TouchableOpacity onPress={crearPedido}>
-                    <Text style={styles.link}>Crear pedido</Text>
+                  <TouchableOpacity style={styles.buttonGuardar} onPress={crearPedido}>
+                    <Text style={styles.colorTextButtonGuardar}>Crear pedido</Text>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={() => setShowSecondModal(false)}>
-                  <Text style={styles.link}>Volver</Text>
+                <TouchableOpacity onPress={() => setShowSecondModal(false)} style={styles.buttonCerrar}>
+                  <Text style={styles.colorTextButtonCerrar}>Volver</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -243,51 +259,3 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
   );};
 
 export default ModalesNuevoPedido;
-const styles = {
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  content: {
-    padding: 20,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    width: '80%',
-    alignSelf: 'center',
-  },
-  header: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  total: {
-    fontWeight: 'bold',
-  },
-  productItem: {
-    marginBottom: 15,
-  },
-  link: {
-    backgroundColor: "#6CAEF6",
-    padding: 5,
-    borderRadius: 5,
-    marginTop: 10,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
-  },
-  modalContent: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  innerContent: {
-    padding: 20,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    width: '80%',
-    alignSelf: 'center',
-  },
-};
