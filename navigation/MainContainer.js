@@ -19,17 +19,18 @@ import styles from "../utilidades/styles";
 import InventarioScreenPrueba from "./screens/InventarioScreenPrueba";
 
 //Variables con nombres de las demás pantallas
+const homeName = "Inicio";
+const pedidosName = "Pedidos";
+const inventarioName = "Inventario";
+const clientesName = "Clientes";
+const listName = "Listado de clientes";
+const addProductoName = "Agregar producto"
 
-const homeName = 'Inicio';
-const pedidosName = 'Pedidos';
-const inventarioName = 'Inventario';
-const clientesName = 'Clientes';
-const listName = 'Listado de clientes';
-const addProductoName = 'Agregar producto';
-
+//Variables del menú inferior y superior
 const Tab = createBottomTabNavigator();
 const TopTab = createMaterialTopTabNavigator();
 
+//Creación de componente por separado para el topTabNavigator de Inventario
 const InventarioTopTabNavigator = () => (
   <TopTab.Navigator>
     <TopTab.Screen name="Productos" component={InventarioScreenPrueba} />
@@ -37,6 +38,7 @@ const InventarioTopTabNavigator = () => (
   </TopTab.Navigator>
 );
 
+//Creación de componente por separado para el topTabNavigator de Clientes
 const ClientesTopTabNavigator = () => (
   <TopTab.Navigator>
     <TopTab.Screen name="Listado" component={MiniScreenClientes} />
@@ -44,58 +46,62 @@ const ClientesTopTabNavigator = () => (
   </TopTab.Navigator>
 );
 
+//Menú superior para ver los clientes existentes para la pantalla AddClientesScreen
 const MiniScreenClientes = () => (
   <View style={styles.container}>
     <ListClientes />
+    
   </View>
 );
 
+//Menú superior de agregar nuevo cliente para la pantalla AddClientesScreen
 const MiniScreenAddClientes = () => (
   <View>
     <AddClientesScreen />
   </View>
 );
 
+//Menú superior para agregar nuevo producto para la pantalla InventarioScreen
 const MiniScreenAddProducto = () => (
   <View>
     <AddProductoScreen />
   </View>
 );
 
+//Menú superior para ver los productos existentes en el inventario de InventarioScreen
 const MiniScreenInventario = () => (
   <View>
-    <InventarioScreen />
+    <InventarioScreen/>
   </View>
 );
 
+//Creación del menú inferior principal
 export default function MainContainer() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName={homeName}
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            let rn = route.name;
+      <Tab.Navigator initialRouteName={homeName} screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          let rn = route.name;
 
-            if (rn === homeName) {
-              iconName = focused ? 'home' : 'home-outline';
-            } else if (rn === inventarioName) {
-              iconName = focused ? 'albums' : 'albums-outline';
-            } else if (rn === clientesName) {
-              iconName = focused ? 'person' : 'person-outline';
-            } else if (rn === pedidosName) {
-              iconName = focused ? 'cart' : 'cart-outline';
-            }
+          if (rn === homeName) {
+            iconName = focused ? "home" : "home-outline"
+          } else if (rn === pedidosName) {
+            iconName = focused ? "cart" : "cart-outline"
+          } else if (rn === inventarioName) {
+            iconName = focused ? "albums" : "albums-outline"
+          } else if (rn === clientesName) {
+            iconName = focused ? "person" : "person-outline"
+          }
 
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-      >
+          return <Ionicons name={iconName} size={size} color={color} />
+        },
+      })}>
         <Tab.Screen name={homeName} component={HomeScreen} />
-        <Tab.Screen name={inventarioName} component={InventarioTopTabNavigator} />
-        <Tab.Screen name={clientesName} component={ClientesTopTabNavigator} />
         <Tab.Screen name={pedidosName} component={PedidosScreen} />
+        <Tab.Screen name={inventarioName} component={InventarioTopTabNavigator} />
+        <Tab.Screen name={clientesName} component={ClientesTopTabNavigator}>
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );
