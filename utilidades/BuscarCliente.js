@@ -50,9 +50,11 @@ const BuscarCliente = ({ Data, onSelectClient }) => {
     <View>
       <TextInput
         style={styles.inputForBuscarClienteInd}
-        placeholder="Buscar Clientes..."
+        placeholder="Buscar clientes..."
         value={searchText}
         onChangeText={handleSearch}
+        cursorColor={"#004187"}
+        placeholderTextColor={"#004187"}
       />
       {isListVisible && (
         <FlatList

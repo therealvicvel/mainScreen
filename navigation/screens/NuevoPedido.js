@@ -108,7 +108,7 @@ const NuevoPedido = () => {
     setListaModalVisible(true);
   };
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "#FFFFFF"}}>
       <FiltrarBuscar
          Data={filteredData} // Pasa los datos filtrados en lugar de toda la lista de productos
          onItemSelected={handleAddPress}// Actualiza selectedProduct cuando se selecciona un producto
@@ -132,15 +132,15 @@ const NuevoPedido = () => {
         numColumns={2}
         renderItem={({ item }) => (
           <View style= {styles.itemContainer}>
-            <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
-            <Text style={styles.clienteText}>Marca: {item.marca}</Text>
-            <Text style={styles.clienteText}>Precio: {item.valorVenta}</Text>
+            <Text style={styles.clienteText}>{item.nombre}</Text>
+            <Text style={styles.clienteText}>{item.marca}</Text>
+            <Text style={styles.clienteText}>${item.valorVenta}</Text>
             <Text style={styles.clienteText}>Stock: {item.cantidad}</Text>
             <View>
               <TouchableOpacity 
-              style={styles.buttonGuardar}
+              style={styles.buttonCerrar}
               onPress={() => handleAddPress(item)}>
-                <Text  style={styles.colorTextButtonGuardar}>Add</Text>
+                <Text  style={styles.colorTextButtonCerrar}>+</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -165,11 +165,20 @@ const NuevoPedido = () => {
               </>
                  ) : null }
                  <TextInput 
-                 style={styles.inputForModal}
+                 style={{borderRadius: 20,
+                  height: 40,
+                  borderColor: '#FFFFFF',
+                  borderWidth: 1,
+                  paddingHorizontal: 10,
+                  marginTop: 20,
+                  marginBottom: 20,
+                  color: "#FFFFFF",}}
                    placeholder="Agregar cantidad"
                    keyboardType="numeric"
-                   value={quantity.toString()}  // Asegurarse de que quantity sea una string
-                   onChangeText={(text) => setQuantity(text)}
+                   value={quantity.toString()}
+                   cursorColor={"#FFFFFF"}
+                   placeholderTextColor={"#FFFFFF"}  
+                   onChangeText={(text) => setQuantity(text)} // Asegurarse de que quantity sea una string
                   />
       <TouchableOpacity
        style={styles.buttonGuardar}
@@ -189,7 +198,7 @@ const NuevoPedido = () => {
       <TouchableOpacity  
       style= {styles.fixedButton}
       onPress={handleListaPress}> 
-        <Text  style={styles.colorTextButtonGuardar}>Lista</Text>
+        <Text  style={{color: "#004187"}}>Siguiente</Text>
       </TouchableOpacity>
 
       <ModalesNuevoPedido

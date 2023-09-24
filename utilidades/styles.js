@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#004187',
     margin: 5,
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 20,
   },
   input: {
     marginTop: 20,
@@ -138,9 +138,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor: '#6CAEF6',
+    backgroundColor: '#FFFFFF',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 20,
     zIndex: 1,
   },
   buttonCerrar: {
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonAddProd: {
-    backgroundColor: '#6CAEF6',
+    backgroundColor: '#004187',
     padding: 10,
     borderRadius: 70,
     marginTop: 20,
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   buttonAddCliente: {
-    backgroundColor: '#6CAEF6',
+    backgroundColor: '#004187',
     padding: 10,
     borderRadius: 70,
     marginTop: 40,
@@ -333,6 +333,17 @@ inputForBuscarClienteInd: {
   color: "#004187",
   padding: 10,
   marginBottom: 10,
+},
+inputForBuscarProductoInd: {
+  borderRadius: 20,
+  height: 40,
+  width: '95%',
+  borderColor: '#004187',
+  borderWidth: 1,
+  color: "#004187",
+  padding: 10,
+  marginBottom: 5,
+  margin: 10,
 },
 })
 export default styles;

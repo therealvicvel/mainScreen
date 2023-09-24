@@ -40,10 +40,12 @@ const FiltrarBuscar = ({ Data, onItemSelected }) => {
   return (
     <View>
       <TextInput
-        style={styles.inputForBuscarCliente}
+        style={styles.inputForBuscarProductoInd}
         placeholder="Buscar producto..."
         value={searchText}
         onChangeText={handleSearch}
+        cursorColor={"#004187"}
+        placeholderTextColor={"#004187"}
       />
       <FlatList
         data={filterData(searchText)}
