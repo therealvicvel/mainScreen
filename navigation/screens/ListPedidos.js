@@ -123,6 +123,7 @@ const ListPedido = () => {
         keyExtractor={(item) => item.idPedido.toString()}
         numColumns={2}
         renderItem={({ item }) => (
+<<<<<<< HEAD
           <View style = {styles.FlatListestilo}>
               <Text style={styles.listItemText}>{item.nombre}</Text>
               <Text style={styles.listItemText}>Fecha de entrega: {item.fechaEntrega}</Text>
@@ -133,6 +134,19 @@ const ListPedido = () => {
                 <Text style={{color: '#004187'}}>Detalles</Text>
               </TouchableOpacity>
               
+=======
+          <View style={styles.FlatListestilo}>
+            <Text style={styles.listItemText}>Cliente: {item.nombre}</Text>
+            <Text style={styles.listItemText}>Fecha Entrega: {item.fechaEntrega}</Text>
+            <Text style={styles.listItemText}>{item.estado}</Text>
+            <TouchableOpacity style={styles.buttonGuardar}>
+              <Text style={{ color: '#FFFFFF' }}>Cambiar</Text>
+            </TouchableOpacity>
+            <Text style={styles.listItemText}>Valor: {item.valorTotal}</Text>
+            <TouchableOpacity style={styles.buttonGuardar} onPress={() => handleOpenModal(item)}>
+              <Text style={{ color: '#FFFFFF' }}>Detalles</Text>
+            </TouchableOpacity>
+>>>>>>> e342550eeee75c5d707dad079ebeb60fa3a65cc5
           <View style={styles.FlatListestilo}>
             <Text style={styles.listItemText}>Cliente: {item.nombre}</Text>
             <Text style={styles.listItemText}>Fecha Entrega: {item.fechaEntrega}</Text>
@@ -160,10 +174,17 @@ const ListPedido = () => {
               <View>
                 {detallesPedido.map((producto, index) => (
                   <View key={index}>
+<<<<<<< HEAD
                     <Text>{producto['nombre']}</Text>
                     <Text>Cantidad: {producto['cantidad']}</Text>
                     <Text>Valor unitario: {producto['valor unitario']}</Text>
                     <Text>Valor total: {producto['valor total']}</Text>
+=======
+                    <Text>Nombre: {producto['nombre']}</Text>
+                    <Text>Cantidad: {producto['cantidad']}</Text>
+                    <Text>Valor unitario: {producto['valor unitario']}</Text>
+                    <Text>Valor total: {producto['valor total']}</Text>
+>>>>>>> e342550eeee75c5d707dad079ebeb60fa3a65cc5
                   </View>
                 ))}
               </View>
@@ -243,6 +264,7 @@ const styles = {
   colorTextButtonCerrar: {
     color: 'white',
   },
+<<<<<<< HEAD
  FlatListestilo :{
   flex: 1,
   backgroundColor: '#004187',
@@ -251,3 +273,8 @@ const styles = {
   borderRadius: 30,
  }
 };
+=======
+};
+
+export default ListPedido;
+>>>>>>> e342550eeee75c5d707dad079ebeb60fa3a65cc5
