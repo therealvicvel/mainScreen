@@ -134,6 +134,7 @@ const NuevoPedido = () => {
           <View style= {styles.itemContainer}>
             <Text style={styles.clienteText}>Nombre: {item.nombre}</Text>
             <Text style={styles.clienteText}>Marca: {item.marca}</Text>
+            <Text style={styles.clienteText}>Marca: {item.marca}</Text>
             <Text style={styles.clienteText}>Precio: {item.valorVenta}</Text>
             <Text style={styles.clienteText}>Stock: {item.cantidad}</Text>
             <View>
@@ -162,6 +163,7 @@ const NuevoPedido = () => {
                 <Text  style={styles.clienteText}>Marca: {selectedItem?.marca}</Text>
                 <Text  style={styles.clienteText}>Precio: {selectedItem?.valorVenta}</Text>
                 <Text  style={styles.clienteText}>Stock: {selectedItem?.cantidad}</Text>
+
               </>
                  ) : null }
                  <TextInput 
