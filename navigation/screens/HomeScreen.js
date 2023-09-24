@@ -1,48 +1,46 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Platform, TouchableOpacity, Image} from 'react-native';
-import Calendario from '../../utilidades/Calendario';
+import React, { useState, useEffect } from 'react';
+import { View, Image, Button, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+
 function MiCalendario() {
+  const [image, setImage] = useState(null);
 
-  const [selectedImage, setSelectedImage] = useState(null);
+  useEffect(() => {
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Se necesita permiso para acceder a la cámara y la galería.');
+      }
+    })();
+  }, []);
 
-  const handleCancelarTodo = () => {
-    setSelectedImage("");
-  }
-
-  const pickImage = async () => {
+  const handleImagePicker = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
-      base64: true, // Solicitar la imagen en formato base64
     });
-  
+
     if (!result.cancelled) {
-      setSelectedImage(result);
+      setImage(result.assets[0].uri);
     }
   };
-  
+
+  const handleClearImage = () => {
+    setImage(null); // Borra la imagen estableciendo la URI en null
+  };
+
   return (
-
     <View style={styles.container}>
-<TouchableOpacity
-          style={styles.buttonAddCliente}
-          onPress={pickImage}
-
-        >
-          <Text style={styles.colorTextButtonGuardar}>Seleccionar imagen</Text>
-        </TouchableOpacity>
-        
-          <Text>Esta es la imagen que debería verse: </Text>
-          {selectedImage && <Image source={{ uri: selectedImage.uri }} style={{ width: 200, height: 200 }} />}
-        
-        <TouchableOpacity
-          style={styles.buttonLimpiarCampos}
-          onPress={handleCancelarTodo}>
-          <Text>Cancelar</Text>
-          </TouchableOpacity>
+      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+      <TouchableOpacity 
+      style={styles.buttonGuardar}
+      onPress={handleImagePicker} ><Text> Subir Imagen</Text></TouchableOpacity>
+      {image && 
+      <TouchableOpacity style={styles.buttonGuardar}  onPress={handleClearImage}>
+        <Text> Eliminar Imagen</Text>
+      </TouchableOpacity>}
     </View>
   );
 }
@@ -53,18 +51,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  containerDos: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'blue'
-  },
-  text: {
-    fontSize: 18,
-    marginBottom: 20,
-  },
-  blueText: {
-    color: 'blue',
-    fontWeight: 'bold',
+  buttonGuardar: {
+    backgroundColor: '#6CAEF6',
+    padding: 10,
+    borderRadius: 70,
+    marginTop: 10,
   },
 });
 

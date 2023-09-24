@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, Button } from "react-native";
 import styles from "../../utilidades/styles";
 import { Picker } from '@react-native-picker/picker';
@@ -12,7 +12,7 @@ export default function AddProductoScreen({ navigation }) {
   const [unidadMedida, setUnidadMedida] = useState("");
   const [marca, setMarca] = useState("");
   const [categoria, setCategoria] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [image, setImage] = useState(null);//constante de la imagen
 
   const opcionesCategoria = [
     { label: "Seleccionar categoría", value: "" },
@@ -45,7 +45,7 @@ export default function AddProductoScreen({ navigation }) {
     setUnidadMedida("");
     setMarca("");
     setCategoria("");
-    setSelectedImage("");
+    setImage("");
   }
 
   const handleAgregarProducto = () => {
@@ -62,7 +62,8 @@ export default function AddProductoScreen({ navigation }) {
       unidadMedida: unidadMedida,
       categoria: categoria,
       marca: marca,
-      imagenes: selectedImage ? selectedImage.base64 : null, // Convertir la imagen a base64
+      imagenes: image ? image.base64 : null, // Convertir la imagen a base64
+
     };
 
     fetch("https://viramsoftapi.onrender.com/create_product", {
@@ -87,7 +88,6 @@ export default function AddProductoScreen({ navigation }) {
           setUnidadMedida("");
           setMarca("");
           setCategoria("");
-          setSelectedImage(null); // Limpiamos la imagen seleccionada
           alert("El producto se ha agregado correctamente.");
         }
       })
@@ -96,6 +96,7 @@ export default function AddProductoScreen({ navigation }) {
       });
   };
 
+  
   const handleNombreChange = (text) => {
     setNombre(text);
   };
@@ -119,20 +120,32 @@ export default function AddProductoScreen({ navigation }) {
   const handleUnidadMedidaChange = (text) => {
     setUnidadMedida(text);
   };
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      base64: true, // Solicitar la imagen en formato base64
-    });
-  
-    if (!result.cancelled) {
-      setSelectedImage(result);
+//Codigo de la imagen
+useEffect(() => {
+  (async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Se necesita permiso para acceder a la cámara y la galería.');
     }
-  };
+  })();
+}, []);
+
+const handleImagePicker = async () => {
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true,
+    aspect: [1, 1],
+    quality: 1,
+  });
+
+  if (!result.cancelled) {
+    setImage(result.assets[0].uri);
+  }
+};
+
+const handleClearImage = () => {
+  setImage(null); // Borra la imagen estableciendo la URI en null
+};
 
 
   return (
@@ -202,23 +215,16 @@ export default function AddProductoScreen({ navigation }) {
             />
           ))}
         </Picker>
-
-        {/* Botón para seleccionar imagen */}
-        <TouchableOpacity
-          style={styles.buttonAddCliente}
-          onPress={pickImage}
-
-        >
-          <Text style={styles.colorTextButtonGuardar}>Seleccionar imagen</Text>
-        </TouchableOpacity>
-        <View>
-          {selectedImage && <Image source={{ uri: selectedImage.uri }} style={{ width: 200, height: 200 }} />}
-        </View>
-        <TouchableOpacity
-          style={styles.buttonLimpiarCampos}
-          onPress={handleCancelarTodo}>
-          <Text>Cancelar</Text>
-        </TouchableOpacity>
+        {/*codigo de la imagen*/ }
+        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+      <TouchableOpacity 
+      style={styles.buttonGuardar}
+      onPress={handleImagePicker} ><Text> Subir Imagen</Text></TouchableOpacity>
+      {image && 
+      <TouchableOpacity style={styles.buttonGuardar}  onPress={handleClearImage}>
+        <Text> Eliminar Imagen</Text>
+      </TouchableOpacity>}
+      {/*fin del codigo */}
         <TouchableOpacity
           style={styles.buttonAddProd}
           onPress={handleAgregarProducto}
