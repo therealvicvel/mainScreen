@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import { TouchableOpacity } from "react-native"
 import { Picker } from "@react-native-picker/picker"
 
+
 const ListInventario = () => {
     const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -115,7 +116,11 @@ const ListInventario = () => {
             <Text style={styles.clienteText}>{item.marca}</Text>
             <Text style={styles.clienteText}>Valor venta: {item.valorVenta}</Text>
             <Text style={styles.clienteText}>Valor compra: {item.valorCompra}</Text>
-            <Text style={styles.clienteText}>{item.categoria}</Text>  
+            <Text style={styles.clienteText}>{item.categoria}</Text>
+            <Image
+                //source={item.imagen}
+                style={{height: 100, width: 100}}
+            />
             </View>
         </TouchableOpacity>
     );

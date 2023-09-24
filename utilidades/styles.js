@@ -10,6 +10,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     flex: 1,
   },
+  containerAddProd: {
+    backgroundColor: '#FFFFFF',
+    padding: 10,
+    fontSize: 14,
+    flex: 1,
+  },
   containerThree: {
     backgroundColor: '#FFFFFF',
     padding: 10,

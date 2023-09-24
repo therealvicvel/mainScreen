@@ -212,7 +212,7 @@ export default function AddProductoScreen({ navigation }) {
           <Text style={styles.colorTextButtonGuardar}>Seleccionar imagen</Text>
         </TouchableOpacity>
         <View>
-          {selectedImage && <Image source={{ uri: selectedImage }} style={{ width: 200, height: 200 }} />}
+          {selectedImage && <Image source={{ uri: selectedImage.uri }} style={{ width: 200, height: 200 }} />}
         </View>
         <TouchableOpacity
           style={styles.buttonLimpiarCampos}
