@@ -117,18 +117,10 @@ const ListInventario = () => {
             <Text style={styles.clienteText}>Valor venta: {item.valorVenta}</Text>
             <Text style={styles.clienteText}>Valor compra: {item.valorCompra}</Text>
             <Text style={styles.clienteText}>{item.categoria}</Text>
-             {/* Muestra las imágenes si están disponibles */}
-          {item.imagenes && item.imagenes.map((imagen, index) => {
-          // Decodifica los datos base64 a URL de imagen
-          const imageUrl = `data:image/png;base64,${imagen}`;
-          return (
             <Image
-              key={index}
-              source={{ uri: imageUrl }}
-              style={{ width: 100, height: 100 }}  // Ajusta las dimensiones según sea necesario
+                //source={item.imagen}
+                style={{height: 100, width: 100}}
             />
-          );
-        })}
             </View>
         </TouchableOpacity>
     );

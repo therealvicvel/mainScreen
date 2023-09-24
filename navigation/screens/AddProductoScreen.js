@@ -66,8 +66,6 @@ export default function AddProductoScreen({ navigation }) {
 
     };
 
-    console.log(nuevoProducto);
-
     fetch("https://viramsoftapi.onrender.com/create_product", {
       method: "POST",
       headers: {

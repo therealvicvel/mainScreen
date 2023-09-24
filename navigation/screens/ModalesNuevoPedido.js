@@ -106,13 +106,12 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
     })
     .then((response) => response.json())
     .then((data) => {
-      console.error("Error al guardar el pedido: ", error);
-      alert("Ocurrió un error al guardar el pedido. Por favor, intenta nuevamente.");
-      
+      console.log("Respuesta de la API:", data);
       // Resto del código para manejar la respuesta de la API
     })
     .catch((error) => {
-      console.log("Respuesta de la API:", data);
+      console.error("Error al guardar el pedido: ", error);
+      alert("Ocurrió un error al guardar el pedido. Por favor, intenta nuevamente.");
     });
     setShowSecondModal(false);
     setModalVisible(false);
@@ -139,7 +138,7 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
               <TouchableOpacity 
               style={styles.buttonGuardar}
               onPress={() => handleEditQuantity(index)}>
-                <Text style={styles.colorTextButtonGuardar}>Editar cantidad</Text>
+                <Text style={styles.colorTextButtonGuardar}>Editar Cantidad</Text>
                 {editQuantityIndex !== null && (
                   <Modal
                     visible={editQuantityIndex !== null}
@@ -154,14 +153,12 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
                           placeholder="Nueva cantidad"
                           keyboardType="numeric"
                           value={products[editQuantityIndex].quantity.toString()}
-                          cursorColor={"#FFFFFF"}
-                          placeholderTextColor={"#FFFFFF"}  
                           onChangeText={(text) => handleEditQuantityChange(text)}
                         />
                         <TouchableOpacity
                         style={styles.buttonGuardar}
                         onPress={handleSaveQuantity}>
-                          <Text  style={styles.colorTextButtonGuardar}>Guardar cantidad</Text>
+                          <Text  style={styles.colorTextButtonGuardar}>Guardar Cantidad</Text>
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -179,7 +176,7 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
             <TouchableOpacity 
             style={styles.buttonCerrar}
             onPress={handleCloseModal}>
-              <Text style={styles.colorTextButtonCerrar}>Volver</Text>
+              <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonGuardar}
@@ -204,12 +201,10 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
             transparent={true}
             onRequestClose={() => setShowSecondModal(false)}
           >
-            <View style={{
-            flex: 1,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",}}>
-              <View style={{margin: 20, marginTop: 10, padding: 16,backgroundColor: '#FFFFFF',borderRadius: 20,}} >
+            <View style={styles.modalContainer}>
+              <View style={{padding: 16,backgroundColor: '#DDE0F1',borderRadius: 20,}} >
                 <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: "bold", marginBottom: 10,}}>
-                  Detalles pedido</Text>
+                  Detalles Pedido</Text>
                 <View>
                
                   <BuscarCliente onSelectClient={handleSelectClient} />
@@ -226,40 +221,34 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
                    transparent={true}
                    onRequestClose={() => setShowThirdModaldModal(false)}
                   > 
-                    <View style={{
-                      flex: 1,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      backgroundColor: "rgba(0, 0, 0, 0.5)",}}>
+                    <View style={styles.modalContainer}>
                       <View style={styles.modalContent} >
                       <Calendario selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
                         <TouchableOpacity
-                          style={styles.buttonCerrar}
+                          style={styles.buttonGuardar}
                           onPress={() => setShowThirdModal(false)}>
-                            <Text style={styles.colorTextButtonCerrar} > Aceptar</Text></TouchableOpacity>
+                            <Text style={styles.colorTextButtonGuardar} > Aceptar</Text></TouchableOpacity>
                         </View>             
                       </View>
                   </Modal>
                   <TouchableOpacity 
-                  style={styles.buttonAddProd}
+                  style={styles.buttonGuardar}
                   onPress={() => setShowThirdModal(true)} >
-                    <Text style={styles.colorTextButtonAddCliente}>Seleccionar fecha</Text>
+                    <Text style={styles.colorTextButtonGuardar}>Seleccionar Fecha</Text>
                   </TouchableOpacity>
                   <TextInput
                     style={styles.input}
                     placeholder="Observaciones"
                     value={observations}
-                    cursorColor={"#004187"}
-                    placeholderTextColor={"#004187"} 
                     onChangeText={setObservations}
                   />
                    
-                  <TouchableOpacity style={styles.buttonAddProd} onPress={crearPedido}>
-                    <Text style={styles.colorTextButtonAddCliente}>Crear pedido</Text>
+                  <TouchableOpacity style={styles.buttonGuardar} onPress={crearPedido}>
+                    <Text style={styles.colorTextButtonGuardar}>Crear pedido</Text>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={() => setShowSecondModal(false)} style={styles.buttonAddProd}>
-                  <Text style={styles.colorTextButtonAddCliente}>Volver</Text>
+                <TouchableOpacity onPress={() => setShowSecondModal(false)} style={styles.buttonCerrar}>
+                  <Text style={styles.colorTextButtonCerrar}>Volver</Text>
                 </TouchableOpacity>
               </View>
             </View>
