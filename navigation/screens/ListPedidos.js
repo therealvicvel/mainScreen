@@ -48,38 +48,6 @@ const ListPedido = () => {
         });
     }
   };
-
-  const setDetallesPDF = () => {
-    if (selectedPedido) {
-      setIsLoading(true);
-
-      // Envía una solicitud GET para obtener el enlace de descarga del PDF
-      fetch(`https://viramsoftapi.onrender.com/generar_comprobante?pedido_id=${selectedPedido.idPedido}`)
-        .then((response) => {
-          if (response.ok) {
-            const contentDisposition = response.headers.get('content-disposition');
-            const filenameMatch = contentDisposition && contentDisposition.match(/filename="(.+)"/);
-            const filename = filenameMatch && filenameMatch[1] ? filenameMatch[1] : 'comprobante_pedido.pdf';
-
-            // Abre el enlace de descarga en el navegador predeterminado
-            Linking.openURL(response.url);
-            setIsLoading(false);
-          } else {
-            console.error('Error al obtener los detalles del pedido:', response.status);
-            setIsLoading(false);
-          }
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error('Error al obtener los detalles del pedido:', error);
-          setIsLoading(false);
-        });
-    }
-  };
-
-
-  return (
-    <View>
 <<<<<<< HEAD
   return  (
 =======
@@ -119,9 +87,6 @@ const ListPedido = () => {
         data={data}
         keyExtractor={(item) => item.idPedido.toString()}
         numColumns={2}
-        data={data}
-        keyExtractor={(item) => item.idPedido.toString()}
-        numColumns={2}
         renderItem={({ item }) => (
 <<<<<<< HEAD
           <View style = {styles.FlatListestilo}>
@@ -147,17 +112,6 @@ const ListPedido = () => {
               <Text style={{ color: '#FFFFFF' }}>Detalles</Text>
             </TouchableOpacity>
 >>>>>>> e342550eeee75c5d707dad079ebeb60fa3a65cc5
-          <View style={styles.FlatListestilo}>
-            <Text style={styles.listItemText}>Cliente: {item.nombre}</Text>
-            <Text style={styles.listItemText}>Fecha Entrega: {item.fechaEntrega}</Text>
-            <Text style={styles.listItemText}>{item.estado}</Text>
-            <TouchableOpacity style={styles.buttonGuardar}>
-              <Text style={{ color: '#FFFFFF' }}>Cambiar</Text>
-            </TouchableOpacity>
-            <Text style={styles.listItemText}>Valor: {item.valorTotal}</Text>
-            <TouchableOpacity style={styles.buttonGuardar} onPress={() => handleOpenModal(item)}>
-              <Text style={{ color: '#FFFFFF' }}>Detalles</Text>
-            </TouchableOpacity>
           </View>
         )}
       />
@@ -175,10 +129,10 @@ const ListPedido = () => {
                 {detallesPedido.map((producto, index) => (
                   <View key={index}>
 <<<<<<< HEAD
-                    <Text>{producto['nombre']}</Text>
-                    <Text>Cantidad: {producto['cantidad']}</Text>
-                    <Text>Valor unitario: {producto['valor unitario']}</Text>
-                    <Text>Valor total: {producto['valor total']}</Text>
+                    <Text >{producto['nombre']}</Text>
+                    <Text >Cantidad: {producto['cantidad']}</Text>
+                    <Text >Valor unitario: {producto['valor unitario']}</Text>
+                    <Text >Valor total: {producto['valor total']}</Text>
 =======
                     <Text>Nombre: {producto['nombre']}</Text>
                     <Text>Cantidad: {producto['cantidad']}</Text>
@@ -191,10 +145,6 @@ const ListPedido = () => {
             ) : (
               <Text>No hay detalles disponibles para este pedido.</Text>
             )}
-             <TouchableOpacity style={styles.buttonCerrar} onPress={setDetallesPDF}>
-        <Text style={styles.colorTextButtonCerrar}>Descargar PDF</Text>
-      </TouchableOpacity>
-
              <TouchableOpacity style={styles.buttonCerrar} onPress={setDetallesPDF}>
         <Text style={styles.colorTextButtonCerrar}>Descargar PDF</Text>
       </TouchableOpacity>

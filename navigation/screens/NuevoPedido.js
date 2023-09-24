@@ -162,7 +162,6 @@ const NuevoPedido = () => {
                 <Text  style={styles.clienteText}>Marca: {selectedItem?.marca}</Text>
                 <Text  style={styles.clienteText}>Precio: {selectedItem?.valorVenta}</Text>
                 <Text  style={styles.clienteText}>Stock: {selectedItem?.cantidad}</Text>
-
               </>
                  ) : null }
                  <TextInput 
