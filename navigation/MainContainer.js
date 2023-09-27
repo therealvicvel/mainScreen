@@ -1,5 +1,5 @@
 //Importaciones necesarias
-import React from "react";
+import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -17,7 +17,7 @@ import AddClientesScreen from "./screens/AddClientesScreen";
 import AddProductoScreen from "./screens/AddProductoScreen";
 import styles from "../utilidades/styles";
 import InventarioScreenPrueba from "./screens/InventarioScreenPrueba";
-
+import LoginScreen from "./screens/Login";
 //Variables con nombres de las demás pantallas
 
 const homeName = 'Inicio';
@@ -69,8 +69,17 @@ const MiniScreenInventario = () => (
 );
 
 export default function MainContainer() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado para verificar si el usuario está autenticado
+
+  // Función para manejar el inicio de sesión
+  const handleLogin = () => {
+    // Aquí puedes agregar la lógica de autenticación
+    // Por ahora, simplemente establecemos el estado isLoggedIn a true
+    setIsLoggedIn(true);
+  };
   return (
     <NavigationContainer>
+      {isLoggedIn ? (
       <Tab.Navigator
         initialRouteName={homeName}
         screenOptions={({ route }) => ({
@@ -97,6 +106,9 @@ export default function MainContainer() {
         <Tab.Screen name={clientesName} component={ClientesTopTabNavigator} />
         <Tab.Screen name={pedidosName} component={PedidosScreen} />
       </Tab.Navigator>
+      ) : (
+        <LoginScreen onLogin={handleLogin} />
+      )}
     </NavigationContainer>
   );
 }
