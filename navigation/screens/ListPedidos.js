@@ -125,7 +125,7 @@ const ListPedido = () => {
             <TouchableOpacity style={styles.buttonCerrar} onPress={setDetallesPDF}>
         <Text style={styles.colorTextButtonCerrar}>Descargar PDF</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonCerrar}onPress={() => setDetallesPedido(null)}>
+      <TouchableOpacity style={styles.buttonCerrar} onPress={() => setDetallesPedido(null)}>
         <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
       </TouchableOpacity>
           </View>

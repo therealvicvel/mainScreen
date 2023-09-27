@@ -220,18 +220,18 @@ const handleClearImage = () => {
         {/*codigo de la imagen*/ }
         {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
       <TouchableOpacity 
-      style={styles.buttonGuardar}
-      onPress={handleImagePicker} ><Text> Subir Imagen</Text></TouchableOpacity>
+      style={styles.buttonAddProd}
+      onPress={handleImagePicker} ><Text style={styles.colorTextButtonAddProd}> Subir Imagen</Text></TouchableOpacity>
       {image && 
-      <TouchableOpacity style={styles.buttonGuardar}  onPress={handleClearImage}>
-        <Text> Eliminar Imagen</Text>
+      <TouchableOpacity style={styles.buttonAddProd}  onPress={handleClearImage}>
+        <Text Text style={styles.colorTextButtonAddProd}> Eliminar imagen</Text>
       </TouchableOpacity>}
       {/*fin del codigo */}
         <TouchableOpacity
           style={styles.buttonAddProd}
           onPress={handleAgregarProducto}
         >
-          <Text style={styles.colorTextButtonGuardar}>Agregar producto</Text>
+          <Text style={styles.colorTextButtonAddProd}>Agregar producto</Text>
         </TouchableOpacity>
       </ScrollView>
     </ScrollView>
