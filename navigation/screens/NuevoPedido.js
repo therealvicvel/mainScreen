@@ -134,10 +134,7 @@ const NuevoPedido = () => {
           <View style= {styles.itemContainer}>
             <Text style={styles.clienteText}>{item.nombre}</Text>
             <Text style={styles.clienteText}>{item.marca}</Text>
-            <Text style={styles.clienteText}>{item.valorVenta.toLocaleString({
-            style: "currency",
-            currency: "USD", // Cambia la moneda aquí
-          })}</Text>
+            <Text style={styles.clienteText}>${item.valorVenta}</Text>
             <Text style={styles.clienteText}>Stock: {item.cantidad}</Text>
             <View>
               <TouchableOpacity 

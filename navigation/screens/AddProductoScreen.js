@@ -62,7 +62,7 @@ export default function AddProductoScreen({ navigation }) {
       unidadMedida: unidadMedida,
       categoria: categoria,
       marca: marca,
-      imagen: image ? image.base64 : null, // Convertir la imagen a base64
+      imagenes: image ? image.base64 : null, // Convertir la imagen a base64
 
     };
 
@@ -90,7 +90,6 @@ export default function AddProductoScreen({ navigation }) {
           setUnidadMedida("");
           setMarca("");
           setCategoria("");
-          setImage("");
           alert("El producto se ha agregado correctamente.");
         }
       })
@@ -218,7 +217,7 @@ const handleClearImage = () => {
             />
           ))}
         </Picker>
-        {/codigo de la imagen/ }
+        {/*codigo de la imagen*/ }
         {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
       <TouchableOpacity 
       style={styles.buttonAddProd}
