@@ -91,7 +91,10 @@ const ListPedido = () => {
               <Text style={styles.listItemText}>{item.nombre}</Text>
               <Text style={styles.listItemText}>Fecha de entrega: {item.fechaEntrega}</Text>
               <Text style={styles.listItemText}>{item.estado}</Text>
-              <Text style={styles.listItemText}>Total: ${item.valorTotal}</Text>
+              <Text style={styles.listItemText}>Total: {item.valorTotal.toLocaleString({
+            style: "currency",
+            currency: "USD", // Cambia la moneda aquí
+          })}</Text>
               <TouchableOpacity style= {styles.buttonEntregaryDetalles} ><Text  style={{color: '#004187'}}>Entregar</Text></TouchableOpacity>
               <TouchableOpacity style= {styles.buttonEntregaryDetalles} onPress={() => handleOpenModal(item)}>
                 <Text style={{color: '#004187'}}>Detalles</Text>
@@ -114,8 +117,14 @@ const ListPedido = () => {
                   <View key={index}>
                     <Text >{producto['nombre']}</Text>
                     <Text >Cantidad: {producto['cantidad']}</Text>
-                    <Text >Valor unitario: {producto['valor unitario']}</Text>
-                    <Text >Valor total: {producto['valor total']}</Text>
+                    <Text >Valor unitario: {producto['valor unitario'].toLocaleString({
+  style: "currency",
+  currency: "USD",
+})}</Text>
+<Text >Valor total: {producto['valor total'].toLocaleString({
+  style: "currency",
+  currency: "USD",
+})}</Text>
                   </View>
                 ))}
               </View>

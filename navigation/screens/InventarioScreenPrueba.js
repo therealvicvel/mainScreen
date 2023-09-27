@@ -109,7 +109,17 @@ const ListInventario = () => {
     if (selectedCategory && item.categoria !== selectedCategory) {
       return null;
     }
-  
+
+    const valorVentaFormateado = item.valorVenta.toLocaleString({
+        style: "currency",
+        currency: "USD", // Cambia esta línea para usar la moneda que desees
+    });
+
+    const valorCompraFormateado = item.valorCompra.toLocaleString({
+        style: "currency",
+        currency: "USD", // Cambia esta línea para usar la moneda que desees
+    });
+
     return (
       <TouchableOpacity onPress={() => handleOpenModal(item)}>
         <View style={styles.fondoListas}>
@@ -118,8 +128,8 @@ const ListInventario = () => {
               <Text style={styles.clienteText}>{item.nombre}</Text>
               <Text style={styles.clienteText}>Cantidad: {item.cantidad}</Text>
               <Text style={styles.clienteText}>{item.marca}</Text>
-              <Text style={styles.clienteText}>Valor venta: {item.valorVenta}</Text>
-              <Text style={styles.clienteText}>Valor compra: {item.valorCompra}</Text>
+              <Text style={styles.clienteText}>Valor venta: {valorVentaFormateado}</Text>
+              <Text style={styles.clienteText}>Valor compra: {valorCompraFormateado}</Text>
               <Text style={styles.clienteText}>{item.categoria}</Text>
             </View>
             <View style={{ width: 100, height: 100 }}>
@@ -142,6 +152,7 @@ const ListInventario = () => {
       </TouchableOpacity>
     );
   };
+
 
   const filteredData = data.filter((item) => {
     if (selectedCategory === '') {
@@ -184,8 +195,14 @@ const ListInventario = () => {
                 <Text style={styles.modalTitle}>Actualizar campos de un producto</Text>
                 <Text style={styles.clienteText}>{selectedProducto.nombre}</Text>
                 <Text style={styles.clienteText}>Cantidad: {selectedProducto.cantidad}</Text>
-                <Text style={styles.clienteText}>Valor venta: {selectedProducto.valorVenta}</Text>
-                <Text style={styles.clienteText}>Valor compra: {selectedProducto.valorCompra}</Text>
+                <Text style={styles.clienteText}>Valor venta: {selectedProducto.valorVenta.toLocaleString({
+              style: "currency",
+              currency: "USD",
+            })}</Text>
+            <Text style={styles.clienteText}>Valor compra: {selectedProducto.valorCompra.toLocaleString({
+              style: "currency",
+              currency: "USD",
+            })}</Text>
                 <Text style={styles.modalSubTitle}>Agregar Cambios</Text>
                 <TextInput
                   style={styles.inputForModal}
@@ -200,7 +217,10 @@ const ListInventario = () => {
                   style={styles.inputForModal}
                   placeholder="Valor venta"
                   onChangeText={handleValorVentaChange}
-                  value={String(valorVenta)}
+                  value={String(valorVenta.toLocaleString({
+                    style: "currency",
+                    currency: "USD",
+                  }))}
                   keyboardType="numeric"
                   cursorColor={"#FFFFFF"}
                   placeholderTextColor={"#FFFFFF"}
@@ -209,7 +229,10 @@ const ListInventario = () => {
                   style={styles.inputForModal}
                   placeholder="Valor compra"
                   onChangeText={handleValorCompraChange}
-                  value={String(valorCompra)}
+                  value={String(valorCompra.toLocaleString({
+                    style: "currency",
+                    currency: "USD",
+                  }))}
                   keyboardType="numeric"
                   cursorColor={"#FFFFFF"}
                   placeholderTextColor={"#FFFFFF"}
