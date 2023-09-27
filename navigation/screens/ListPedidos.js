@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Modal, ScrollView, TouchableOpacity, ActivityIndicator, Linking} from 'react-native';
+import { View, Text, FlatList, Modal, ScrollView, TouchableOpacity, ActivityIndicator, Linking, Share } from 'react-native';
 
 const ListPedido = () => {
   const [data, setData] = useState([]);
@@ -54,19 +54,20 @@ const ListPedido = () => {
   const setDetallesPDF = () => {
     if (selectedPedido) {
       setIsLoading(true);
-      
-
-      // Envía una solicitud GET para obtener el enlace de descarga del PDF
+  
       fetch(`https://viramsoftapi.onrender.com/generar_comprobante?pedido_id=${selectedPedido.idPedido}`)
         .then((response) => {
           if (response.ok) {
             const contentDisposition = response.headers.get('content-disposition');
             const filenameMatch = contentDisposition && contentDisposition.match(/filename="(.+)"/);
             const filename = filenameMatch && filenameMatch[1] ? filenameMatch[1] : 'comprobante_pedido.pdf';
-
-            // Abre el enlace de descarga en el navegador predeterminado
-            Linking.openURL(response.url);
-            setIsLoading(false);
+  
+            // Comparte el enlace de descarga del PDF
+            Share.share({
+              message: `Descarga el comprobante del pedido aquí: ${response.url}`,
+            })
+              .then(setIsLoading(false))
+              .catch((error) => console.error('Error al compartir:', error));
           } else {
             console.error('Error al obtener los detalles del pedido:', response.status);
             setIsLoading(false);
@@ -124,7 +125,7 @@ const ListPedido = () => {
             <TouchableOpacity style={styles.buttonCerrar} onPress={setDetallesPDF}>
         <Text style={styles.colorTextButtonCerrar}>Descargar PDF</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>
+      <TouchableOpacity style={styles.buttonCerrar}onPress={() => setDetallesPedido(null)}>
         <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
       </TouchableOpacity>
           </View>
