@@ -22,7 +22,7 @@ const LoginScreen = ({ onLogin }) => {
       if (!response.ok) {
         // Si la respuesta no es exitosa (por ejemplo, 400 o 401),
         // puedes manejar el error de acuerdo a tus necesidades
-        alert("por Favor Ingrese Bien los Datos Imbecil :)");
+        alert("Datos de ingreso incorrectos. ");
         setUsername('');
         setPassword('');
         return;
@@ -45,6 +45,8 @@ const LoginScreen = ({ onLogin }) => {
         placeholder="Usuario"
         style={styles.input}
         value={username}
+        cursorColor={"#004187"}
+        placeholderTextColor={"#004187"}
         onChangeText={(text) => setUsername(text)}
       />
       <TextInput
@@ -52,6 +54,8 @@ const LoginScreen = ({ onLogin }) => {
         secureTextEntry
         style={styles.input}
         value={password}
+        cursorColor={"#004187"}
+        placeholderTextColor={"#004187"}
         onChangeText={(text) => setPassword(text)}
       />
       <TouchableOpacity 

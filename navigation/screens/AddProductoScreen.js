@@ -3,6 +3,8 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, Button } fr
 import styles from "../../utilidades/styles";
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
+
 
 export default function AddProductoScreen({ navigation }) {
   const [nombre, setNombre] = useState("");
@@ -12,7 +14,7 @@ export default function AddProductoScreen({ navigation }) {
   const [unidadMedida, setUnidadMedida] = useState("");
   const [marca, setMarca] = useState("");
   const [categoria, setCategoria] = useState("");
-  const [image, setImage] = useState(null);//constante de la imagen
+  const [image, setImage] = useState("");//constante de la imagen
 
   const opcionesCategoria = [
     { label: "Seleccionar categoría", value: "" },
@@ -48,12 +50,20 @@ export default function AddProductoScreen({ navigation }) {
     setImage("");
   }
 
-  const handleAgregarProducto = () => {
+  const handleAgregarProducto = async () => {
     if (!validarCampos()) {
       alert("Por favor, completa todos los campos antes de agregar el producto.");
       return;
     }
-  
+
+    let imagenBase64 = '';
+
+    if (image) {
+      const imgUri = image;
+      const base64Img = await FileSystem.readAsStringAsync(imgUri, { encoding: 'base64' });
+      imagenBase64 = base64Img.replace('data:image/png;base64,', '');
+    }
+
     const nuevoProducto = {
       nombre: nombre,
       cantidad: cantidad,
@@ -62,11 +72,10 @@ export default function AddProductoScreen({ navigation }) {
       unidadMedida: unidadMedida,
       categoria: categoria,
       marca: marca,
-      imagenes: image ? image.base64 : null, // Convertir la imagen a base64
-
+      imagen: imagenBase64,
     };
 
-    console.log(nuevoProducto);
+    console.log(nuevoProducto); // Agrega este log
 
     fetch("https://viramsoftapi.onrender.com/create_product", {
       method: "POST",
@@ -77,7 +86,6 @@ export default function AddProductoScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((responseData) => {
-        console.log("Respuesta de la API:", responseData);
         if (responseData.success) {
           alert(
             "Ocurrió un error al agregar el producto. Por favor, intenta nuevamente."
@@ -90,6 +98,7 @@ export default function AddProductoScreen({ navigation }) {
           setUnidadMedida("");
           setMarca("");
           setCategoria("");
+          setImage("");
           alert("El producto se ha agregado correctamente.");
         }
       })
@@ -97,8 +106,10 @@ export default function AddProductoScreen({ navigation }) {
         console.error("Error al agregar el producto: ", error);
       });
   };
-
   
+  
+
+
   const handleNombreChange = (text) => {
     setNombre(text);
   };
@@ -122,32 +133,32 @@ export default function AddProductoScreen({ navigation }) {
   const handleUnidadMedidaChange = (text) => {
     setUnidadMedida(text);
   };
-//Codigo de la imagen
-useEffect(() => {
-  (async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Se necesita permiso para acceder a la cámara y la galería.');
+  //Codigo de la imagen
+  useEffect(() => {
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Se necesita permiso para acceder a la cámara y la galería.');
+      }
+    })();
+  }, []);
+
+  const handleImagePicker = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.assets[0].uri);
     }
-  })();
-}, []);
+  };
 
-const handleImagePicker = async () => {
-  let result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    allowsEditing: true,
-    aspect: [1, 1],
-    quality: 1,
-  });
-
-  if (!result.cancelled) {
-    setImage(result.assets[0].uri);
-  }
-};
-
-const handleClearImage = () => {
-  setImage(null); // Borra la imagen estableciendo la URI en null
-};
+  const handleClearImage = () => {
+    setImage(null); // Borra la imagen estableciendo la URI en null
+  };
 
 
   return (
@@ -217,16 +228,23 @@ const handleClearImage = () => {
             />
           ))}
         </Picker>
-        {/*codigo de la imagen*/ }
-        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-      <TouchableOpacity 
-      style={styles.buttonAddProd}
-      onPress={handleImagePicker} ><Text style={styles.colorTextButtonAddProd}> Subir Imagen</Text></TouchableOpacity>
-      {image && 
-      <TouchableOpacity style={styles.buttonAddProd}  onPress={handleClearImage}>
-        <Text Text style={styles.colorTextButtonAddProd}> Eliminar imagen</Text>
-      </TouchableOpacity>}
-      {/*fin del codigo */}
+        {/*codigo de la imagen*/}
+        {image &&
+          <Image
+            source={{ uri: image }}
+            style={{ 
+              width: 150, 
+              height: 150, 
+              borderRadius: 20, 
+              alignSelf: 'center', }} />}
+        <TouchableOpacity
+          style={styles.buttonAddProd}
+          onPress={handleImagePicker} ><Text style={styles.colorTextButtonAddProd}> Subir imagen</Text></TouchableOpacity>
+        {image &&
+          <TouchableOpacity style={styles.buttonAddProd} onPress={handleClearImage}>
+            <Text Text style={styles.colorTextButtonAddProd}> Eliminar imagen</Text>
+          </TouchableOpacity>}
+        {/*fin del codigo */}
         <TouchableOpacity
           style={styles.buttonAddProd}
           onPress={handleAgregarProducto}
