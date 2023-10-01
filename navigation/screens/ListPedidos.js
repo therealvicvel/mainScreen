@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Modal, ScrollView, TouchableOpacity, ActivityIndicator, Linking, Share } from 'react-native';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 const ListPedido = () => {
   const [data, setData] = useState([]);
   const [selectedPedido, setSelectedPedido] = useState(null);
   const [detallesPedido, setDetallesPedido] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Nuevo estado para controlar la carga
+  const [pdfDecoded, setPdfDecoded] = useState(false);
 
   useEffect(() => {
     if (isLoading && selectedPedido) {
@@ -26,7 +29,6 @@ const ListPedido = () => {
 
   const handleOpenModal = (pedido) => {
     setSelectedPedido(pedido);
-    setDetallesPedido(null); // Reset detallesPedido
     setIsLoading(true);
     // Rest of the code
   };
@@ -51,35 +53,68 @@ const ListPedido = () => {
     }
   };
 
-  const setDetallesPDF = () => {
-    if (selectedPedido) {
-      setIsLoading(true);
+  ///COMPARTIR Y CONVERTIR EL PDF
+  const fetchBase64Data = async () => {
+    try {
+      if (!selectedPedido) {
+        console.error('No selected pedido.');
+        return null;
+      }
   
-      fetch(`https://viramsoftapi.onrender.com/generar_comprobante?pedido_id=${selectedPedido.idPedido}`)
-        .then((response) => {
-          if (response.ok) {
-            const contentDisposition = response.headers.get('content-disposition');
-            const filenameMatch = contentDisposition && contentDisposition.match(/filename="(.+)"/);
-            const filename = filenameMatch && filenameMatch[1] ? filenameMatch[1] : 'comprobante_pedido.pdf';
+      const response = await fetch(
+        `https://viramsoftapi.onrender.com/generar_comprobante?pedido_id=${selectedPedido.idPedido}`
+      );
+      const data = await response.json();
+      console.log('API response:', data);
   
-            // Comparte el enlace de descarga del PDF
-            Share.share({
-              message: `Descarga el comprobante del pedido aquí: ${response.url}`,
-            })
-              .then(setIsLoading(false))
-              .catch((error) => console.error('Error al compartir:', error));
-          } else {
-            console.error('Error al obtener los detalles del pedido:', response.status);
-            setIsLoading(false);
-          }
-        })
-        .catch((error) => {
-          console.error('Error al obtener los detalles del pedido:', error);
-          setIsLoading(false);
-        });
+      // Extract the base64Data from the API response
+      const base64Data = data[0]; // Assuming the base64Data is the first item in the array
+      return base64Data;
+    } catch (error) {
+      console.error('Error al obtener base64Data desde la API:', error);
+      return null;
     }
   };
+  
 
+  const cleanBase64Data = (base64Data) => {
+    // Eliminar los caracteres " y [
+    let cleanedData = base64Data.replace(/"/g, '').replace(/\[/g, '');
+
+    // Eliminar los caracteres ] al final si existen
+    if (cleanedData.endsWith(']')) {
+      cleanedData = cleanedData.slice(0, -1);
+    }
+
+    return cleanedData;
+  };
+
+  const decodeBase64ToPDFAndShare = async () => {
+    const base64Data = await fetchBase64Data();
+
+    if (base64Data) {
+      const fileName = 'Comprobante_Pedido'; // Assuming a fixed file name for now
+      const filePath = `${FileSystem.documentDirectory}${fileName}.pdf`;
+
+      try {
+        // Write the PDF buffer to the file
+        await FileSystem.writeAsStringAsync(filePath, base64Data, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+        console.log('Archivo PDF decodificado y guardado correctamente en:', filePath);
+
+        // Compartir el archivo PDF después de decodificar
+        if (await Sharing.isAvailableAsync()) {
+          await Sharing.shareAsync(filePath);
+        } else {
+          alert('La función de compartir no está disponible en tu dispositivo');
+        }
+      } catch (error) {
+        console.error('Error al decodificar o compartir el archivo PDF:', error);
+      }
+    }
+  };
+  
   return  (
     <View >
       <FlatList
@@ -122,10 +157,10 @@ const ListPedido = () => {
             ) : (
               <Text>No hay detalles disponibles para este pedido.</Text>
             )}
-            <TouchableOpacity style={styles.buttonCerrar} onPress={setDetallesPDF}>
-        <Text style={styles.colorTextButtonCerrar}>Descargar PDF</Text>
+            <TouchableOpacity style={styles.buttonCerrar} onPress={decodeBase64ToPDFAndShare}>
+        <Text style={styles.colorTextButtonCerrar}>Compartir PDF</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonCerrar} onPress={() => setDetallesPedido(null)}>
+      <TouchableOpacity style={styles.buttonCerrar}>
         <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
       </TouchableOpacity>
           </View>
