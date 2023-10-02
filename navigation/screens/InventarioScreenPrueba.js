@@ -176,7 +176,7 @@ const ListInventario = () => {
           renderItem={renderProductoItem}
           keyExtractor={(item) => item.idProducto.toString()}
         /> 
-      <Modal visible={isModalVisible} animationType="slide" transparent={true}>
+      <Modal visible={isModalVisible} animationType="slide" transparent={true} onRequestClose={handleCloseModal}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             {selectedProducto && (

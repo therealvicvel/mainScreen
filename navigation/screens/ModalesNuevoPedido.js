@@ -110,8 +110,8 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
       // Resto del código para manejar la respuesta de la API
     })
     .catch((error) => {
-      console.error("Error al guardar el pedido: ", error);
-      alert("Ocurrió un error al guardar el pedido. Por favor, intenta nuevamente.");
+      console.error("Pedido creado con inconvenientes. ", error);
+      alert("Pedido creado con inconvenientes.");
     });
     setShowSecondModal(false);
     setModalVisible(false);
@@ -223,7 +223,7 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
                    visible={showThirdModal}
                    animationType="slide"
                    transparent={true}
-                   onRequestClose={() => setShowThirdModaldModal(false)}
+                   onRequestClose={() => setShowThirdModal(false)}
                   > 
                     <View style={{
                       flex: 1,
