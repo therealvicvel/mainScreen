@@ -40,7 +40,7 @@ const ListInventario = () => {
         });
     }, []);
 
-    const [selectedProducto, setSelectedProducto] = useState(null);
+    const [selectedProducto, setSelectedProducto] = useState("");
 
     const handleGuardarCambios = () => {
     if (selectedProducto) {
@@ -50,15 +50,6 @@ const ListInventario = () => {
         valorVenta: valorVenta,
         valorCompra: valorCompra,
       };
-
-      if (
-        productoActualizado.cantidad.trim() === "" ||
-        productoActualizado.valorVenta.trim() === "" ||
-        productoActualizado.valorCompra.trim() === ""
-      ) {
-        alert("Por favor, completa todos los campos antes de guardar los cambios.");
-        return;
-      }
 
       console.log(productoActualizado);
       fetch(`https://viramsoftapi.onrender.com/edit_product/${selectedProducto.idProducto}`, {
