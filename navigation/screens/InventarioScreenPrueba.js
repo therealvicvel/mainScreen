@@ -6,11 +6,13 @@ import { useState, useEffect } from "react"
 import { TouchableOpacity } from "react-native"
 import { Picker } from "@react-native-picker/picker"
 import FiltrarBuscar from "../../utilidades/filtrarBuscarProd"
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 
 
 const ListInventario = () => {
     const [selectedCategory, setSelectedCategory] = useState("");
-
+    const [image, setImage] = useState("");//constante de la imagen
     const [data, setData] = useState ([]);
 
     const [cantidad, setCantidad] = useState("");
@@ -42,14 +44,28 @@ const ListInventario = () => {
 
     const [selectedProducto, setSelectedProducto] = useState("");
 
-    const handleGuardarCambios = () => {
-    if (selectedProducto) {
-      const productoActualizado = {
-        ...selectedProducto,
-        cantidad: cantidad,
-        valorVenta: valorVenta,
-        valorCompra: valorCompra,
-      };
+    
+
+    const handleGuardarCambios = async () => {
+      if (selectedProducto) {
+        const productoActualizado = {
+          ...selectedProducto,
+          cantidad: cantidad,
+          valorVenta: valorVenta,
+          valorCompra: valorCompra,
+        };
+    
+        let imagenBase64 = '';
+    
+        if (image) {
+          const imgUri = image;
+          const base64Img = await FileSystem.readAsStringAsync(imgUri, { encoding: 'base64' });
+          imagenBase64 = base64Img.replace('data:image/png;base64,', '');
+        }
+    
+        productoActualizado.imagen = imagenBase64;
+    
+        console.log(productoActualizado);
 
       console.log(productoActualizado);
       fetch(`https://viramsoftapi.onrender.com/edit_product/${selectedProducto.idProducto}`, {
@@ -95,6 +111,23 @@ const ListInventario = () => {
   const handleCloseModal = () => {
     setIsModalVisible(false);
   }
+
+  const handleImagePicker = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  const handleClearImage = () => {
+    setImage(null); // Borra la imagen estableciendo la URI en null
+  };
 
   const renderProductoItem = ({ item }) => {
     if (selectedCategory && item.categoria !== selectedCategory) {
@@ -205,6 +238,22 @@ const ListInventario = () => {
                   cursorColor={"#FFFFFF"}
                   placeholderTextColor={"#FFFFFF"}
                 />
+                {/*codigo de la imagen*/}
+        {image &&
+          <Image
+            source={{ uri: image }}
+            style={{ 
+              width: 100, 
+              height: 100, 
+              borderRadius: 20, 
+              alignSelf: 'center', }} />}
+        <TouchableOpacity
+          style={styles.buttonCerrar}
+          onPress={handleImagePicker} ><Text style={styles.colorTextButtonCerrar}> Subir imagen</Text></TouchableOpacity>
+        {image &&
+          <TouchableOpacity style={styles.buttonCerrar} onPress={handleClearImage}>
+            <Text Text style={styles.colorTextButtonCerrar}> Eliminar imagen</Text>
+          </TouchableOpacity>}
               </>
             )}
             <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>
