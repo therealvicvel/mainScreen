@@ -160,7 +160,7 @@ const ListPedido = () => {
             <TouchableOpacity style={styles.buttonCerrar} onPress={decodeBase64ToPDFAndShare}>
         <Text style={styles.colorTextButtonCerrar}>Compartir PDF</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonCerrar}>
+      <TouchableOpacity style={styles.buttonCerrar} onPress={() => setDetallesPedido(null)} onRequestClose={setDetallesPedido}>
         <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
       </TouchableOpacity>
           </View>
