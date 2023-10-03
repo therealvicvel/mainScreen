@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Modal, ScrollView, TouchableOpacity, ActivityIndicator, Linking, Share } from 'react-native';
+import { View, Text, FlatList, Modal, ScrollView, TouchableOpacity, ActivityIndicator, Linking, Platform  } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
+
 
 const ListPedido = () => {
   const [data, setData] = useState([]);
@@ -114,7 +115,42 @@ const ListPedido = () => {
       }
     }
   };
+
+  const descargarPDF = async () => {
+    try {
+      const base64Data = await fetchBase64Data();
   
+      if (base64Data) {
+        const cleanedBase64Data = cleanBase64Data(base64Data);
+  
+        const fileName = 'Comprobante_Pedido.pdf';
+        const filePath = `${FileSystem.documentDirectory}${fileName}`;
+  
+        try {
+          // Write the cleaned base64Data (PDF) to the file
+          await FileSystem.writeAsStringAsync(filePath, cleanedBase64Data, {
+            encoding: FileSystem.EncodingType.Base64,
+          });
+          console.log('Archivo PDF decodificado y guardado correctamente en:', filePath);
+  
+          // Mostrar la ubicación donde se ha guardado el archivo PDF
+          if (Platform.OS === 'android') {
+            alert('El PDF se ha guardado en: ' + filePath);
+          } else {
+            alert('El PDF se ha guardado en el directorio de documentos.');
+          }
+        } catch (error) {
+          console.error('Error al decodificar el PDF:', error);
+        }
+      } else {
+        alert('No se ha generado el PDF aún.');
+      }
+    } catch (error) {
+      console.error('Error al descargar el archivo PDF:', error);
+    }
+  };
+
+
   return  (
     <View >
       <FlatList
@@ -157,6 +193,9 @@ const ListPedido = () => {
             ) : (
               <Text>No hay detalles disponibles para este pedido.</Text>
             )}
+            <TouchableOpacity style={styles.buttonCerrar} onPress={descargarPDF}>
+        <Text style={styles.colorTextButtonCerrar}>Descargar PDF</Text>
+      </TouchableOpacity>
             <TouchableOpacity style={styles.buttonCerrar} onPress={decodeBase64ToPDFAndShare}>
         <Text style={styles.colorTextButtonCerrar}>Compartir PDF</Text>
       </TouchableOpacity>
