@@ -30,7 +30,8 @@ const ListInventario = () => {
   const handleValorCompraChange = (text) => {
     setValorCompra(text);
   }
-  const loadDataFromServer = () => {
+
+  useEffect(() => {
     fetch('https://viramsoftapi.onrender.com/product')
       .then((response) => response.json())
       .then((data) => {
@@ -39,11 +40,6 @@ const ListInventario = () => {
       .catch((error) => {
         console.error("Error fetching data: ", error)
       });
-  };
-  
-  useEffect(() => {
-    // Cargar los datos desde el servidor al montar el componente
-    loadDataFromServer();
   }, []);
 
   const [selectedProducto, setSelectedProducto] = useState("");
@@ -91,7 +87,6 @@ const ListInventario = () => {
                 item.idProducto === selectedProducto.idProducto ? productoActualizado : item
               );
               setIsModalVisible(false);
-              loadDataFromServer();
               return newData;
             });
 
