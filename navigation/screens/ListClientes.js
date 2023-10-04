@@ -58,6 +58,7 @@ const ListClientes = () => {
                   : item
               );
               setIsModalVisible(false);
+              loadDataFromServer();
               return newData;
             });
             
@@ -69,16 +70,24 @@ const ListClientes = () => {
     }
   };
 
-  useEffect(() => {
+ 
+
+  const loadDataFromServer =() => {
+
     fetch("https://viramsoftapi.onrender.com/costumer")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Datos recibidos de la API:", data);
-        setData(data.clientes);
-      })
-      .catch((error) => {
-        console.error("Error fetching data", error);
-      });
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Datos recibidos de la API:", data);
+      setData(data.clientes);
+    })
+    .catch((error) => {
+      console.error("Error fetching data", error);
+    });
+  }
+
+  useEffect(() => {
+   // Cargar los datos desde el servidor al montar el componente
+   loadDataFromServer();
   }, []);
 
   const handleOpenModal = (cliente) => {
