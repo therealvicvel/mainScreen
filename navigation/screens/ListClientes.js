@@ -105,6 +105,46 @@ const ListClientes = () => {
         console.error("Error fetching data", error);
       });
   };
+
+  const cambiarEstadoCliente = () => {
+    if (selectedCliente) {
+      const idCliente = selectedCliente.documento;
+  
+      const url = `https://viramsoftapi.onrender.com/costumer_change_state/${idCliente}?doc_cliente=${idCliente}&summary=Estado%20cambiado`;
+  
+      fetch(url, {
+        method: "POST", // Dependiendo de lo que requiera tu API (puede ser PUT o PATCH también)
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((responseData) => {
+          if (responseData.success) {
+            alert("Hubo un error al cambiar el estado del cliente.");
+          } else {
+            alert("El estado del cliente se ha cambiado correctamente.");
+            // Actualizar la lista de clientes después de cambiar el estado
+            setData((prevData) => {
+              const newData = prevData.map((item) =>
+                item.documento === selectedCliente.documento
+                  ? {
+                      ...item,
+                      estado: responseData.nuevo_estado,
+                    }
+                  : item
+              );
+              setIsModalVisible(false);
+              return newData;
+            });
+          }
+        })
+        .catch((error) => {
+          console.log("Error al cambiar el estado del cliente: ", error);
+        });
+    }
+  };
+  
   
 
   const handleOpenModal = (cliente) => {
@@ -205,7 +245,7 @@ const ListClientes = () => {
             )}
             <TouchableOpacity
               style={styles.buttonGuardar}
-              // onPress={editarChangeState}
+              onPress={cambiarEstadoCliente}
             >
               <Text style={styles.colorTextButtonGuardar}>Cambiar estado</Text>
             </TouchableOpacity>
