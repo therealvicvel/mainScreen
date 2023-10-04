@@ -1,5 +1,5 @@
 import React from "react"
-import {View, Text, FlatList, Image, Button, Modal, TextInput, ImageBackground} from "react-native"
+import { View, Text, FlatList, Image, Button, Modal, TextInput, ImageBackground } from "react-native"
 import styles from "../../utilidades/styles"
 import { ScrollView } from "react-native"
 import { useState, useEffect } from "react"
@@ -11,61 +11,61 @@ import * as FileSystem from 'expo-file-system';
 
 
 const ListInventario = () => {
-    const [selectedCategory, setSelectedCategory] = useState("");
-    const [image, setImage] = useState("");//constante de la imagen
-    const [data, setData] = useState ([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [image, setImage] = useState("");//constante de la imagen
+  const [data, setData] = useState([]);
 
-    const [cantidad, setCantidad] = useState("");
-    const [valorVenta, setValorVenta] = useState("");
-    const [valorCompra, setValorCompra] = useState("");
+  const [cantidad, setCantidad] = useState("");
+  const [valorVenta, setValorVenta] = useState("");
+  const [valorCompra, setValorCompra] = useState("");
 
-    const handleCantidadChange = (text) => {
-        setCantidad(text);
-    }
+  const handleCantidadChange = (text) => {
+    setCantidad(text);
+  }
 
-    const handleValorVentaChange = (text) => {
-        setValorVenta(text);
-    }
+  const handleValorVentaChange = (text) => {
+    setValorVenta(text);
+  }
 
-    const handleValorCompraChange = (text) => {
-        setValorCompra(text);
-    }
+  const handleValorCompraChange = (text) => {
+    setValorCompra(text);
+  }
 
-    useEffect(() => {
-        fetch('https://viramsoftapi.onrender.com/product')
-        .then((response) => response.json())
-        .then ((data) => {
-            setData(data.productos);
-        })
-        .catch((error) => {
-            console.error("Error fetching data: ", error)
-        });
-    }, []);
+  useEffect(() => {
+    fetch('https://viramsoftapi.onrender.com/product')
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data.productos);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error)
+      });
+  }, []);
 
-    const [selectedProducto, setSelectedProducto] = useState("");
+  const [selectedProducto, setSelectedProducto] = useState("");
 
-    
 
-    const handleGuardarCambios = async () => {
-      if (selectedProducto) {
-        const productoActualizado = {
-          ...selectedProducto,
-          cantidad: cantidad,
-          valorVenta: valorVenta,
-          valorCompra: valorCompra,
-        };
-    
-        let imagenBase64 = '';
-    
-        if (image) {
-          const imgUri = image;
-          const base64Img = await FileSystem.readAsStringAsync(imgUri, { encoding: 'base64' });
-          imagenBase64 = base64Img.replace('data:image/png;base64,', '');
-        }
-    
-        productoActualizado.imagen = imagenBase64;
-    
-        console.log(productoActualizado);
+
+  const handleGuardarCambios = async () => {
+    if (selectedProducto) {
+      const productoActualizado = {
+        ...selectedProducto,
+        cantidad: cantidad,
+        valorVenta: valorVenta,
+        valorCompra: valorCompra,
+      };
+
+      let imagenBase64 = '';
+
+      if (image) {
+        const imgUri = image;
+        const base64Img = await FileSystem.readAsStringAsync(imgUri, { encoding: 'base64' });
+        imagenBase64 = base64Img.replace('data:image/png;base64,', '');
+      }
+
+      productoActualizado.imagen = imagenBase64;
+
+      console.log(productoActualizado);
 
       console.log(productoActualizado);
       fetch(`https://viramsoftapi.onrender.com/edit_product/${selectedProducto.idProducto}`, {
@@ -77,7 +77,7 @@ const ListInventario = () => {
       })
         .then((response) => response.json())
         .then((responseData) => {
-          
+
           if (responseData.success) {
             alert("Hubo un error al guardar los cambios.");
           } else {
@@ -89,7 +89,7 @@ const ListInventario = () => {
               setIsModalVisible(false);
               return newData;
             });
-            
+
           }
         })
         .catch((error) => {
@@ -103,9 +103,9 @@ const ListInventario = () => {
   const handleOpenModal = (producto) => {
     setSelectedProducto(producto);
     setCantidad(producto.cantidad),
-    setValorVenta(producto.valorVenta),
-    setValorCompra(producto.valorCompra),
-    setIsModalVisible(true);
+      setValorVenta(producto.valorVenta),
+      setValorCompra(producto.valorCompra),
+      setIsModalVisible(true);
   }
 
   const handleCloseModal = () => {
@@ -133,7 +133,7 @@ const ListInventario = () => {
     if (selectedCategory && item.categoria !== selectedCategory) {
       return null;
     }
-  
+
     return (
       <TouchableOpacity onPress={() => handleOpenModal(item)}>
         <View style={styles.fondoListas}>
@@ -167,39 +167,35 @@ const ListInventario = () => {
     );
   };
 
-  const filteredData = data.filter((item) => {
-    if (selectedCategory === '') {
-      return true;
-    }
-    return item.categoria === selectedCategory  ;
-  });
-  
-
   return (
     <View style={styles.containerThree}>
-      <FiltrarBuscar
-         Data={selectedCategory} // Pasa los datos filtrados en lugar de toda la lista de productos
-         onItemSelected={handleOpenModal}// Actualiza selectedProduct cuando se selecciona un producto
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
+        <FiltrarBuscar
+          Data={selectedCategory}
+          onItemSelected={handleOpenModal}
+        />
+
+        <View style={{ position: 'absolute', top: 0, right: 0 }}>
+  <Picker
+    selectedValue={selectedCategory}
+    onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+    style={styles.pickerforBuscarProducto}
+  >
+    <Picker.Item label="Categoría" value={""} />
+    <Picker.Item label="Líquidos" value="Líquidos" />
+    <Picker.Item label="Sólidos" value="Sólidos" />
+    <Picker.Item label="Polvos" value="Polvos" />
+    <Picker.Item label="Otro" value="Otro" />
+  </Picker>
+</View>
+      </View>
+
+      <FlatList
+        data={data}
+        style={{ flex: 1 }}
+        renderItem={renderProductoItem}
+        keyExtractor={(item) => item.idProducto.toString()}
       />
-            <View style={styles.categoriaSelector}>
-            <Text style={styles.label}>Filtrar por categoría:</Text>
-            <Picker
-              selectedValue={selectedCategory}
-              onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-              style={styles.pickerforBuscarProducto}>
-              <Picker.Item label="Todos" value={""} />
-              <Picker.Item label="Líquidos" value="Líquidos" />
-              <Picker.Item label="Sólidos" value="Sólidos" />
-              <Picker.Item label="Polvos" value="Polvos" />
-              <Picker.Item label="Otro" value="Otro" />
-            </Picker>
-            </View>
-        <FlatList
-          data={data}
-          style={{flex: 1}}
-          renderItem={renderProductoItem}
-          keyExtractor={(item) => item.idProducto.toString()}
-        /> 
       <Modal visible={isModalVisible} animationType="slide" transparent={true} onRequestClose={handleCloseModal}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -239,21 +235,22 @@ const ListInventario = () => {
                   placeholderTextColor={"#FFFFFF"}
                 />
                 {/*codigo de la imagen*/}
-        {image &&
-          <Image
-            source={{ uri: image }}
-            style={{ 
-              width: 100, 
-              height: 100, 
-              borderRadius: 20, 
-              alignSelf: 'center', }} />}
-        <TouchableOpacity
-          style={styles.buttonCerrar}
-          onPress={handleImagePicker} ><Text style={styles.colorTextButtonCerrar}> Subir imagen</Text></TouchableOpacity>
-        {image &&
-          <TouchableOpacity style={styles.buttonCerrar} onPress={handleClearImage}>
-            <Text Text style={styles.colorTextButtonCerrar}> Eliminar imagen</Text>
-          </TouchableOpacity>}
+                {image &&
+                  <Image
+                    source={{ uri: image }}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 20,
+                      alignSelf: 'center',
+                    }} />}
+                <TouchableOpacity
+                  style={styles.buttonCerrar}
+                  onPress={handleImagePicker} ><Text style={styles.colorTextButtonCerrar}> Subir imagen</Text></TouchableOpacity>
+                {image &&
+                  <TouchableOpacity style={styles.buttonCerrar} onPress={handleClearImage}>
+                    <Text Text style={styles.colorTextButtonCerrar}> Eliminar imagen</Text>
+                  </TouchableOpacity>}
               </>
             )}
             <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>
@@ -270,12 +267,12 @@ const ListInventario = () => {
   );
 };
 
-export default function InventarioScreenPrueba ({ navigation }) {
-    return (
-        <View>
-            <View>
-                <ListInventario/>
-            </View>
-        </View>
-    )
+export default function InventarioScreenPrueba({ navigation }) {
+  return (
+    <View>
+      <View>
+        <ListInventario />
+      </View>
+    </View>
+  )
 }

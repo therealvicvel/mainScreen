@@ -260,13 +260,12 @@ itemForBuscarCliente: {
   padding: 10,
   fontSize: 16,
   color: '#004187',
-  borderBottomWidth: 1,
-  borderBottomColor: '#ccc',
   marginBottom: 20,
+  marginLeft: 5,
 },
 inputFecha: {
   height: 40,
-  borderColor: '004187',
+  borderColor: '#004187',
   borderWidth: 1,
   paddingHorizontal: 10,
   borderRadius: 20,
@@ -291,7 +290,8 @@ pickerforBuscarProducto: {
   borderColor: '#004187',
   width: 150,
   backgroundColor: '#FFFFFF',
-  alignContent: 'center'
+  alignSelf: 'flex-end',
+  marginStart: 80,
 },
 searchContainer: {
   flexDirection: 'row',
@@ -339,7 +339,7 @@ inputForBuscarClienteInd: {
 inputForBuscarProductoInd: {
   borderRadius: 20,
   height: 40,
-  width: '95%',
+  width: '140%',
   borderColor: '#004187',
   borderWidth: 1,
   color: "#004187",
