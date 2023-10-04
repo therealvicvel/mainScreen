@@ -3,12 +3,13 @@ import {View,Text,FlatList,Modal,StyleSheet,TouchableOpacity,ScrollView} from "r
 import styles from "../../utilidades/styles";
 import { TextInput } from "react-native";
 import BuscarCliente from "../../utilidades/BuscarCliente";
+import { Picker } from "@react-native-picker/picker"
 
 const ListClientes = () => {
   const [data, setData] = useState([]);
   const [selectedCliente, setSelectedCliente] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const [selectedState, setSelectedState] = useState("");
   const [nombre, setNombre] = useState("");
   const [direccion, setDireccion] = useState("");
   const [telefono, setTelefono] = useState("");
@@ -90,6 +91,71 @@ const ListClientes = () => {
    loadDataFromServer();
   }, []);
 
+  const handlePickerChange = (itemValue) => {
+    setSelectedState(itemValue);
+    
+    let apiUrl;
+    
+    if (itemValue === "Líquidos") {
+      apiUrl = "https://viramsoftapi.onrender.com/costumer_active";
+    } else if (itemValue === "Sólidos") {
+      apiUrl = "https://viramsoftapi.onrender.com/costumer_inactive";
+    } else {
+      apiUrl = "https://viramsoftapi.onrender.com/costumer";
+    }
+  
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Datos recibidos de la API:", data);
+        setData(data.clientes);
+      })
+      .catch((error) => {
+        console.error("Error fetching data", error);
+      });
+  };
+
+  const cambiarEstadoCliente = () => {
+    if (selectedCliente) {
+      const idCliente = selectedCliente.documento;
+  
+      const url = `https://viramsoftapi.onrender.com/costumer_change_state/${idCliente}?doc_cliente=${idCliente}&summary=Estado%20cambiado`;
+  
+      fetch(url, {
+        method: "POST", // Dependiendo de lo que requiera tu API (puede ser PUT o PATCH también)
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((responseData) => {
+          if (responseData.success) {
+            alert("Hubo un error al cambiar el estado del cliente.");
+          } else {
+            alert("El estado del cliente se ha cambiado correctamente.");
+            // Actualizar la lista de clientes después de cambiar el estado
+            setData((prevData) => {
+              const newData = prevData.map((item) =>
+                item.documento === selectedCliente.documento
+                  ? {
+                      ...item,
+                      estado: responseData.nuevo_estado,
+                    }
+                  : item
+              );
+              setIsModalVisible(false);
+              return newData;
+            });
+          }
+        })
+        .catch((error) => {
+          console.log("Error al cambiar el estado del cliente: ", error);
+        });
+    }
+  };
+  
+  
+
   const handleOpenModal = (cliente) => {
     setSelectedCliente(cliente);
     setNombre(cliente.nombre);
@@ -109,15 +175,30 @@ const ListClientes = () => {
         <Text style={styles.clienteText}>{item.nombre}</Text>
         <Text style={styles.clienteText}>{item.direccion}</Text>
         <Text style={styles.clienteText}>{item.telefono}</Text>
+        <Text style={styles.clienteText}>{item.estado}</Text>
       </View>
     </TouchableOpacity>
   );
   return (
     <View style={styles.containerTwo}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
         <BuscarCliente
           Data={data}
           onSelectClient={handleOpenModal} //Actualiza el cliente seleccionado al hacer clic en un cliente en BuscarCliente
         />
+        <View style={{ position: 'absolute', top: 0, right: 0 }}>
+  <Picker
+  selectedValue={selectedState}
+  onValueChange={handlePickerChange}
+  style={styles.pickerforBuscarProducto}
+>
+  <Picker.Item label="Estado" value={""} />
+  <Picker.Item label="Activo" value="Líquidos" />
+  <Picker.Item label="Inactivo" value="Sólidos" />
+</Picker>
+
+</View>
+        </View>
         <FlatList
           data={data}
           renderItem={renderClienteItem}
@@ -171,6 +252,12 @@ const ListClientes = () => {
                 />
               </>
             )}
+            <TouchableOpacity
+              style={styles.buttonGuardar}
+              onPress={cambiarEstadoCliente}
+            >
+              <Text style={styles.colorTextButtonGuardar}>Cambiar estado</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonCerrar}
               onPress={handleCloseModal}
