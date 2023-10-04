@@ -108,23 +108,27 @@ const NuevoPedido = () => {
     setListaModalVisible(true);
   };
   return (
-    <View style={{ flex: 1, backgroundColor: "#FFFFFF"}}>
+    <View style={{ flex: 1, backgroundColor: "#FFFFFF", padding: 5,}}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
       <FiltrarBuscar
          Data={filteredData} // Pasa los datos filtrados en lugar de toda la lista de productos
          onItemSelected={handleAddPress}// Actualiza selectedProduct cuando se selecciona un producto
         />  
-      <View  style={styles.categoriaSelector} >  
+       
+      <View style={{ position: 'absolute', top: 0, right: 0 }}>
          <Picker
           selectedValue={selectedCategory}
          
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
           style={styles.pickerforBuscarProducto}>
-          <Picker.Item label="Todos" value={""} />
+          <Picker.Item label="Categoría" value={""} />
           <Picker.Item label="Líquidos" value="Líquidos" />
           <Picker.Item label="Sólidos" value="Sólidos" />
           <Picker.Item label="Polvos" value="Polvos" />
           <Picker.Item label="Otro" value="Otro" />
         </Picker>
+        </View>
+        
       </View>
       <FlatList
         data={filteredData}

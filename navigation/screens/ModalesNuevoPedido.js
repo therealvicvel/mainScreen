@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Modal, Text, TouchableOpacity, StyleSheet, TextInput, Alert } from "react-native";
-import BuscarCliente from "../../utilidades/BuscarCliente";
+import BuscarClienteParaPedido from "../../utilidades/BuscarClienteParaPedido";
 import Calendario from "../../utilidades/Calendario";
 import styles from "../../utilidades/styles";
 
@@ -210,8 +210,9 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
                 <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: "bold", marginBottom: 10,}}>
                   Detalles del pedido</Text>
                 <View>
-               
-                  <BuscarCliente onSelectClient={handleSelectClient} />
+                
+                  <BuscarClienteParaPedido onSelectClient={handleSelectClient} />
+                  
                   {selectedClient && (
                     <View>
                       <Text >Datos cliente:</Text>
