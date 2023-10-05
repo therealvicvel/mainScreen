@@ -20,18 +20,13 @@ const LoginScreen = ({ onLogin }) => {
       });
   
       if (!response.ok) {
-        // Si la respuesta no es exitosa (por ejemplo, 400 o 401),
-        // puedes manejar el error de acuerdo a tus necesidades
+
         alert("Datos de ingreso incorrectos. ");
         setUsername('');
         setPassword('');
         return;
       }
-      
-  
-      // Si la respuesta es exitosa, puedes manejar la respuesta aquí
-      // Por ejemplo, puedes obtener el token de autenticación y almacenarlo en tu aplicación
-      // También puedes llamar a onLogin() para cambiar el estado de autenticación
+
       onLogin();
   
     } catch (error) {

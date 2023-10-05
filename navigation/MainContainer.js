@@ -5,14 +5,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import BuscarCliente from "../utilidades/BuscarCliente";
-
 //Importaciones de otras pantallas
 import HomeScreen from "./screens/HomeScreen";
-import InventarioScreen from "./screens/InventarioScreen";
 import ListClientes from "./screens/ListClientes";
 import PedidosScreen from "./screens/PedidosScreen";
-import { ScrollView } from "react-native-gesture-handler";
 import AddClientesScreen from "./screens/AddClientesScreen";
 import AddProductoScreen from "./screens/AddProductoScreen";
 import styles from "../utilidades/styles";
@@ -22,59 +18,64 @@ import LoginScreen from "./screens/Login";
 
 const homeName = 'Inicio';
 const pedidosName = 'Pedidos';
-const inventarioName = 'Inventario';
+const inventarioName = 'Inventario.';
 const clientesName = 'Clientes';
-const listName = 'Listado de clientes';
-const addProductoName = 'Agregar producto';
-
+const loginName= 'Login';
 const Tab = createBottomTabNavigator();
 const TopTab = createMaterialTopTabNavigator();
 
-const InventarioTopTabNavigator = () => (
-  <TopTab.Navigator>
-    <TopTab.Screen name="Productos" component={InventarioScreenPrueba} />
-    <TopTab.Screen name="Agregar producto" component={AddProductoScreen} />
-  </TopTab.Navigator>
-);
 
-const ClientesTopTabNavigator = () => (
-  <TopTab.Navigator>
-    <TopTab.Screen name="Listado" component={MiniScreenClientes} />
-    <TopTab.Screen name="Agregar nuevo cliente" component={AddClientesScreen} />
-  </TopTab.Navigator>
-);
+const ClientesTopTabNavigator = ({ navigation }) => { 
+  const TopTab = createMaterialTopTabNavigator();
+//importacion de la vista ListPedido
+  const MiniScreenClientes = () => (
+ 
+          <ListClientes />
 
-const MiniScreenClientes = () => (
-  <View style={styles.container}>
-    <ListClientes />
-  </View>
-);
+       );
+//importacion de la vita NuevoPedido    
+  const MiniScreenAddClientes = () => (
+<AddClientesScreen />
+  );
+//lo que se va ver en la vista Pedidos(el menu arriba de NuevoPedido y ListPedido) y por defecto abre List Pedido
+  return (
 
-const MiniScreenAddClientes = () => (
-  <View>
-    <AddClientesScreen />
-  </View>
-);
+      <TopTab.Navigator>
+            <TopTab.Screen name="LIsta Clientes" component={MiniScreenClientes} />
+            <TopTab.Screen name="Agregar Clientes" component={MiniScreenAddClientes} />
+      </TopTab.Navigator>
 
-const MiniScreenAddProducto = () => (
-  <View>
-    <AddProductoScreen />
-  </View>
-);
+  );
+}
 
-const MiniScreenInventario = () => (
-  <View>
-    <InventarioScreen />
-  </View>
-);
+const InventarioTopTabNavigator = ({ navigation }) => { 
+  const TopTab = createMaterialTopTabNavigator();
+//importacion de la vista ListPedido
+  const MiniScreenInventario = () => (
+    
+          <InventarioScreenPrueba />
+
+       );
+//importacion de la vita NuevoPedido    
+  const MiniScreenAddProducto = () => (
+<AddProductoScreen />
+  );
+//lo que se va ver en la vista Pedidos(el menu arriba de NuevoPedido y ListPedido) y por defecto abre List Pedido
+  return (
+
+      <TopTab.Navigator>
+            <TopTab.Screen name=" Lista Inventario" component={MiniScreenInventario} />
+            <TopTab.Screen name="Agregar Producto" component={MiniScreenAddProducto} />
+      </TopTab.Navigator>
+
+  );
+}
 
 export default function MainContainer() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado para verificar si el usuario está autenticado
 
   // Función para manejar el inicio de sesión
   const handleLogin = () => {
-    // Aquí puedes agregar la lógica de autenticación
-    // Por ahora, simplemente establecemos el estado isLoggedIn a true
     setIsLoggedIn(true);
   };
   return (
@@ -107,7 +108,7 @@ export default function MainContainer() {
         <Tab.Screen name={pedidosName} component={PedidosScreen} />
       </Tab.Navigator>
       ) : (
-        <LoginScreen onLogin={handleLogin} />
+        <LoginScreen name={loginName} onLogin={handleLogin} />
       )}
     </NavigationContainer>
   );

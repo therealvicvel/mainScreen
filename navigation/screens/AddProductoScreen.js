@@ -15,6 +15,7 @@ export default function AddProductoScreen({ navigation }) {
   const [marca, setMarca] = useState("");
   const [categoria, setCategoria] = useState("");
   const [image, setImage] = useState("");//constante de la imagen
+  const [data, setData] = useState([]);
 
   const opcionesCategoria = [
     { label: "Seleccionar categoría", value: "" },
@@ -100,6 +101,8 @@ export default function AddProductoScreen({ navigation }) {
           setCategoria("");
           setImage("");
           alert("El producto se ha agregado correctamente.");
+          loadDataFromServer();
+
         }
       })
       .catch((error) => {
@@ -160,6 +163,23 @@ export default function AddProductoScreen({ navigation }) {
     setImage(null); // Borra la imagen estableciendo la URI en null
   };
 
+      //MARRANADA PARA QUE CARGUEN TODOS LOS DATOS DE LA API
+
+  const loadDataFromServer = () => {
+    fetch('https://viramsoftapi.onrender.com/product')
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data.productos);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error)
+      });
+  };
+  
+  useEffect(() => {
+    // Cargar los datos desde el servidor al montar el componente
+    loadDataFromServer();
+  }, []);
 
   return (
     <ScrollView contentContainerStyle={styles.containerAddProd}>
@@ -228,23 +248,30 @@ export default function AddProductoScreen({ navigation }) {
             />
           ))}
         </Picker>
-        {/*codigo de la imagen*/}
-        {image &&
+        {/* Código de la imagen */}
+        {image && (
           <Image
             source={{ uri: image }}
-            style={{ 
-              width: 150, 
-              height: 150, 
-              borderRadius: 20, 
-              alignSelf: 'center', }} />}
+            style={{
+              width: 150,
+              height: 150,
+              borderRadius: 20,
+              alignSelf: 'center',
+            }}
+          />
+        )}
         <TouchableOpacity
           style={styles.buttonAddProd}
-          onPress={handleImagePicker} ><Text style={styles.colorTextButtonAddProd}> Subir imagen</Text></TouchableOpacity>
-        {image &&
+          onPress={handleImagePicker}
+        >
+          <Text style={styles.colorTextButtonAddProd}> Subir imagen</Text>
+        </TouchableOpacity>
+        {image && (
           <TouchableOpacity style={styles.buttonAddProd} onPress={handleClearImage}>
-            <Text Text style={styles.colorTextButtonAddProd}> Eliminar imagen</Text>
-          </TouchableOpacity>}
-        {/*fin del codigo */}
+            <Text style={styles.colorTextButtonAddProd}> Eliminar imagen</Text>
+          </TouchableOpacity>
+        )}
+        {/* Fin del código */}
         <TouchableOpacity
           style={styles.buttonAddProd}
           onPress={handleAgregarProducto}
@@ -254,4 +281,4 @@ export default function AddProductoScreen({ navigation }) {
       </ScrollView>
     </ScrollView>
   );
-}
+        }  

@@ -14,22 +14,11 @@ const ListInventario = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [image, setImage] = useState("");//constante de la imagen
   const [data, setData] = useState([]);
-
+  const [selectedProducto, setSelectedProducto] = useState("");
   const [cantidad, setCantidad] = useState("");
   const [valorVenta, setValorVenta] = useState("");
   const [valorCompra, setValorCompra] = useState("");
-
-  const handleCantidadChange = (text) => {
-    setCantidad(text);
-  }
-
-  const handleValorVentaChange = (text) => {
-    setValorVenta(text);
-  }
-
-  const handleValorCompraChange = (text) => {
-    setValorCompra(text);
-  }
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     fetch('https://viramsoftapi.onrender.com/product')
@@ -42,9 +31,18 @@ const ListInventario = () => {
       });
   }, []);
 
-  const [selectedProducto, setSelectedProducto] = useState("");
 
+  const handleCantidadChange = (text) => {
+    setCantidad(text);
+  }
 
+  const handleValorVentaChange = (text) => {
+    setValorVenta(text);
+  }
+
+  const handleValorCompraChange = (text) => {
+    setValorCompra(text);
+  }
 
   const handleGuardarCambios = async () => {
     if (selectedProducto) {
@@ -97,8 +95,6 @@ const ListInventario = () => {
         });
     }
   };
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleOpenModal = (producto) => {
     setSelectedProducto(producto);
@@ -169,33 +165,34 @@ const ListInventario = () => {
 
   return (
     <View style={styles.containerThree}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
         <FiltrarBuscar
           Data={selectedCategory}
           onItemSelected={handleOpenModal}
         />
-
+  
         <View style={{ position: 'absolute', top: 0, right: 0 }}>
-  <Picker
-    selectedValue={selectedCategory}
-    onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-    style={styles.pickerforBuscarProducto}
-  >
-    <Picker.Item label="Categoría" value={""} />
-    <Picker.Item label="Líquidos" value="Líquidos" />
-    <Picker.Item label="Sólidos" value="Sólidos" />
-    <Picker.Item label="Polvos" value="Polvos" />
-    <Picker.Item label="Otro" value="Otro" />
-  </Picker>
-</View>
+          <Picker
+            selectedValue={selectedCategory}
+            onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+            style={styles.pickerforBuscarProducto}
+          >
+            <Picker.Item label="Categoría" value="" />
+            <Picker.Item label="Líquidos" value="Líquidos" />
+            <Picker.Item label="Sólidos" value="Sólidos" />
+            <Picker.Item label="Polvos" value="Polvos" />
+            <Picker.Item label="Otro" value="Otro" />
+          </Picker>
+        </View>
       </View>
-
+  
       <FlatList
         data={data}
         style={{ flex: 1 }}
         renderItem={renderProductoItem}
         keyExtractor={(item) => item.idProducto.toString()}
       />
+  
       <Modal visible={isModalVisible} animationType="slide" transparent={true} onRequestClose={handleCloseModal}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -207,6 +204,7 @@ const ListInventario = () => {
                 <Text style={styles.clienteText}>Valor venta: {selectedProducto.valorVenta}</Text>
                 <Text style={styles.clienteText}>Valor compra: {selectedProducto.valorCompra}</Text>
                 <Text style={styles.modalSubTitle}>Agregar Cambios</Text>
+  
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Cantidad"
@@ -216,6 +214,7 @@ const ListInventario = () => {
                   cursorColor={"#FFFFFF"}
                   placeholderTextColor={"#FFFFFF"}
                 />
+  
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Valor venta"
@@ -225,6 +224,7 @@ const ListInventario = () => {
                   cursorColor={"#FFFFFF"}
                   placeholderTextColor={"#FFFFFF"}
                 />
+  
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Valor compra"
@@ -234,8 +234,8 @@ const ListInventario = () => {
                   cursorColor={"#FFFFFF"}
                   placeholderTextColor={"#FFFFFF"}
                 />
-                {/*codigo de la imagen*/}
-                {image &&
+  
+                {image && (
                   <Image
                     source={{ uri: image }}
                     style={{
@@ -243,36 +243,40 @@ const ListInventario = () => {
                       height: 100,
                       borderRadius: 20,
                       alignSelf: 'center',
-                    }} />}
-                <TouchableOpacity
-                  style={styles.buttonCerrar}
-                  onPress={handleImagePicker} ><Text style={styles.colorTextButtonCerrar}> Subir imagen</Text></TouchableOpacity>
-                {image &&
+                    }}
+                  />
+                )}
+  
+                <TouchableOpacity style={styles.buttonCerrar} onPress={handleImagePicker}>
+                  <Text style={styles.colorTextButtonCerrar}> Subir imagen</Text>
+                </TouchableOpacity>
+  
+                {image && (
                   <TouchableOpacity style={styles.buttonCerrar} onPress={handleClearImage}>
-                    <Text Text style={styles.colorTextButtonCerrar}> Eliminar imagen</Text>
-                  </TouchableOpacity>}
+                    <Text style={styles.colorTextButtonCerrar}> Eliminar imagen</Text>
+                  </TouchableOpacity>
+                )}
+  
+                <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>
+                  <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
+                </TouchableOpacity>
+  
+                <TouchableOpacity style={styles.buttonGuardar} onPress={handleGuardarCambios}>
+                  <Text style={styles.colorTextButtonGuardar}>Guardar</Text>
+                </TouchableOpacity>
               </>
             )}
-            <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>
-              <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonGuardar}
-              onPress={handleGuardarCambios}>
-              <Text style={styles.colorTextButtonGuardar}>Guardar</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </Modal>
     </View>
   );
-};
+  }
 
 export default function InventarioScreenPrueba({ navigation }) {
   return (
-    <View>
-      <View>
+
         <ListInventario />
-      </View>
-    </View>
+
   )
 }

@@ -3,7 +3,7 @@ import React from "react";
 import { View, Text, Button, TextInput, StyleSheet, ScrollView} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import styles from "../../utilidades/styles";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { TouchableOpacity } from "react-native";
 
 //Creación del formulario para agregar un nuevo cliente
@@ -12,7 +12,7 @@ export default function AddClientesScreen({ navigation }) {
     const [nombre, setNombre] = useState('');
     const [direccion, setDireccion] = useState('');
     const [telefono, setTelefono] = useState('');
-    
+
     const [data, setData] = useState([]);
     const validarCampos = () => {
         if (
@@ -56,6 +56,7 @@ export default function AddClientesScreen({ navigation }) {
             setDireccion("");
             setTelefono("");
             alert("El cliente se ha agregado correctamente.");
+            loadDataFromServer();
           }
         })
         .catch((error) => {
@@ -78,6 +79,24 @@ export default function AddClientesScreen({ navigation }) {
     const handleTelefonoChange = (text) => {
         setTelefono(text);
     };
+
+    //MARRANADA PARA QUE CARGUEN TODOS LOS DATOS DE LA API
+    const loadDataFromServer = () => {
+      fetch("https://viramsoftapi.onrender.com/costumer")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Datos recibidos de la API:", data);
+        setData(data.clientes);
+      })
+      .catch((error) => {
+        console.error("Error fetching data", error);
+      });
+    }
+    useEffect(() => {
+      // Cargar los datos desde el servidor al montar el componente
+      loadDataFromServer();
+    }, []);
+
 
     return (
         //Captura de datos, diseño y decoración del formulario

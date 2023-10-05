@@ -14,6 +14,18 @@ const ListClientes = () => {
   const [direccion, setDireccion] = useState("");
   const [telefono, setTelefono] = useState("");
 
+  useEffect(() => {
+    fetch("https://viramsoftapi.onrender.com/costumer")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Datos recibidos de la API:", data);
+        setData(data.clientes);
+      })
+      .catch((error) => {
+        console.error("Error fetching data", error);
+      });
+  }, []);
+  
   const editarCliente = () => {
     if (selectedCliente) {
       const clienteActualizado = {
@@ -70,17 +82,7 @@ const ListClientes = () => {
     }
   };
 
-  useEffect(() => {
-    fetch("https://viramsoftapi.onrender.com/costumer")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Datos recibidos de la API:", data);
-        setData(data.clientes);
-      })
-      .catch((error) => {
-        console.error("Error fetching data", error);
-      });
-  }, []);
+ 
 
   const handlePickerChange = (itemValue) => {
     setSelectedState(itemValue);
@@ -189,13 +191,14 @@ const ListClientes = () => {
 </Picker>
 
 </View>
+       
         </View>
-        <FlatList
+        <ScrollView><FlatList
           data={data}
           renderItem={renderClienteItem}
           keyExtractor={(item) => item.documento.toString()}
           
-        />
+        /></ScrollView>
       
       <Modal visible={isModalVisible} animationType="slide" transparent={true} onRequestClose={handleCloseModal}>
         <View style={styles.modalContainer}>
