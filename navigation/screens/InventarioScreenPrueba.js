@@ -170,7 +170,7 @@ const ListInventario = () => {
           Data={selectedCategory}
           onItemSelected={handleOpenModal}
         />
-  
+
         <View style={{ position: 'absolute', top: 0, right: 0 }}>
           <Picker
             selectedValue={selectedCategory}
@@ -185,14 +185,14 @@ const ListInventario = () => {
           </Picker>
         </View>
       </View>
-  
+
       <FlatList
         data={data}
         style={{ flex: 1 }}
         renderItem={renderProductoItem}
         keyExtractor={(item) => item.idProducto.toString()}
       />
-  
+
       <Modal visible={isModalVisible} animationType="slide" transparent={true} onRequestClose={handleCloseModal}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -204,7 +204,7 @@ const ListInventario = () => {
                 <Text style={styles.clienteText}>Valor venta: {selectedProducto.valorVenta}</Text>
                 <Text style={styles.clienteText}>Valor compra: {selectedProducto.valorCompra}</Text>
                 <Text style={styles.modalSubTitle}>Agregar Cambios</Text>
-  
+
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Cantidad"
@@ -214,7 +214,7 @@ const ListInventario = () => {
                   cursorColor={"#FFFFFF"}
                   placeholderTextColor={"#FFFFFF"}
                 />
-  
+
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Valor venta"
@@ -224,7 +224,7 @@ const ListInventario = () => {
                   cursorColor={"#FFFFFF"}
                   placeholderTextColor={"#FFFFFF"}
                 />
-  
+
                 <TextInput
                   style={styles.inputForModal}
                   placeholder="Valor compra"
@@ -234,7 +234,7 @@ const ListInventario = () => {
                   cursorColor={"#FFFFFF"}
                   placeholderTextColor={"#FFFFFF"}
                 />
-  
+
                 {image && (
                   <Image
                     source={{ uri: image }}
@@ -246,21 +246,21 @@ const ListInventario = () => {
                     }}
                   />
                 )}
-  
+
                 <TouchableOpacity style={styles.buttonCerrar} onPress={handleImagePicker}>
                   <Text style={styles.colorTextButtonCerrar}> Subir imagen</Text>
                 </TouchableOpacity>
-  
+
                 {image && (
                   <TouchableOpacity style={styles.buttonCerrar} onPress={handleClearImage}>
                     <Text style={styles.colorTextButtonCerrar}> Eliminar imagen</Text>
                   </TouchableOpacity>
                 )}
-  
+
                 <TouchableOpacity style={styles.buttonCerrar} onPress={handleCloseModal}>
                   <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
                 </TouchableOpacity>
-  
+
                 <TouchableOpacity style={styles.buttonGuardar} onPress={handleGuardarCambios}>
                   <Text style={styles.colorTextButtonGuardar}>Guardar</Text>
                 </TouchableOpacity>
@@ -271,12 +271,15 @@ const ListInventario = () => {
       </Modal>
     </View>
   );
-  }
+}
 
 export default function InventarioScreenPrueba({ navigation }) {
   return (
-
+    <View>
+      <View>
         <ListInventario />
+      </View>
+    </View>
 
   )
 }

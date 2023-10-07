@@ -89,7 +89,7 @@ const ListClientes = () => {
     
     let apiUrl;
     
-    if (itemValue === "Líquidos") {
+    if (itemValue === "Activo") {
       apiUrl = "https://viramsoftapi.onrender.com/costumer_active";
     } else if (itemValue === "Sólidos") {
       apiUrl = "https://viramsoftapi.onrender.com/costumer_inactive";
@@ -186,19 +186,21 @@ const ListClientes = () => {
   style={styles.pickerforBuscarProducto}
 >
   <Picker.Item label="Estado" value={""} />
-  <Picker.Item label="Activo" value="Líquidos" />
-  <Picker.Item label="Inactivo" value="Sólidos" />
+  <Picker.Item label="Activo" value="Activo" />
+  <Picker.Item label="Inactivo" value="Inactivo" />
 </Picker>
 
 </View>
        
         </View>
-        <ScrollView><FlatList
+        
+          <FlatList
           data={data}
+          syle={{flex: 1}}
           renderItem={renderClienteItem}
           keyExtractor={(item) => item.documento.toString()}
           
-        /></ScrollView>
+        />
       
       <Modal visible={isModalVisible} animationType="slide" transparent={true} onRequestClose={handleCloseModal}>
         <View style={styles.modalContainer}>

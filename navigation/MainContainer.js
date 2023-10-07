@@ -29,10 +29,10 @@ const ClientesTopTabNavigator = ({ navigation }) => {
   const TopTab = createMaterialTopTabNavigator();
 //importacion de la vista ListPedido
   const MiniScreenClientes = () => (
- 
-          <ListClientes />
-
-       );
+  <View style={styles.container}>
+    <ListClientes />
+  </View>
+);
 //importacion de la vita NuevoPedido    
   const MiniScreenAddClientes = () => (
 <AddClientesScreen />
