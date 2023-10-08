@@ -91,7 +91,7 @@ const ListClientes = () => {
     
     if (itemValue === "Activo") {
       apiUrl = "https://viramsoftapi.onrender.com/costumer_active";
-    } else if (itemValue === "Sólidos") {
+    } else if (itemValue === "Inactivo") {
       apiUrl = "https://viramsoftapi.onrender.com/costumer_inactive";
     } else {
       apiUrl = "https://viramsoftapi.onrender.com/costumer";
@@ -111,21 +111,22 @@ const ListClientes = () => {
   const cambiarEstadoCliente = () => {
     if (selectedCliente) {
       const idCliente = selectedCliente.documento;
-  
-      const url = `https://viramsoftapi.onrender.com/costumer_change_state/${idCliente}?doc_cliente=${idCliente}&summary=Estado%20cambiado`;
-  
+      console.log(idCliente);
+      const url = `https://viramsoftapi.onrender.com/costumer_change_state/{id_cliente}?doc_cliente=${idCliente}&summary=Este%20endpoint%20cambia%20el%20estado%20del%20cliente`;
+    
       fetch(url, {
-        method: "POST", // Dependiendo de lo que requiera tu API (puede ser PUT o PATCH también)
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
       })
         .then((response) => response.json())
         .then((responseData) => {
-          if (responseData.success) {
-            alert("Hubo un error al cambiar el estado del cliente.");
-          } else {
-            alert("El estado del cliente se ha cambiado correctamente.");
+          if (responseData && responseData.mensaje) {
+            // Mostrar la respuesta de la API en una alerta
+            alert(responseData.mensaje);
+            console.log(data);
+  
             // Actualizar la lista de clientes después de cambiar el estado
             setData((prevData) => {
               const newData = prevData.map((item) =>
@@ -139,10 +140,14 @@ const ListClientes = () => {
               setIsModalVisible(false);
               return newData;
             });
+          } else {
+            // Manejar el caso en que no hay un mensaje en la respuesta
+            alert("Hubo un error al cambiar el estado del cliente.");
           }
         })
         .catch((error) => {
           console.log("Error al cambiar el estado del cliente: ", error);
+          alert("Hubo un error al cambiar el estado del cliente.");
         });
     }
   };

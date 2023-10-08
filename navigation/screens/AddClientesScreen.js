@@ -56,7 +56,6 @@ export default function AddClientesScreen({ navigation }) {
             setDireccion("");
             setTelefono("");
             alert("El cliente se ha agregado correctamente.");
-            loadDataFromServer();
           }
         })
         .catch((error) => {
@@ -80,22 +79,7 @@ export default function AddClientesScreen({ navigation }) {
         setTelefono(text);
     };
 
-    //MARRANADA PARA QUE CARGUEN TODOS LOS DATOS DE LA API
-    const loadDataFromServer = () => {
-      fetch("https://viramsoftapi.onrender.com/costumer")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Datos recibidos de la API:", data);
-        setData(data.clientes);
-      })
-      .catch((error) => {
-        console.error("Error fetching data", error);
-      });
-    }
-    useEffect(() => {
-      // Cargar los datos desde el servidor al montar el componente
-      loadDataFromServer();
-    }, []);
+  
 
 
     return (

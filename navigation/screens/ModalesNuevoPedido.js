@@ -110,8 +110,7 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
       // Resto del código para manejar la respuesta de la API
     })
     .catch((error) => {
-      console.error("Pedido creado con inconvenientes. ", error);
-      alert("Pedido creado con inconvenientes.");
+
     });
     setShowSecondModal(false);
     setModalVisible(false);

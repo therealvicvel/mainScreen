@@ -101,7 +101,6 @@ export default function AddProductoScreen({ navigation }) {
           setCategoria("");
           setImage("");
           alert("El producto se ha agregado correctamente.");
-          loadDataFromServer();
 
         }
       })
@@ -163,24 +162,7 @@ export default function AddProductoScreen({ navigation }) {
     setImage(null); // Borra la imagen estableciendo la URI en null
   };
 
-      //MARRANADA PARA QUE CARGUEN TODOS LOS DATOS DE LA API
-
-  const loadDataFromServer = () => {
-    fetch('https://viramsoftapi.onrender.com/product')
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data.productos);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error)
-      });
-  };
-  
-  useEffect(() => {
-    // Cargar los datos desde el servidor al montar el componente
-    loadDataFromServer();
-  }, []);
-
+   
   return (
     <ScrollView contentContainerStyle={styles.containerAddProd}>
       <ScrollView style={styles.containerAddProd}>
