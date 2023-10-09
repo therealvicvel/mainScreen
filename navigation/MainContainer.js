@@ -18,7 +18,7 @@ import LoginScreen from "./screens/Login";
 
 const homeName = 'Inicio';
 const pedidosName = 'Pedidos';
-const inventarioName = 'Inventario.';
+const inventarioName = 'Inventario';
 const clientesName = 'Clientes';
 const loginName= 'Login';
 const Tab = createBottomTabNavigator();
@@ -41,8 +41,8 @@ const ClientesTopTabNavigator = ({ navigation }) => {
   return (
 
       <TopTab.Navigator>
-            <TopTab.Screen name="LIsta Clientes" component={MiniScreenClientes} />
-            <TopTab.Screen name="Agregar Clientes" component={MiniScreenAddClientes} />
+            <TopTab.Screen name="Listado" component={MiniScreenClientes} />
+            <TopTab.Screen name="Agregar cliente" component={MiniScreenAddClientes} />
       </TopTab.Navigator>
 
   );
@@ -64,8 +64,8 @@ const InventarioTopTabNavigator = ({ navigation }) => {
   return (
 
       <TopTab.Navigator>
-            <TopTab.Screen name=" Lista Inventario" component={MiniScreenInventario} />
-            <TopTab.Screen name="Agregar Producto" component={MiniScreenAddProducto} />
+            <TopTab.Screen name="Productos" component={MiniScreenInventario} />
+            <TopTab.Screen name="Agregar producto" component={MiniScreenAddProducto} />
       </TopTab.Navigator>
 
   );

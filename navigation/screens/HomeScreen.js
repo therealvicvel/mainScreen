@@ -7,7 +7,7 @@ const App = () => {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>BIENVENIDOS A VIRAMSOFT</Text>
+    <Text>Futuro dashboard</Text>
     </View>
   );
 };

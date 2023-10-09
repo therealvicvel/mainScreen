@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { View, TextInput, Button,TouchableOpacity,Text,StyleSheet}from "react-native";
 import styles from "../../utilidades/styles";
+import { Image } from 'react-native';
 
 const LoginScreen = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  
 
   const handleLoginPress = async () => {
     try {
@@ -35,7 +37,12 @@ const LoginScreen = ({ onLogin }) => {
   };
 
   return (
-    <View style={{...styles.container,justifyContent:'center'}}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10 }}>
+      <Image
+  source={require('../../assets/Enmarchenoire-mostrando-tetas-redondas-1.png')}
+  style={{ width: 200, height: 180,}}
+  resizeMode="contain"
+/>
       <TextInput
         placeholder="Usuario"
         style={styles.input}
@@ -58,6 +65,9 @@ const LoginScreen = ({ onLogin }) => {
       onPress={handleLoginPress} >
         <Text style={styles.colorTextButtonAddProd}>Ingresar</Text>
       </TouchableOpacity>
+      <Text style={{ marginTop: 20, color: '#004187' }}>
+    Derechos Reservados © Infinite Solutions
+  </Text>
     </View>
   );
 };

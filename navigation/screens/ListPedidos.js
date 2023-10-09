@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Modal, ScrollView, TouchableOpacity, ActivityIndicator, Linking, Platform  } from 'react-native';
+import { View, Text, FlatList, Modal, ScrollView, TouchableOpacity, ActivityIndicator, Linking, Platform } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
@@ -61,13 +61,13 @@ const ListPedido = () => {
         console.error('No selected pedido.');
         return null;
       }
-  
+
       const response = await fetch(
         `https://viramsoftapi.onrender.com/generar_comprobante?pedido_id=${selectedPedido.idPedido}`
       );
       const data = await response.json();
       console.log('API response:', data);
-  
+
       // Extract the base64Data from the API response
       const base64Data = data[0]; // Assuming the base64Data is the first item in the array
       return base64Data;
@@ -76,7 +76,7 @@ const ListPedido = () => {
       return null;
     }
   };
-  
+
 
   const cleanBase64Data = (base64Data) => {
     // Eliminar los caracteres " y [
@@ -119,20 +119,20 @@ const ListPedido = () => {
   const descargarPDF = async () => {
     try {
       const base64Data = await fetchBase64Data();
-  
+
       if (base64Data) {
         const cleanedBase64Data = cleanBase64Data(base64Data);
-  
+
         const fileName = 'Comprobante_Pedido.pdf';
         const filePath = `${FileSystem.documentDirectory}${fileName}`;
-  
+
         try {
           // Write the cleaned base64Data (PDF) to the file
           await FileSystem.writeAsStringAsync(filePath, cleanedBase64Data, {
             encoding: FileSystem.EncodingType.Base64,
           });
           console.log('Archivo PDF decodificado y guardado correctamente en:', filePath);
-  
+
           // Mostrar la ubicación donde se ha guardado el archivo PDF
           if (Platform.OS === 'android') {
             alert('El PDF se ha guardado en: ' + filePath);
@@ -150,23 +150,71 @@ const ListPedido = () => {
     }
   };
 
+  const cambiarEstadoPedido = () => {
+    if (selectedPedido) {
+      const idPedido = selectedPedido.idPedido;
+      const url = `https://viramsoftapi.onrender.com/edit_product_state_delivered/${idPedido}`;
 
-  return  (
+      fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nuevo_estado: "entregado", // Cambia "entregado" al estado que corresponda
+        }),
+      })
+        .then((response) => response.json())
+        .then((responseData) => {
+          console.log("Respuesta de la API:", responseData);
+          if (responseData.success) {
+            alert("Hubo un error al cambiar el estado del pedido.");
+          } else {
+            alert("El estado del pedido se ha cambiado correctamente.");
+            // Actualizar la lista de pedidos después de cambiar el estado
+            setData((prevData) => {
+              const newData = prevData.map((item) =>
+                item.idPedido === selectedPedido.idPedido
+                  ? {
+                    ...item,
+                    estado: responseData.nuevo_estado,
+                  }
+                  : item
+              );
+              setSelectedPedido(null); // Limpiar el pedido seleccionado
+              return newData;
+            });
+          }
+        })
+        .catch((error) => {
+          console.log("Error al cambiar el estado del pedido: ", error);
+        });
+    }
+  };
+
+
+  return (
     <View >
       <FlatList
-            data={data}
-            keyExtractor={(item) => item.idPedido.toString()}
-            numColumns={2}
-            renderItem={({ item }) => (
-          <View style = {styles.FlatListestilo}>
-              <Text style={styles.listItemText}>{item.nombre}</Text>
-              <Text style={styles.listItemText}>Fecha de entrega: {item.fechaEntrega}</Text>
-              <Text style={styles.listItemText}>{item.estado}</Text>
-              <Text style={styles.listItemText}>Total: ${item.valorTotal}</Text>
-              <TouchableOpacity style= {styles.buttonEntregaryDetalles} ><Text  style={{color: '#004187'}}>Entregar</Text></TouchableOpacity>
-              <TouchableOpacity style= {styles.buttonEntregaryDetalles} onPress={() => handleOpenModal(item)}>
-                <Text style={{color: '#004187'}}>Detalles</Text>
-              </TouchableOpacity>
+        data={data}
+        keyExtractor={(item) => item.idPedido.toString()}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <View style={styles.FlatListestilo}>
+            <Text style={styles.listItemText}>{item.nombre}</Text>
+            <Text style={styles.listItemText}>Fecha de entrega: {item.fechaEntrega}</Text>
+            <Text style={styles.listItemText}>{item.estado}</Text>
+            <Text style={styles.listItemText}>Total: ${item.valorTotal}</Text>
+            <TouchableOpacity
+              style={styles.buttonEntregaryDetalles}
+              onPress={cambiarEstadoPedido}
+            >
+              <Text style={{ color: '#004187' }}>Entregar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.buttonEntregaryDetalles} onPress={() => handleOpenModal(item)}>
+              <Text style={{ color: '#004187' }}>Detalles</Text>
+            </TouchableOpacity>
           </View>
         )}
       />
@@ -194,14 +242,14 @@ const ListPedido = () => {
               <Text>No hay detalles disponibles para este pedido.</Text>
             )}
             <TouchableOpacity style={styles.buttonCerrar} onPress={descargarPDF}>
-        <Text style={styles.colorTextButtonCerrar}>Descargar PDF</Text>
-      </TouchableOpacity>
+              <Text style={styles.colorTextButtonCerrar}>Descargar PDF</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.buttonCerrar} onPress={decodeBase64ToPDFAndShare}>
-        <Text style={styles.colorTextButtonCerrar}>Compartir PDF</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonCerrar} onPress={() => setDetallesPedido(null)} onRequestClose={setDetallesPedido}>
-        <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
-      </TouchableOpacity>
+              <Text style={styles.colorTextButtonCerrar}>Compartir PDF</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonCerrar} onPress={() => setDetallesPedido(null)} onRequestClose={setDetallesPedido}>
+              <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -250,18 +298,18 @@ const styles = {
   colorTextButtonCerrar: {
     color: 'white',
   },
- FlatListestilo: {
+  FlatListestilo: {
     flex: 1,
     backgroundColor: '#004187',
     margin: 5,
     padding: 10,
     borderRadius: 30,
   },
- buttonEntregaryDetalles: {
-  backgroundColor: '#FFFFFF',
-  padding: 10,
-  borderRadius: 70,
-  marginTop: 10,
-  alignItems: "center"
-},
+  buttonEntregaryDetalles: {
+    backgroundColor: '#FFFFFF',
+    padding: 10,
+    borderRadius: 70,
+    marginTop: 10,
+    alignItems: "center"
+  },
 };
