@@ -16,7 +16,7 @@ import InventarioScreenPrueba from "./screens/InventarioScreenPrueba";
 import LoginScreen from "./screens/Login";
 //Variables con nombres de las demás pantallas
 
-const homeName = 'Inicio';
+const homeName = 'Dashboard';
 const pedidosName = 'Pedidos';
 const inventarioName = 'Inventario';
 const clientesName = 'Clientes';
