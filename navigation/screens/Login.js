@@ -39,7 +39,7 @@ const LoginScreen = ({ onLogin }) => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10 }}>
       <Image
-  source={require('../../assets/Enmarchenoire-mostrando-tetas-redondas-1.png')}
+  source={require('../../assets/logo-removebg-preview.png')}
   style={{ width: 200, height: 180,}}
   resizeMode="contain"
 />
