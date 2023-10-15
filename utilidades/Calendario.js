@@ -1,71 +1,46 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 function Calendario({ selectedDate, setSelectedDate }) {
 
-  const handleDateSelect = (date) => {
-    setSelectedDate(date.dateString);
-  };
-
-
-  const renderCalendar = () => {
-    if (Platform.OS === 'ios') {
-      // Utiliza el componente DatePicker para iOS
-      return (
-        <View>
-          <Text>Fecha seleccionada: {selectedDate}</Text>
-          <DatePicker
-            date={selectedDate}
-            mode="date"
-            placeholder="Selecciona una fecha"
-            format="YYYY-MM-DD"
-            confirmBtnText="Confirmar"
-            cancelBtnText="Cancelar"
-            onDateChange={(date) => {
-              setSelectedDate(date);
-            }}
-          />
-        </View>
-      );
-    } else {
-      return (
-        <View>
-            <Calendar
-              onDayPress={handleDateSelect}
-            />
-        </View>
-      );
-    }
-  };
-
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Fecha Seleccionada: <Text>{selectedDate}</Text></Text>
-      {renderCalendar()}
+      <Text style={styles.text}>Fecha Seleccionada: {selectedDate}</Text>
+      {Platform.OS === 'ios' ? (
+        <DatePicker
+          date={selectedDate}
+          mode="date"
+          placeholder="Selecciona una fecha"
+          format="YYYY-MM-DD"
+          confirmBtnText="Confirmar"
+          cancelBtnText="Cancelar"
+          onDateChange={(date) => {
+            setSelectedDate(date);
+          }}
+        />
+      ) : (
+        <Calendar
+          onDayPress={(date) => setSelectedDate(date.dateString)}
+        />
+      )}
     </View>
   );
 }
 
-export default Calendario;
-
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    padding: 20,
   },
   text: {
-    color: '#FFFFFF',
+    color: '#000',
     fontSize: 18,
     marginBottom: 20,
   },
-  buttonText: {
-    backgroundColor: '#6CAEF6',
-    padding: 10,
-    borderRadius: 70,
-    marginTop: 10,
-    
-  }
 });
+
+export default Calendario;
