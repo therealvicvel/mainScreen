@@ -4,6 +4,7 @@ import BuscarClienteParaPedido from "../../utilidades/BuscarClienteParaPedido";
 import Calendario from "../../utilidades/Calendario";
 import styles from "../../utilidades/styles";
 
+
 const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProducts }) => {
   const [total, setTotal] = useState(0);
   const [showSecondModal, setShowSecondModal] = useState(false);
@@ -103,7 +104,6 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
       .then((response) => response.json())
       .then((data) => {
         console.log("Respuesta de la API:", data);
-        // Resto del código para manejar la respuesta de la API
       })
       .catch((error) => {
 

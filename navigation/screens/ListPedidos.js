@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Modal, ScrollView, TouchableOpacity, ActivityIndicator, Linking, Platform } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
-import { Picker } from "@react-native-picker/picker"
+import { Picker } from '@react-native-picker/picker';
+
 
 const ListPedido = () => {
   const [data, setData] = useState([]);
@@ -10,8 +11,8 @@ const ListPedido = () => {
   const [detallesPedido, setDetallesPedido] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Nuevo estado para controlar la carga
   const [pdfDecoded, setPdfDecoded] = useState(false);
-  const [filtroEstado, setFiltroEstado] = useState(null);
-
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     if (isLoading && selectedPedido) {
@@ -24,35 +25,30 @@ const ListPedido = () => {
       .then((response) => response.json())
       .then((data) => {
         setData(data.pedidos);
+        setFilteredData(data.pedidos);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }, []);
 
-  const FiltroEstado = () => {
-    const estados = [...new Set(data.map(item => item.estado))]; // Obtener todos los estados únicos
-  
-    return (
-      <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
-        <Picker
-          selectedValue={filtroEstado}
-          style={{ height: 50, width: 150 }}
-          onValueChange={(itemValue) => setFiltroEstado(itemValue)}
-        >
-          <Picker.Item label="Todos" value={null} />
-          {estados.map((estado, index) => (
-            <Picker.Item key={index} label={estado} value={estado} />
-          ))}
-        </Picker>
-      </View>
-    );
+  const filterPedidosByCategory = () => {
+    if (!selectedCategory) {
+      setFilteredData(data);
+    } else {
+      const filteredPedidos = data.filter((item) => item.estado === selectedCategory);
+      setFilteredData(filteredPedidos);
+    }
   };
-  
+
+  useEffect(() => {
+    filterPedidosByCategory();
+  }, [selectedCategory]);
+
+
   const handleOpenModal = (pedido) => {
     setSelectedPedido(pedido);
     setIsLoading(true);
-    // Rest of the code
   };
 
   const handleCloseModal = () => {
@@ -215,18 +211,25 @@ const ListPedido = () => {
 
 
   return (
-    <View >
-      <FiltroEstado />
+    <View style={{ backgroundColor: '#FFFFFF', flex: 1, }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
+          <Picker
+            selectedValue={selectedCategory}
+            onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+            style={styles.pickerforBuscarProducto}
+          >
+            <Picker.Item label="Todos" value="" />
+            <Picker.Item label="Entregado" value="Entregado" />
+            <Picker.Item label="Pendiente" value="Pendiente" />
+            <Picker.Item label="Cancelado" value="Cancelado" />
+          </Picker>
+      </View>
       <FlatList
-        data={data}
+        data={filteredData}
         keyExtractor={(item) => item.idPedido.toString()}
         numColumns={2}
-        renderItem={({ item }) => {
-          if (filtroEstado && item.estado !== filtroEstado) {
-            return null; // Si el estado no coincide con el filtro, no mostrar este pedido
-          }
-          return (
-            <View style={styles.FlatListestilo}>
+        renderItem={({ item }) => (
+          <View style={styles.FlatListestilo}>
             <Text style={styles.listItemText}>{item.nombre}</Text>
             <Text style={styles.listItemText}>Fecha de entrega: {item.fechaEntrega}</Text>
             <Text style={styles.listItemText}>{item.estado}</Text>
@@ -242,8 +245,7 @@ const ListPedido = () => {
               <Text style={{ color: '#004187' }}>Detalles</Text>
             </TouchableOpacity>
           </View>
-            );
-          }}
+        )}
       />
 
       <Modal visible={detallesPedido !== null} animationType="slide" transparent={true}>
@@ -309,6 +311,16 @@ const styles = {
     padding: 20,
     borderRadius: 20,
     width: '80%',
+  },
+  pickerforBuscarProducto: {
+    color: "#004187",
+    borderRadius: 20,
+    padding: 8,
+    borderColor: '#004187',
+    width: 150,
+    backgroundColor: '#FFFFFF',
+    alignSelf: 'flex-end',
+    marginStart: 80,
   },
   modalTitle: {
     fontSize: 20,
