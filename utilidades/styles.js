@@ -22,6 +22,11 @@ const styles = StyleSheet.create({
     padding: 10,
     minHeight: '100%'
   },
+  containerFour: {
+    backgroundColor: '#FFFFFF',
+    padding: 5,
+    minHeight: '100%'
+  },
   containerPrueba: {
     backgroundColor: 'green',
     padding: 10,

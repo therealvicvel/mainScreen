@@ -12,7 +12,7 @@ const PedidosScreen = ({ navigation }) => {
     const TopTab = createMaterialTopTabNavigator();
 //importacion de la vista ListPedido
     const MiniScreenListPed = () => (
-        <View style={styles.container}>
+        <View>
             <View>
              <ListPedido/>
             </View>

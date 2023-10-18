@@ -211,8 +211,8 @@ const ListPedido = () => {
 
 
   return (
-    <View style={{ backgroundColor: '#FFFFFF', flex: 1, }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
+    <View style={styles.containerThree}>
+      <View style={{ flexDirection: 'row', alignItems: 'center',  }}>
           <Picker
             selectedValue={selectedCategory}
             onValueChange={(itemValue) => setSelectedCategory(itemValue)}
@@ -223,11 +223,12 @@ const ListPedido = () => {
             <Picker.Item label="Pendiente" value="Pendiente" />
             <Picker.Item label="Cancelado" value="Cancelado" />
           </Picker>
-      </View>
+          </View>
       <FlatList
         data={filteredData}
         keyExtractor={(item) => item.idPedido.toString()}
         numColumns={2}
+        style={{flex: 1}}
         renderItem={({ item }) => (
           <View style={styles.FlatListestilo}>
             <Text style={styles.listItemText}>{item.nombre}</Text>
@@ -294,6 +295,11 @@ const styles = {
     color: '#FFFFFF',
     marginTop: 5,
   },
+  containerThree: {
+    backgroundColor: '#FFFFFF',
+    padding: 5,
+    minHeight: '100%'
+  },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -314,13 +320,12 @@ const styles = {
   },
   pickerforBuscarProducto: {
     color: "#004187",
+    flex: 1,
     borderRadius: 20,
-    padding: 8,
     borderColor: '#004187',
     width: 150,
     backgroundColor: '#FFFFFF',
-    alignSelf: 'flex-end',
-    marginStart: 80,
+    alignSelf: 'center',
   },
   modalTitle: {
     fontSize: 20,
