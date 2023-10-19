@@ -1,87 +1,87 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';  // Cambia a la biblioteca de iconos que estés utilizando
+import React, { useState, useEffect } from 'react';
+import { View, Text,StyleSheet, TouchableOpacity} from 'react-native';
+import { BarChart } from 'react-native-chart-kit';
+import styles from '../../utilidades/styles';
 
-const App = () => {
-  const data = [
-    { id: 1, name: 'Producto A', price: 20 },
-    { id: 2, name: 'Producto B', price: 30 },
-    // ... más filas
-  ];
-  
-  const handleEditProduct = (productId) => {
-    // Lógica para editar el producto con el ID productId
-    console.log('Edit product with ID:', productId);
+const BarChartComponent = () => {
+  const [chartData, setChartData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://viramsoftapi.onrender.com/ventas_por_semana');
+        if (!response.ok) {
+          throw new Error('La solicitud no se completó correctamente');
+        }
+
+        const data = await response.json();
+
+        const updatedChartData = {
+          labels: data.labels,
+          datasets: [
+            {
+              data: data.data,
+            },
+          ],
+        };
+        setChartData(updatedChartData);
+      } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+        setChartData(null);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const chartConfig = {
+
+    backgroundGradientFrom: 'lightgray',
+    backgroundGradientTo: 'white',
+    color: (opacity = 1) => `#004187`,
+    fontSize: 20,
   };
 
-  const handleDeleteProduct = (productId) => {
-    // Lógica para eliminar el producto con el ID productId
-    console.log('Delete product with ID:', productId);
-  };
-
-  const renderItem = ({ item }) => (
-    <View style={styles.row}>
-      <Text style={styles.cell}>{item.id}</Text>
-      <Text style={styles.cell}>{item.name}</Text>
-      <Text style={styles.cell}>{item.price}</Text>
-
-      {/* Icono para editar */}
-      <TouchableOpacity onPress={() => handleEditProduct(item.id)}>
-        <Icon name="pencil" size={20} color="blue" />
-      </TouchableOpacity>
-
-      {/* Icono para eliminar */}
-      <TouchableOpacity onPress={() => handleDeleteProduct(item.id)}>
-        <Icon name="trash" size={20} color="red" />
-      </TouchableOpacity>
-    </View>
-  );
+  // Ajusta el ancho y el alto del gráfico según tus preferencias
+  const chartWidth = 400; // Por ejemplo, el 90% del ancho de la vista
+  const chartHeight = 250; // Altura fija+
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>ID</Text>
-        <Text style={styles.headerText}>Nombre</Text>
-        <Text style={styles.headerText}>Precio</Text>
-        <Text style={styles.headerText}>Editar</Text>
-        <Text style={styles.headerText}>Eliminar</Text>
+    <View>
+      <View style={{ height:'25%', alignItems:'center',borderRadius:10, borderColor:'#004187',color:'#8DD8F9'}}>
+        <Text> GANACIAS:(AQUI VA UN NUMERO)</Text>
       </View>
-      {/* Table rows */}
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-      />
+      <View style={{padding:20, flexDirection:'row' }}>
+        <TouchableOpacity style={styles.buttonAddProd}>
+          <Text style={{color: 'white'}}>Semana</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonAddProd}>
+          <Text style={{color: 'white'}}>3 Semana</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonAddProd}>
+          <Text style={{color: 'white'}}> 1 Mes</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonAddProd}>
+          <Text style={{color: 'white'}}>3 Meses</Text>
+        </TouchableOpacity>
+        
+      </View>
+      <View >
+        {chartData ? (
+        <BarChart
+          data={chartData}
+          width={chartWidth}
+          height={chartHeight}
+          yAxisLabel="$"
+          chartConfig={chartConfig}
+          verticalLabelRotation={20}
+        />
+      ) : (
+        <Text>Error al cargar la tabla</Text>
+      )}
+        </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  header: {
-    flexDirection: 'row',
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  headerText: {
-    flex: 1,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  row: {
-    flexDirection: 'row',
-    marginBottom: 5,
-    alignItems: 'center',  // Alinea los iconos verticalmente
-  },
-  cell: {
-    flex: 1,
-    textAlign: 'center',
-  },
-});
-
-export default App;
+export default BarChartComponent;
