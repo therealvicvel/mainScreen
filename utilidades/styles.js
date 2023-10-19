@@ -5,6 +5,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     flex: 1,
     padding: 10,
+    
+  },
+  eyeButton: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
   },
   containerTwo: {
     backgroundColor: '#FFFFFF',

@@ -6,6 +6,8 @@ import { Image } from 'react-native';
 const LoginScreen = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   
 
   const handleLoginPress = async () => {
@@ -52,14 +54,31 @@ const LoginScreen = ({ onLogin }) => {
         onChangeText={(text) => setUsername(text)}
       />
       <TextInput
-        placeholder="Password"
-        secureTextEntry
-        style={styles.input}
-        value={password}
-        cursorColor={"#004187"}
-        placeholderTextColor={"#004187"}
-        onChangeText={(text) => setPassword(text)}
-      />
+  placeholder="Password"
+  secureTextEntry={!showPassword}
+  style={styles.input}
+  value={password}
+  cursorColor={"#004187"}
+  placeholderTextColor={"#004187"}
+  onChangeText={(text) => setPassword(text)}
+  
+/>
+<TouchableOpacity
+  onPress={() => setShowPassword(!showPassword)}
+  style={styles.eyeButton}
+>
+  <Image
+    source={
+      showPassword 
+        ? require('../../assets/hide-password.png')
+        : require('../../assets/show-password.png')
+    }
+    style={{ width: 24, height: 24 }}
+  />
+</TouchableOpacity>
+
+
+
       <TouchableOpacity 
       style={styles.buttonAddProd}
       onPress={handleLoginPress} >
