@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Image, Button, Modal, TextInput, ImageBackground,TouchableOpacity} from "react-native"
+import { View, Text, FlatList, Image, Button, Modal, TextInput, ImageBackground,TouchableOpacity,Alert} from "react-native"
 import ModalesNuevoPedido from "./ModalesNuevoPedido";
 import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from "react";

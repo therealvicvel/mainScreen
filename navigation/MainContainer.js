@@ -12,6 +12,7 @@ import ListClientes from "./screens/ListClientes";
 import AddClientesScreen from "./screens/AddClientesScreen";
 import styles from "../utilidades/styles";
 import LoginScreen from "./screens/Login";
+
 //Variables con nombres de las demás pantallas
 const homeName = 'Pedidos';
 const pedidosName = 'Nuevo Pedido';
@@ -57,6 +58,10 @@ export default function MainContainer() {
   const handleLogin = () => {
     setIsLoggedIn(true);
   };
+  // Función para manejar la salida (logout)
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
 
   return (
     <NavigationContainer>
@@ -86,9 +91,7 @@ export default function MainContainer() {
             options={{
               headerRight: () => (
                 <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Login');
-                }}
+                onPress={handleLogout} 
                 style={{ marginRight: 15 }}
               >
                 <Ionicons name="exit" size={30} color="#004187" />
@@ -103,9 +106,7 @@ export default function MainContainer() {
             options={{
               headerRight: () => (
                 <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Login');
-                  }}
+                onPress={handleLogout} 
                   style={{ marginRight: 15 }}
                 >
                   <Ionicons name="exit" size={30} color="#004187" />
@@ -120,9 +121,7 @@ export default function MainContainer() {
             options={{
               headerRight: () => (
                 <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Login');
-                  }}
+                  onPress={handleLogout} 
                   style={{ marginRight: 15 ,alignItems:'center'}}
                 >
                   <Ionicons name="exit" size={30} color="#004187" />
