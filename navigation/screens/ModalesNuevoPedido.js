@@ -3,6 +3,7 @@ import { View, Modal, Text, TouchableOpacity, StyleSheet, TextInput, Alert } fro
 import BuscarClienteParaPedido from "../../utilidades/BuscarClienteParaPedido";
 import Calendario from "../../utilidades/Calendario";
 import styles from "../../utilidades/styles";
+import { ScrollView } from "react-native-gesture-handler";
 
 
 const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProducts }) => {
@@ -122,44 +123,45 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
 
     >
       <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
+        <View style={{ padding: 16, backgroundColor: '#004187', borderRadius: 20, flex: 1 }}>
           <Text style={styles.modalTitle}>Elementos seleccionados:</Text>
           <Text style={styles.modalTitle}>Total: <Text>${total.toFixed(2)}</Text></Text>
-          {products.map((product, index) => (
-            <View key={index} style={{ flexDirection: 'row', alignItems: 'center' }} >
-              <Text style={styles.clienteText}>Producto: {product.nombre}</Text>
-              <Text style={styles.clienteText}>Cantidad: {product.quantity}</Text>
-              <Text style={styles.clienteText}>Precio: {product.valorVenta}  </Text>
-              <TouchableOpacity
-                style={styles.buttonGuardar}
-                onPress={() => handleEditQuantity(index)}>
-                <Text style={styles.colorTextButtonGuardar}>Editar cantidad  </Text>
-                {editQuantityIndex !== null && (
-                  <Modal
-                    visible={editQuantityIndex !== null}
-                    animationType="slide"
-                    transparent={true}
-                    onRequestClose={() => setEditQuantityIndex(null)}
-                  >
-                    <View style={styles.modalContainer} >
-                      <View style={styles.modalContent}>
-                        <TextInput
-                          style={styles.inputForModal}
-                          placeholder="Nueva cantidad"
-                          keyboardType="numeric"
-                          value={products[editQuantityIndex].quantity.toString()}
-                          onChangeText={(text) => handleEditQuantityChange(text)}
-                          cursorColor={"#FFFFFF"}
-                          placeholderTextColor={"#FFFFFF"}
-                        />
-                        <TouchableOpacity
-                          style={styles.buttonGuardar}
-                          onPress={handleSaveQuantity}>
-                          <Text style={styles.colorTextButtonGuardar}>Guardar cantidad</Text>
-                        </TouchableOpacity>
+          <ScrollView style={{ flex: 2, maxHeight: '50%' }}>
+            {products.map((product, index) => (
+              <View key={index} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={styles.clienteText}>Producto: {product.nombre}</Text>
+                <Text style={styles.clienteText}>Cantidad: {product.quantity}</Text>
+                <Text style={styles.clienteText}>Precio: {product.valorVenta}  </Text>
+                <TouchableOpacity
+                  style={styles.buttonGuardar}
+                  onPress={() => handleEditQuantity(index)}>
+                  <Text style={styles.colorTextButtonGuardar}>Editar cantidad  </Text>
+                  {editQuantityIndex !== null && (
+                    <Modal
+                      visible={editQuantityIndex !== null}
+                      animationType="slide"
+                      transparent={true}
+                      onRequestClose={() => setEditQuantityIndex(null)}
+                    >
+                      <View style={styles.modalContainer} >
+                        <View style={styles.modalContent}>
+                          <TextInput
+                            style={styles.inputForModal}
+                            placeholder="Nueva cantidad"
+                            keyboardType="numeric"
+                            value={products[editQuantityIndex].quantity.toString()}
+                            onChangeText={(text) => handleEditQuantityChange(text)}
+                            cursorColor={"#FFFFFF"}
+                            placeholderTextColor={"#FFFFFF"}
+                          />
+                          <TouchableOpacity
+                            style={styles.buttonGuardar}
+                            onPress={handleSaveQuantity}>
+                            <Text style={styles.colorTextButtonGuardar}>Guardar cantidad</Text>
+                          </TouchableOpacity>
+                        </View>
                       </View>
-                    </View>
-                  </Modal>
+                    </Modal>
                 )}
               </TouchableOpacity>
               <TouchableOpacity
@@ -169,7 +171,7 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
               </TouchableOpacity>
             </View>
           ))}
-          <View >
+          </ScrollView>
             <TouchableOpacity
               style={styles.buttonCerrar}
               onPress={handleCloseModal}>
@@ -188,7 +190,6 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
             >
               <Text style={styles.colorTextButtonGuardar}>Siguiente</Text>
             </TouchableOpacity>
-          </View>
         </View>
         {/*SEGUNDO MODAL*/}
         {showSecondModal && (

@@ -108,49 +108,7 @@ const ListClientes = () => {
       });
   };
 
-  const cambiarEstadoCliente = () => {
-    if (selectedCliente) {
-      const idCliente = selectedCliente.documento;
-      console.log(idCliente);
-      const url = `https://viramsoftapi.onrender.com/costumer_change_state/{id_cliente}?doc_cliente=${idCliente}&summary=Este%20endpoint%20cambia%20el%20estado%20del%20cliente`;
-    
-      fetch(url, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((responseData) => {
-          if (responseData && responseData.mensaje) {
-            // Mostrar la respuesta de la API en una alerta
-            alert(responseData.mensaje);
-            console.log(data);
-  
-            // Actualizar la lista de clientes después de cambiar el estado
-            setData((prevData) => {
-              const newData = prevData.map((item) =>
-                item.documento === selectedCliente.documento
-                  ? {
-                      ...item,
-                      estado: responseData.nuevo_estado,
-                    }
-                  : item
-              );
-              setIsModalVisible(false);
-              return newData;
-            });
-          } else {
-            // Manejar el caso en que no hay un mensaje en la respuesta
-            alert("Hubo un error al cambiar el estado del cliente.");
-          }
-        })
-        .catch((error) => {
-          console.log("Error al cambiar el estado del cliente: ", error);
-          alert("Hubo un error al cambiar el estado del cliente.");
-        });
-    }
-  };
+ 
   
   
 
@@ -253,12 +211,7 @@ const ListClientes = () => {
                 />
               </>
             )}
-            <TouchableOpacity
-              style={styles.buttonGuardar}
-              onPress={cambiarEstadoCliente}
-            >
-              <Text style={styles.colorTextButtonGuardar}>Cambiar estado</Text>
-            </TouchableOpacity>
+           
             <TouchableOpacity
               style={styles.buttonCerrar}
               onPress={handleCloseModal}

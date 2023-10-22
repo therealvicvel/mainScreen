@@ -1,9 +1,11 @@
-import { View, Text, FlatList, TouchableOpacity, Modal, StyleSheet, TextInput, Alert } from "react-native";
+import { View, Text, FlatList, Image, Button, Modal, TextInput, ImageBackground,TouchableOpacity} from "react-native"
 import ModalesNuevoPedido from "./ModalesNuevoPedido";
 import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from "react";
 import FiltrarBuscar from "../../utilidades/filtrarBuscarProd";
 import styles from "../../utilidades/styles";
+import * as ImagePicker from 'expo-image-picker';
+
 
 const NuevoPedido = () => {
   const [data, setData] = useState([]);
@@ -133,21 +135,39 @@ const NuevoPedido = () => {
       <FlatList
         data={filteredData}
         keyExtractor={(item) => item.idProducto.toString()}
-        numColumns={2}
         renderItem={({ item }) => (
-          <View style= {styles.itemContainer}>
-            <Text style={styles.clienteText}>{item.nombre}</Text>
-            <Text style={styles.clienteText}>{item.marca}</Text>
-            <Text style={styles.clienteText}>${item.valorVenta}</Text>
-            <Text style={styles.clienteText}>Stock: {item.cantidad}</Text>
-            <View>
+          <View style={styles.fondoListas}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.clienteText}>{item.nombre}</Text>
+              <Text style={styles.clienteText}>Cantidad: {item.cantidad}</Text>
+              <Text style={styles.clienteText}>{item.marca}</Text>
+              <Text style={styles.clienteText}>Valor venta: {item.valorVenta}</Text>
+              <Text style={styles.clienteText}>Valor compra: {item.valorCompra}</Text>
+              <Text style={styles.clienteText}>{item.categoria}</Text>
               <TouchableOpacity 
               style={styles.buttonCerrar}
               onPress={() => handleAddPress(item)}>
                 <Text  style={styles.colorTextButtonCerrar}>+</Text>
               </TouchableOpacity>
             </View>
+            <View style={{ width: 100, height: 100 }}>
+              {/* Muestra las imágenes si están disponibles */}
+              {item.imagenes &&
+                item.imagenes.map((imagen, index) => {
+                  // Decodifica los datos base64 a URL de imagen
+                  const imageUrl = `data:image/png;base64,${imagen}`;
+                  return (
+                    <Image
+                      key={index}
+                      source={{ uri: imageUrl }}
+                      style={{ width: 100, height: 100, borderRadius: 20 }}
+                    />
+                  );
+                })}
+            </View>
           </View>
+        </View>
         )}
       />
       <Modal

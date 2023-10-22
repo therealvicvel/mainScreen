@@ -167,47 +167,7 @@ const ListPedido = () => {
     }
   };
 
-  const cambiarEstadoPedido = () => {
-    if (selectedPedido) {
-      const idPedido = selectedPedido.idPedido;
-      const url = `https://viramsoftapi.onrender.com/edit_product_state_delivered/${idPedido}`;
 
-      fetch(url, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          nuevo_estado: "entregado", // Cambia "entregado" al estado que corresponda
-        }),
-      })
-        .then((response) => response.json())
-        .then((responseData) => {
-          console.log("Respuesta de la API:", responseData);
-          if (responseData.success) {
-            alert("Hubo un error al cambiar el estado del pedido.");
-          } else {
-            alert("El estado del pedido se ha cambiado correctamente.");
-            // Actualizar la lista de pedidos después de cambiar el estado
-            setData((prevData) => {
-              const newData = prevData.map((item) =>
-                item.idPedido === selectedPedido.idPedido
-                  ? {
-                    ...item,
-                    estado: responseData.nuevo_estado,
-                  }
-                  : item
-              );
-              setSelectedPedido(null); // Limpiar el pedido seleccionado
-              return newData;
-            });
-          }
-        })
-        .catch((error) => {
-          console.log("Error al cambiar el estado del pedido: ", error);
-        });
-    }
-  };
 
 
   return (
@@ -235,13 +195,6 @@ const ListPedido = () => {
             <Text style={styles.listItemText}>Fecha de entrega: {item.fechaEntrega}</Text>
             <Text style={styles.listItemText}>{item.estado}</Text>
             <Text style={styles.listItemText}>Total: ${item.valorTotal}</Text>
-            <TouchableOpacity
-              style={styles.buttonEntregaryDetalles}
-              onPress={cambiarEstadoPedido}
-            >
-              <Text style={{ color: '#004187' }}>Entregar</Text>
-            </TouchableOpacity>
-
             <TouchableOpacity style={styles.buttonEntregaryDetalles} onPress={() => handleOpenModal(item)}>
               <Text style={{ color: '#004187' }}>Detalles</Text>
             </TouchableOpacity>
