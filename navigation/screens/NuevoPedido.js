@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Image, Button, Modal, TextInput, ImageBackground,TouchableOpacity,Alert} from "react-native"
+import { View, Text, FlatList, Image, Button, Modal, TextInput, ImageBackground, TouchableOpacity, Alert, RefreshControl } from "react-native";
 import ModalesNuevoPedido from "./ModalesNuevoPedido";
 import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from "react";
@@ -17,9 +17,10 @@ const NuevoPedido = () => {
   const [listaModalVisible, setListaModalVisible] = useState(false);
   const [productosAgregados, setProductosAgregados] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
-    fetch('https://viramsoftapi.onrender.com/product')
+    fetch('https://viramsoftapi.onrender.com/product_available')
       .then((response) => response.json())
       .then((data) => {
         setData(data.productos);
@@ -59,7 +60,20 @@ const NuevoPedido = () => {
     setQuantity('1');  // Por defecto, inicializar la cantidad en 1 al abrir el modal
     setModalVisible(true);
   };
-  
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    fetch('https://viramsoftapi.onrender.com/product_available')
+      .then((response) => response.json())
+      .then((newData) => {
+        setData(newData.productos);
+        setFilteredData(newData.productos);
+        setIsRefreshing(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data", error);
+        setIsRefreshing(false);
+      });
+  };
   const handleAddProduct = () => {
     // Verificar si la cantidad es un número válido
     const parsedQuantity = parseInt(quantity, 10);
@@ -133,6 +147,12 @@ const NuevoPedido = () => {
         
       </View>
       <FlatList
+         refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={handleRefresh}
+          />
+        }
         data={filteredData}
         keyExtractor={(item) => item.idProducto.toString()}
         renderItem={({ item }) => (

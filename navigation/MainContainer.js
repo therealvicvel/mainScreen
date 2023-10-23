@@ -74,7 +74,7 @@ export default function MainContainer() {
               let rn = route.name;
 
               if (rn === homeName) {
-                iconName = focused ? "bar-chart" : "bar-chart-outline";
+                iconName = focused ? "clipboard" : "clipboard-outline";
               } else if (rn === clientesName) {
                 iconName = focused ? "person" : "person-outline";
               } else if (rn === pedidosName) {

@@ -7,10 +7,11 @@ const LoginScreen = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   
 
   const handleLoginPress = async () => {
+    setLoading(true); 
     try {
       const response = await fetch('https://viramsoftapi.onrender.com/login      ', {
         method: 'POST',
@@ -28,6 +29,7 @@ const LoginScreen = ({ onLogin }) => {
         alert("Datos de ingreso incorrectos. ");
         setUsername('');
         setPassword('');
+        setLoading(false);
         return;
       }
 
@@ -35,6 +37,7 @@ const LoginScreen = ({ onLogin }) => {
   
     } catch (error) {
       console.error('Error:', error);
+      setLoading(false);
     }
   };
 
@@ -81,7 +84,8 @@ const LoginScreen = ({ onLogin }) => {
 
       <TouchableOpacity 
       style={styles.buttonAddProd}
-      onPress={handleLoginPress} >
+      onPress={handleLoginPress} 
+      disabled={loading}>
         <Text style={styles.colorTextButtonAddProd}>Ingresar</Text>
       </TouchableOpacity>
       <Text style={{ marginTop: 20, color: '#004187' }}>

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Modal, ScrollView, TouchableOpacity, ActivityIndicator, Linking, Platform } from 'react-native';
+import { View, Text, FlatList, Modal, ScrollView, TouchableOpacity, ActivityIndicator, Linking, Platform,RefreshControl } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Picker } from '@react-native-picker/picker';
-
 
 const ListPedido = () => {
   const [data, setData] = useState([]);
@@ -13,6 +12,7 @@ const ListPedido = () => {
   const [pdfDecoded, setPdfDecoded] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     if (isLoading && selectedPedido) {
@@ -40,7 +40,20 @@ const ListPedido = () => {
       setFilteredData(filteredPedidos);
     }
   };
-
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    fetch('https://viramsoftapi.onrender.com/order')
+    .then((response) => response.json())
+    .then((data) => {
+      setData(data.pedidos);
+      setFilteredData(data.pedidos);
+        setIsRefreshing(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data", error);
+        setIsRefreshing(false);
+      });
+  };
   useEffect(() => {
     filterPedidosByCategory();
   }, [selectedCategory]);
@@ -133,46 +146,14 @@ const ListPedido = () => {
     }
   };
 
-  const descargarPDF = async () => {
-    try {
-      const base64Data = await fetchBase64Data();
-
-      if (base64Data) {
-        const cleanedBase64Data = cleanBase64Data(base64Data);
-
-        const fileName = 'Comprobante_Pedido.pdf';
-        const filePath = `${FileSystem.documentDirectory}${fileName}`;
-
-        try {
-          // Write the cleaned base64Data (PDF) to the file
-          await FileSystem.writeAsStringAsync(filePath, cleanedBase64Data, {
-            encoding: FileSystem.EncodingType.Base64,
-          });
-          console.log('Archivo PDF decodificado y guardado correctamente en:', filePath);
-
-          // Mostrar la ubicación donde se ha guardado el archivo PDF
-          if (Platform.OS === 'android') {
-            alert('El PDF se ha guardado en: ' + filePath);
-          } else {
-            alert('El PDF se ha guardado en el directorio de documentos.');
-          }
-        } catch (error) {
-          console.error('Error al decodificar el PDF:', error);
-        }
-      } else {
-        alert('No se ha generado el PDF aún.');
-      }
-    } catch (error) {
-      console.error('Error al descargar el archivo PDF:', error);
-    }
-  };
+  
 
 
 
 
   return (
-    <View style={styles.containerThree}>
-      <View style={{ flexDirection: 'row', alignItems: 'center',  }}>
+    <View style={{    backgroundColor: '#FFFFFF',flex: 1, padding: 5,}}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
           <Picker
             selectedValue={selectedCategory}
             onValueChange={(itemValue) => setSelectedCategory(itemValue)}
@@ -188,6 +169,12 @@ const ListPedido = () => {
         data={filteredData}
         keyExtractor={(item) => item.idPedido.toString()}
         numColumns={2}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={handleRefresh}
+          />
+        }
         style={{flex: 1}}
         renderItem={({ item }) => (
           <View style={styles.FlatListestilo}>
@@ -224,9 +211,6 @@ const ListPedido = () => {
             ) : (
               <Text>No hay detalles disponibles para este pedido.</Text>
             )}
-            <TouchableOpacity style={styles.buttonCerrar} onPress={descargarPDF}>
-              <Text style={styles.colorTextButtonCerrar}>Descargar PDF</Text>
-            </TouchableOpacity>
             <TouchableOpacity style={styles.buttonCerrar} onPress={decodeBase64ToPDFAndShare}>
               <Text style={styles.colorTextButtonCerrar}>Compartir PDF</Text>
             </TouchableOpacity>
@@ -248,11 +232,7 @@ const styles = {
     color: '#FFFFFF',
     marginTop: 5,
   },
-  containerThree: {
-    backgroundColor: '#FFFFFF',
-    padding: 5,
-    minHeight: '100%'
-  },
+
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
