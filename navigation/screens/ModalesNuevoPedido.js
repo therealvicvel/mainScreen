@@ -129,9 +129,9 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
           <ScrollView style={{ flex: 2, maxHeight: '50%' }}>
             {products.map((product, index) => (
               <View key={index} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={styles.clienteText}>Producto: {product.nombre}</Text>
-                <Text style={styles.clienteText}>Cantidad: {product.quantity}</Text>
-                <Text style={styles.clienteText}>Precio: {product.valorVenta}  </Text>
+                <Text style={styles.clienteText}>{product.nombre}</Text>
+                <Text style={styles.clienteText}>. UND: {product.quantity}</Text>
+                <Text style={styles.clienteText}>. ${product.valorVenta}  </Text>
                 <TouchableOpacity
                   style={styles.buttonGuardar}
                   onPress={() => handleEditQuantity(index)}>
@@ -167,7 +167,7 @@ const ModalesNuevoPedido = ({ modalVisible, setModalVisible, products, setProduc
               <TouchableOpacity
                 style={styles.buttonCerrar}
                 onPress={() => handleRemoveProduct(index)}>
-                <Text style={styles.colorTextButtonCerrar}>Eliminar</Text>
+                <Text style={styles.colorTextButtonCerrar}>X</Text>
               </TouchableOpacity>
             </View>
           ))}

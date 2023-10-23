@@ -161,6 +161,13 @@ const styles = StyleSheet.create({
     borderRadius: 70,
     marginTop: 10,
   },
+  buttonNewProd: {
+    backgroundColor: '#FFFFFF',
+    padding: 10,
+    borderRadius: 70,
+    marginTop: 10,
+    width: "50%",
+  },
   buttonAddProd: {
     backgroundColor: '#004187',
     padding: 10,
@@ -226,6 +233,9 @@ const styles = StyleSheet.create({
   colorTextButtonCerrar: {
     color: "#004187",
     textAlign: 'center',
+  },
+  colorTextButtonSalir: {
+    color: "#004187",
   },
 
 listItem: {

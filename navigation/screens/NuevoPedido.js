@@ -110,7 +110,7 @@ const NuevoPedido = () => {
     setListaModalVisible(true);
   };
   return (
-    <View style={{ flex: 1, backgroundColor: "#FFFFFF", padding: 5,}}>
+    <View style={{ flex: 1, backgroundColor: "#FFFFFF", padding: 10,}}>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
       <FiltrarBuscar
          Data={filteredData} // Pasa los datos filtrados en lugar de toda la lista de productos
@@ -146,7 +146,7 @@ const NuevoPedido = () => {
               <Text style={styles.clienteText}>Valor compra: {item.valorCompra}</Text>
               <Text style={styles.clienteText}>{item.categoria}</Text>
               <TouchableOpacity 
-              style={styles.buttonCerrar}
+              style={styles.buttonNewProd}
               onPress={() => handleAddPress(item)}>
                 <Text  style={styles.colorTextButtonCerrar}>+</Text>
               </TouchableOpacity>

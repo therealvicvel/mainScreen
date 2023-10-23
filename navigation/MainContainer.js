@@ -15,7 +15,7 @@ import LoginScreen from "./screens/Login";
 
 //Variables con nombres de las demás pantallas
 const homeName = 'Pedidos';
-const pedidosName = 'Nuevo Pedido';
+const pedidosName = 'Nuevo pedido';
 const clientesName = 'Clientes';
 const loginName = 'Login';
 const Tab = createBottomTabNavigator();
@@ -95,7 +95,7 @@ export default function MainContainer() {
                 style={{ marginRight: 15 }}
               >
                 <Ionicons name="exit" size={30} color="#004187" />
-                  <Text>Salir</Text>
+                  <Text style={styles.colorTextButtonSalir}>Salir</Text>
               </TouchableOpacity>
               ),
             }}
@@ -110,7 +110,7 @@ export default function MainContainer() {
                   style={{ marginRight: 15 }}
                 >
                   <Ionicons name="exit" size={30} color="#004187" />
-                  <Text>Salir</Text>
+                  <Text style={styles.colorTextButtonSalir}>Salir</Text>
                 </TouchableOpacity>
               ),
             }}
@@ -125,7 +125,7 @@ export default function MainContainer() {
                   style={{ marginRight: 15 ,alignItems:'center'}}
                 >
                   <Ionicons name="exit" size={30} color="#004187" />
-                  <Text>Salir</Text>
+                  <Text style={styles.colorTextButtonSalir}>Salir</Text>
                 </TouchableOpacity>
               ),
             }}
