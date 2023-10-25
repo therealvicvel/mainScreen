@@ -124,6 +124,7 @@ const ModalesNuevoPedido = ({
   const handleRemoveAllProducts = () => {
     // Limpia la lista de productos, es decir, elimina todos los productos.
     setProducts([]);
+    
   };
 
   return (
