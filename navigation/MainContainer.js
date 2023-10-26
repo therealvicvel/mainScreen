@@ -22,35 +22,6 @@ const Tab = createBottomTabNavigator();
 const TopTab = createMaterialTopTabNavigator();
 
 
-const ClientesTopTabNavigator = ({ navigation }) => {
-  const TopTab = createMaterialTopTabNavigator();
-  //importacion de la vista ListPedido
-  const MiniScreenClientes = () => (
-    <View style={styles.container}>
-      <ListClientes />
-    </View>
-  );
-  //importacion de la vita NuevoPedido    
-  const MiniScreenAddClientes = () => (
-    <AddClientesScreen />
-  );
-  //lo que se va ver en la vista Pedidos(el menu arriba de NuevoPedido y ListPedido) y por defecto abre List Pedido
-  return (
-
-    <TopTab.Navigator>
-      <TopTab.Screen name="Listado" component={MiniScreenClientes} />
-      <TopTab.Screen name="Agregar cliente" component={MiniScreenAddClientes} />
-    </TopTab.Navigator>
-
-  );
-}
-
-const CustomButton = ({ onPress }) => (
-  <TouchableOpacity onPress={onPress} style={{ marginRight: 15 }}>
-    <Text>Botón</Text>
-  </TouchableOpacity>
-);
-
 export default function MainContainer() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado para verificar si el usuario está autenticado
 
@@ -102,7 +73,7 @@ export default function MainContainer() {
           />
           <Tab.Screen
             name={clientesName}
-            component={ClientesTopTabNavigator}
+            component={ListClientes}
             options={{
               headerRight: () => (
                 <TouchableOpacity

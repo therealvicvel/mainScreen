@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {View,Text,FlatList,Modal,StyleSheet,TouchableOpacity,ScrollView} from "react-native";
+import { View, Text, FlatList, Modal, ScrollView, TouchableOpacity, ActivityIndicator, Linking, Platform,RefreshControl } from 'react-native';
 import styles from "../../utilidades/styles";
 import { TextInput } from "react-native";
 import BuscarCliente from "../../utilidades/BuscarCliente";
 import { Picker } from "@react-native-picker/picker"
+import { Image } from 'react-native';
+import AddClientesScreen from "./AddClientesScreen";
 
 const ListClientes = () => {
   const [data, setData] = useState([]);
@@ -13,35 +15,62 @@ const ListClientes = () => {
   const [nombre, setNombre] = useState("");
   const [direccion, setDireccion] = useState("");
   const [telefono, setTelefono] = useState("");
+  const [showModalAddCliente, setShowModalAddCliente] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [filteredData, setFilteredData] = useState([]);
 
-  useEffect(() => {
-    fetch("https://viramsoftapi.onrender.com/costumer")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Datos recibidos de la API:", data);
-        setData(data.clientes);
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    fetch('https://viramsoftapi.onrender.com/costumer')
+    .then((response) => response.json())
+    .then((data) => {
+      setData(data.clientes);
+      setFilteredData(data.clientes);
+        setIsRefreshing(false);
       })
       .catch((error) => {
         console.error("Error fetching data", error);
+        setIsRefreshing(false);
+      });
+  };
+
+  useEffect(() => {
+    filterClientesByCategory();
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    fetch('https://viramsoftapi.onrender.com/costumer')
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data.clientes);
+        setFilteredData(data.clientes);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
   }, []);
-  
+  const filterClientesByCategory = () => {
+    if (!selectedCategory) {
+      setFilteredData(data);
+    } else {
+      const filteredClientes = data.filter((item) => item.estado === selectedCategory);
+      setFilteredData(filteredClientes);
+    }
+  };
+
+
   const validarCampos = () => {
-  
-    if(  nombre.trim() === "" || nombre.length >= 20){
+    if (nombre.trim() === "" || nombre.length >= 20) {
       alert("el Nombre no puede ser nulo o pasar de los 20 caracteres");
-      return ;          
-    }
-    else if(  direccion.trim() === "" || direccion.length >= 20){
+      return;
+    } else if (direccion.trim() === "" || direccion.length >= 20) {
       alert("la direccion no puede ser nulo o pasar de los 20 caracteres");
-      return;          
-    }
-    else if(  telefono.trim() === "" || telefono.length !== 10){
+      return;
+    } else if (telefono.trim() === "" || telefono.length !== 10) {
       alert("el telefono no puede ser nulo o pasar de los 10 caracteres");
-      return ;          
-    }
-    
-    else {
+      return;
+    } else {
       return editarCliente();
     }
   };
@@ -54,8 +83,7 @@ const ListClientes = () => {
         direccion: direccion,
         telefono: telefono,
       };
-  
-  
+
       console.log(clienteActualizado);
       fetch(
         `https://viramsoftapi.onrender.com/edit_costumer/${selectedCliente.documento}`,
@@ -83,7 +111,6 @@ const ListClientes = () => {
               setIsModalVisible(false);
               return newData;
             });
-            
           }
         })
         .catch((error) => {
@@ -91,36 +118,13 @@ const ListClientes = () => {
         });
     }
   };
-
- 
-
-  const handlePickerChange = (itemValue) => {
-    setSelectedState(itemValue);
-    
-    let apiUrl;
-    
-    if (itemValue === "Activo") {
-      apiUrl = "https://viramsoftapi.onrender.com/costumer_active";
-    } else if (itemValue === "Inactivo") {
-      apiUrl = "https://viramsoftapi.onrender.com/costumer_inactive";
-    } else {
-      apiUrl = "https://viramsoftapi.onrender.com/costumer";
-    }
-  
-    fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Datos recibidos de la API:", data);
-        setData(data.clientes);
-      })
-      .catch((error) => {
-        console.error("Error fetching data", error);
-      });
+  const handleOpenModaldd = () => {
+    setShowModalAddCliente(true);
   };
 
- 
-  
-  
+  const handleCloseModaAdd = () => {
+    setShowModalAddCliente(false);
+  };
 
   const handleOpenModal = (cliente) => {
     setSelectedCliente(cliente);
@@ -129,53 +133,64 @@ const ListClientes = () => {
     setTelefono(cliente.telefono);
     setIsModalVisible(true);
   };
-
   const handleCloseModal = () => {
     setIsModalVisible(false);
   };
 
-  const renderClienteItem = ({ item }) => (
-    <TouchableOpacity onPress={() => handleOpenModal(item)}>
-      <View style={styles.fondoListas}>
+  return (
+    <View style={styles.containerTwo}>
+      <View
+        style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}
+      >
+        <BuscarCliente
+          Data={data}
+          onSelectClient={handleOpenModal} 
+        />
+        <View style={{ position: "absolute", top: 0, right: 0 }}>
+          <Picker
+            selectedValue={selectedCategory}
+            onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+            style={styles.pickerforBuscarProducto}
+          >
+            <Picker.Item label="Todos" value={""} />
+            <Picker.Item label="Activo" value="ACTIVO" />
+            <Picker.Item label="Inactivo" value="INACTIVO" />
+          </Picker>
+        </View>
+      </View>
+
+      <FlatList
+        data={filteredData}
+        keyExtractor={(item) => item.documento.toString()}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={handleRefresh}
+          />
+        }
+        style={{flex: 1}}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => handleOpenModal(item)}>
+            <View style={{flex:1, paddingHorizontal:10}}>
+            <View style={{ backgroundColor: '#004187', padding: 16,borderRadius: 30, marginBottom: 12,}}>
         <Text style={styles.clienteText}>{item.documento}</Text>
         <Text style={styles.clienteText}>{item.nombre}</Text>
         <Text style={styles.clienteText}>{item.direccion}</Text>
         <Text style={styles.clienteText}>{item.telefono}</Text>
         <Text style={styles.clienteText}>{item.estado}</Text>
       </View>
+            </View>
+     
     </TouchableOpacity>
-  );
-  return (
-    <View style={styles.containerTwo}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
-        <BuscarCliente
-          Data={data}
-          onSelectClient={handleOpenModal} //Actualiza el cliente seleccionado al hacer clic en un cliente en BuscarCliente
-        />
-        <View style={{ position: 'absolute', top: 0, right: 0 }}>
-  <Picker
-  selectedValue={selectedState}
-  onValueChange={handlePickerChange}
-  style={styles.pickerforBuscarProducto}
->
-  <Picker.Item label="Estado" value={""} />
-  <Picker.Item label="Activo" value="Activo" />
-  <Picker.Item label="Inactivo" value="Inactivo" />
-</Picker>
+        )}
+      />
 
-</View>
-       
-        </View>
-        
-          <FlatList
-          data={data}
-          syle={{flex: 1}}
-          renderItem={renderClienteItem}
-          keyExtractor={(item) => item.documento.toString()}
-          
-        />
-      
-      <Modal visible={isModalVisible} animationType="slide" transparent={true} onRequestClose={handleCloseModal}>
+      <Modal
+        visible={isModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={handleCloseModal}
+      >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             {selectedCliente && (
@@ -183,10 +198,8 @@ const ListClientes = () => {
                 <Text style={styles.modalTitle}>
                   Actualizar datos del cliente
                 </Text>
-                
-                <Text style={styles.clienteText}>
-                  {selectedCliente.nombre}
-                </Text>
+
+                <Text style={styles.clienteText}>{selectedCliente.nombre}</Text>
                 <Text style={styles.clienteText}>
                   {selectedCliente.direccion}
                 </Text>
@@ -221,7 +234,7 @@ const ListClientes = () => {
                 />
               </>
             )}
-           
+
             <TouchableOpacity
               style={styles.buttonCerrar}
               onPress={handleCloseModal}
@@ -233,6 +246,73 @@ const ListClientes = () => {
               onPress={validarCampos}
             >
               <Text style={styles.colorTextButtonGuardar}>Guardar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <TouchableOpacity
+        style={{
+          position: "absolute",
+          bottom: 30,
+          right: 20,
+          padding: 10,
+          borderRadius: 60,
+          zIndex: 1,
+          backgroundColor: "#FFFFFF",
+        }}
+        onPress={handleOpenModaldd}
+      >
+        <Image
+          source={require("../../assets/addCliente.png")}
+          resizeMode="contain"
+          style={{
+            width: 50,
+            height: 50,
+            justifyContent: "center",
+            alignItems: "center",
+            tintColor: "#004187",
+          }}
+        />
+      </TouchableOpacity>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showModalAddCliente}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            justifyContent: "center",
+          }}
+        >
+          <View
+            style={{
+              margin: 20,
+              padding: 16,
+              backgroundColor: "#FFFFFF",
+              borderRadius: 20,
+            }}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 18,
+                fontWeight: "bold",
+                marginBottom: 10,
+              }}
+            >
+              Agregar Clientes
+            </Text>
+            <AddClientesScreen />
+            <TouchableOpacity
+              style={{ backgroundColor: '#FFFFFF',
+              padding: 10,
+              borderRadius: 70,
+              marginTop: 10,}}
+              onPress={handleCloseModaAdd}
+            >
+              <Text style={styles.colorTextButtonCerrar}>Cerrar</Text>
             </TouchableOpacity>
           </View>
         </View>
