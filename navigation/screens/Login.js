@@ -2,18 +2,17 @@ import React, { useState } from "react";
 import { View, TextInput, Button,TouchableOpacity,Text,StyleSheet}from "react-native";
 import styles from "../../utilidades/styles";
 import { Image } from 'react-native';
-
+import { UsernameProvider } from "../../utilidades/GuardarUser";
 const LoginScreen = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const handleLoginPress = async () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://viramsoftapi.onrender.com/login      ",
+        "https://viramsoftapi.onrender.com/login",
         {
           method: "POST",
           headers: {
@@ -45,14 +44,18 @@ const LoginScreen = ({ onLogin }) => {
     <View
       style={{
         flex: 1,
-        padding: 10,
+        padding: 20,
+        justifyContent:'center'
       }}
     >
+      <View style={{justifyContent:'center',alignItems:'center' }}>
       <Image
         source={require("../../assets/logo-removebg-preview.png")}
         style={{ width: 200, height: 180,justifyContent:'center',alignItems:'center' }}
         resizeMode="contain"
       />
+      </View>
+      
       <TextInput
         placeholder="Usuario"
         style={styles.input}
@@ -70,8 +73,8 @@ const LoginScreen = ({ onLogin }) => {
         placeholderTextColor={"#004187"}
         onChangeText={(text) => setPassword(text)}
       />
-      <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-        <Text>
+      <TouchableOpacity onPress={() => setShowPassword(!showPassword)} >
+        <Text style={{  color: "#004187" }}>
           {showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
         </Text>
       </TouchableOpacity>
@@ -83,8 +86,8 @@ const LoginScreen = ({ onLogin }) => {
       >
         <Text style={styles.colorTextButtonAddProd}>Ingresar</Text>
       </TouchableOpacity>
-      <Text style={{ marginTop: 20, color: "#004187" }}>
-        Derechos Reservados © Infinite Solutions
+      <Text style={{ marginTop: 20, color: "#004187",justifyContent:'center' }}>
+                    Derechos Reservados © Infinite Solutions
       </Text>
     </View>
   );

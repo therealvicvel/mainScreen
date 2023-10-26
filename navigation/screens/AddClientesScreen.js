@@ -14,23 +14,33 @@ export default function AddClientesScreen({ navigation }) {
     const [telefono, setTelefono] = useState('');
 
     const [data, setData] = useState([]);
+
     const validarCampos = () => {
         if (
-          documento.trim() === "" ||
-          nombre.trim() === "" ||
-          direccion.trim() === "" ||
-          telefono.trim() === ""
+          documento.trim() === "" || documento.length  > 8 && documento.length < 11
         ) {
-          return false;
+          alert("el documento debe tener minimo 8 y maximo 11 numeros");
+          return ;          
         }
-        return true;
+        else if(  nombre.trim() === "" || nombre.length >= 20){
+          alert("el Nombre no puede ser nulo o pasar de los 20 caracteres");
+          return ;          
+        }
+        else if(  direccion.trim() === "" || direccion.length >= 20){
+          alert("la direccion no puede ser nulo o pasar de los 20 caracteres");
+          return ;          
+        }
+        else if(  telefono.trim() === "" || telefono.length !== 10){
+          alert("el telefono no puede ser nulo o pasar de los 10 caracteres");
+          return ;          
+        }
+        
+        else {
+          return handleAgregarCliente();
+        }
       };
 
     const handleAgregarCliente = () => {
-        if (!validarCampos()) {
-            alert("Por favor, completa todos los campos antes de agregar el cliente.");
-            return;
-        }
         const nuevoCliente = {
           documento: documento,
           nombre: nombre,
@@ -122,7 +132,7 @@ export default function AddClientesScreen({ navigation }) {
                     cursorColor={"#004187"}
                     placeholderTextColor={"#004187"}
                 />
-                <TouchableOpacity style={styles.buttonAddCliente} onPress={handleAgregarCliente}>
+                <TouchableOpacity style={styles.buttonAddCliente} onPress={validarCampos}>
                     <Text style={styles.colorTextButtonAddCliente}>Agregar cliente</Text>
                 </TouchableOpacity>
             </ScrollView>

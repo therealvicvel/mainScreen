@@ -26,6 +26,25 @@ const ListClientes = () => {
       });
   }, []);
   
+  const validarCampos = () => {
+  
+    if(  nombre.trim() === "" || nombre.length >= 20){
+      alert("el Nombre no puede ser nulo o pasar de los 20 caracteres");
+      return ;          
+    }
+    else if(  direccion.trim() === "" || direccion.length >= 20){
+      alert("la direccion no puede ser nulo o pasar de los 20 caracteres");
+      return;          
+    }
+    else if(  telefono.trim() === "" || telefono.length !== 10){
+      alert("el telefono no puede ser nulo o pasar de los 10 caracteres");
+      return ;          
+    }
+    
+    else {
+      return editarCliente();
+    }
+  };
   const editarCliente = () => {
     if (selectedCliente) {
       const clienteActualizado = {
@@ -36,15 +55,6 @@ const ListClientes = () => {
         telefono: telefono,
       };
   
-      // Validar los campos
-      if (
-        clienteActualizado.nombre.trim() === "" ||
-        clienteActualizado.direccion.trim() === "" ||
-        clienteActualizado.telefono.trim() === ""
-      ) {
-        alert("Por favor, completa todos los campos antes de guardar los cambios.");
-        return;
-      }
   
       console.log(clienteActualizado);
       fetch(
@@ -220,7 +230,7 @@ const ListClientes = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonGuardar}
-              onPress={editarCliente}
+              onPress={validarCampos}
             >
               <Text style={styles.colorTextButtonGuardar}>Guardar</Text>
             </TouchableOpacity>

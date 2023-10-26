@@ -124,6 +124,9 @@ const ModalesNuevoPedido = ({
   const handleRemoveAllProducts = () => {
     // Limpia la lista de productos, es decir, elimina todos los productos.
     setProducts([]);
+    setObservations(" ");
+    setSelectedDate("");
+    setSelectedClient(" ");
     
   };
 
@@ -284,6 +287,7 @@ const ModalesNuevoPedido = ({
               style={{
                 flex: 1,
                 backgroundColor: "rgba(0, 0, 0, 0.5)",
+                justifyContent:'center'
               }}
             >
               <View

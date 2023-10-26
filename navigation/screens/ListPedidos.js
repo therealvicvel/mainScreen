@@ -162,7 +162,6 @@ const ListPedido = () => {
             <Picker.Item label="Todos" value="" />
             <Picker.Item label="Entregado" value="Entregado" />
             <Picker.Item label="Pendiente" value="Pendiente" />
-            <Picker.Item label="Cancelado" value="Cancelado" />
           </Picker>
           </View>
       <FlatList
