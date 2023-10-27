@@ -175,7 +175,7 @@ const ModalesNuevoPedido = ({
               Valor U.
             </Text>
             <Text style={[styles.clienteText, { flex: 1, fontWeight: "bold" }]}>
-              Opciones
+              Acciones
             </Text>
           </View>
           <ScrollView style={{  maxHeight: 200 }}>

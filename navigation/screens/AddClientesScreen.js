@@ -23,8 +23,8 @@ export default function AddClientesScreen({ navigation }) {
     } else if (nombre.trim() === "" || nombre.length >= 20) {
       alert("El nombre no puede ser nulo o tener más de 20 caracteres");
       return;
-    } else if (direccion.trim() === "" || direccion.length >= 20) {
-      alert("La dirección no puede ser nula o tener más de 20 caracteres");
+    } else if (direccion.trim() === "" || direccion.length >= 50) {
+      alert("La dirección no puede ser nula o tener más de 50 caracteres");
       return;
     } else if (telefono.trim() === "" || telefono.length !== 10) {
       alert("El teléfono no puede ser nulo o debe tener 10 caracteres");
@@ -65,21 +65,24 @@ export default function AddClientesScreen({ navigation }) {
         onChangeText={(text) => setFormData({ ...formData, documento: text })}
         value={formData.documento}
         keyboardType="numeric"
-        placeholderTextColor={styles.placeholderTextColor}
+        cursorColor={"#004187"}
+        placeholderTextColor={"#004187"}
       />
       <TextInput
         style={styles.input}
         placeholder="Nombre del cliente"
         onChangeText={(text) => setFormData({ ...formData, nombre: text })}
         value={formData.nombre}
-        placeholderTextColor={styles.placeholderTextColor}
+        cursorColor={"#004187"}
+        placeholderTextColor={"#004187"}
       />
       <TextInput
         style={styles.input}
         placeholder="Dirección del cliente"
         onChangeText={(text) => setFormData({ ...formData, direccion: text })}
         value={formData.direccion}
-        placeholderTextColor={styles.placeholderTextColor}
+        cursorColor={"#004187"}
+        placeholderTextColor={"#004187"}
       />
       <TextInput
         style={styles.input}
@@ -87,7 +90,8 @@ export default function AddClientesScreen({ navigation }) {
         onChangeText={(text) => setFormData({ ...formData, telefono: text })}
         value={formData.telefono}
         keyboardType="numeric"
-        placeholderTextColor={styles.placeholderTextColor}
+        cursorColor={"#004187"}
+        placeholderTextColor={"#004187"}
       />
       <TouchableOpacity style={styles.buttonAddCliente} onPress={validarCampos}>
         <Text style={styles.colorTextButtonAddCliente}>Agregar cliente</Text>

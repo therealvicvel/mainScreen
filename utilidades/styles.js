@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     right: 10,
     top: 10,
   },
+  
   containerTwo: {
     backgroundColor: '#FFFFFF',
     flex: 1,

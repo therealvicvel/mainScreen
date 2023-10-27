@@ -17,8 +17,7 @@ function Calendario({ selectedDate, setSelectedDate }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Fecha Seleccionada: {selectedDate}</Text>
-      <Text style={styles.subtext}>seleccione una fecha mayor a hoy y menor que un mes</Text>
+      <Text style={styles.text}>Fecha seleccionada: {selectedDate}</Text>
       {Platform.OS === 'ios' ? (
         <DatePicker
           date={selectedDate}

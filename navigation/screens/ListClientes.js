@@ -62,13 +62,13 @@ const ListClientes = () => {
 
   const validarCampos = () => {
     if (nombre.trim() === "" || nombre.length >= 20) {
-      alert("el Nombre no puede ser nulo o pasar de los 20 caracteres");
+      alert("El nombre no puede ser nulo o pasar de los 20 caracteres");
       return;
-    } else if (direccion.trim() === "" || direccion.length >= 20) {
-      alert("la direccion no puede ser nulo o pasar de los 20 caracteres");
+    } else if (direccion.trim() === "" || direccion.length >= 50) {
+      alert("La dirección no puede ser nulo o pasar de los 50 caracteres");
       return;
     } else if (telefono.trim() === "" || telefono.length !== 10) {
-      alert("el telefono no puede ser nulo o pasar de los 10 caracteres");
+      alert("El teléfono no puede ser nulo o pasar de los 10 caracteres");
       return;
     } else {
       return editarCliente();
@@ -302,7 +302,7 @@ const ListClientes = () => {
                 marginBottom: 10,
               }}
             >
-              Agregar Clientes
+              Agregar clientes
             </Text>
             <AddClientesScreen />
             <TouchableOpacity
