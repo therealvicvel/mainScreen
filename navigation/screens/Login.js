@@ -12,7 +12,7 @@ const LoginScreen = ({ onLogin }) => {
 
   const handleLoginPress = async () => {
     setLoading(true);
-    setShowLoadingModal(true); 
+    setShowLoadingModal(true);
 
     try {
       const response = await fetch(
@@ -40,7 +40,7 @@ const LoginScreen = ({ onLogin }) => {
       console.error("Error:", error);
     } finally {
       setLoading(false);
-      setShowLoadingModal(false); // Oculta el modal de carga después de procesar
+      setShowLoadingModal(false);
     }
   };
 
@@ -49,7 +49,7 @@ const LoginScreen = ({ onLogin }) => {
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <Image
           source={require("../../assets/logo-removebg-preview.png")}
-          style={{ width: 200, height: 180, justifyContent: 'center', alignItems: 'center' }}
+          style={{ width: 200, height: 180 }}
           resizeMode="contain"
         />
       </View>
@@ -71,8 +71,8 @@ const LoginScreen = ({ onLogin }) => {
         placeholderTextColor={"#004187"}
         onChangeText={(text) => setPassword(text)}
       />
-      <TouchableOpacity onPress={() => setShowPassword(!showPassword)} >
-        <Text style={{ color: "#004187" }}>
+      <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+        <Text style={{ color: "#004187", marginTop: 10, marginLeft: 9 }}>
           {showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
         </Text>
       </TouchableOpacity>
@@ -84,9 +84,12 @@ const LoginScreen = ({ onLogin }) => {
       >
         <Text style={styles.colorTextButtonAddProd}>Ingresar</Text>
       </TouchableOpacity>
-      <Text style={{ marginTop: 20, color: "#004187", justifyContent: 'center' }}>
-        Derechos Reservados © Infinite Solutions
-      </Text>
+
+      <View style={{ marginTop: 20, alignItems: 'center' }}>
+        <Text style={{ color: "#004187" }}>
+          Derechos Reservados © Infinite Solutions
+        </Text>
+      </View>
 
       <Modal
         animationType="slide"
@@ -94,16 +97,17 @@ const LoginScreen = ({ onLogin }) => {
         visible={showLoadingModal}
       >
         <View style={styles.modalContainer}>
-          <View >
-          <Image
-          style={{  width: 80,
-            height: 80, justifyContent: 'center', alignItems: 'center',borderRadius:80}}
-          source={require("../../assets/giphy.gif")}
-          
-          resizeMode="contain"
-        />
+          <View>
+            <Image
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: 80,
+              }}
+              source={require("../../assets/giphy.gif")}
+              resizeMode="contain"
+            />
           </View>
-        
         </View>
       </Modal>
     </View>
