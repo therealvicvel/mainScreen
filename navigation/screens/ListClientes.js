@@ -67,8 +67,8 @@ const ListClientes = () => {
     } else if (direccion.trim() === "" || direccion.length >= 50) {
       alert("La dirección no puede ser nulo o pasar de los 50 caracteres");
       return;
-    } else if (telefono.trim() === "" || telefono.length !== 10) {
-      alert("El teléfono no puede ser nulo o pasar de los 10 caracteres");
+    } else if (!/^\d{10}$/.test(telefono)) {
+      alert("el telefono debe contener exactamente 10 dígitos numéricos");
       return;
     } else {
       return editarCliente();
@@ -139,24 +139,13 @@ const ListClientes = () => {
 
   return (
     <View style={styles.containerTwo}>
-      <View
-        style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}
+      <View style={{marginBottom:10, maxWidth: 340,}}
       >
         <BuscarCliente
           Data={data}
           onSelectClient={handleOpenModal} 
         />
-        <View style={{ position: "absolute", top: 0, right: 0 }}>
-          <Picker
-            selectedValue={selectedCategory}
-            onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-            style={styles.pickerforBuscarProducto}
-          >
-            <Picker.Item label="Todos" value={""} />
-            <Picker.Item label="Activo" value="ACTIVO" />
-            <Picker.Item label="Inactivo" value="INACTIVO" />
-          </Picker>
-        </View>
+
       </View>
 
       <FlatList
@@ -227,7 +216,7 @@ const ListClientes = () => {
                   style={styles.inputForModal}
                   placeholder="Telefono"
                   value={telefono}
-                  keyboardType="numeric"
+                  keyboardType="number-pad"
                   onChangeText={(text) => setTelefono(text)}
                   cursorColor={"#FFFFFF"}
                   placeholderTextColor={"#FFFFFF"}

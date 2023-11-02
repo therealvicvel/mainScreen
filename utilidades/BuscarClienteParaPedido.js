@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import styles from './styles';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const BuscarClienteParaPedido = ({ Data, onSelectClient }) => {
   const [searchText, setSearchText] = useState('');
@@ -10,7 +11,7 @@ const BuscarClienteParaPedido = ({ Data, onSelectClient }) => {
 
   // Se ejecuta al montar el componente y obtiene los datos de la API
   useEffect(() => {
-    fetch('https://viramsoftapi.onrender.com/costumer')
+    fetch('https://viramsoftapi.onrender.com/costumer_active')
       .then((response) => response.json())
       .then((data) => {
         setData(data.clientes);
@@ -47,7 +48,7 @@ const BuscarClienteParaPedido = ({ Data, onSelectClient }) => {
   };
 
   return (
-    <View>
+    <View   style={{  maxHeight: 150 }}    >
       <TextInput
         style={styles.inputForBuscarClienteIndParaPedido}
         placeholder="Buscar clientes..."
@@ -57,7 +58,9 @@ const BuscarClienteParaPedido = ({ Data, onSelectClient }) => {
         placeholderTextColor={"#004187"}
       />
       {isListVisible && (
+       
         <FlatList
+          style={{  maxHeight: 150 }}
           data={filterData(searchText)}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => handleSelectItem(item)}>

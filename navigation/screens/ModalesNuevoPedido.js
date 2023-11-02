@@ -5,13 +5,9 @@ import Calendario from "../../utilidades/Calendario";
 import styles from "../../utilidades/styles";
 import { ScrollView } from "react-native-gesture-handler";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useUser } from "../../utilidades/GuardarUser"; 
 
-const ModalesNuevoPedido = ({
-  modalVisible,
-  setModalVisible,
-  products,
-  setProducts,
-}) => {
+const ModalesNuevoPedido = ({ modalVisible,setModalVisible,products,setProducts,}) => {
   const [total, setTotal] = useState(0);
   const [showSecondModal, setShowSecondModal] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
@@ -19,6 +15,7 @@ const ModalesNuevoPedido = ({
   const [selectedDate, setSelectedDate] = useState(null);
   const [editQuantityIndex, setEditQuantityIndex] = useState(null);
   const [showThirdModal, setShowThirdModal] = useState(false); // Nuevo estado
+  const { token } = useUser(); 
 
   const handleEditQuantity = (index) => {
     setEditQuantityIndex(index);
@@ -99,7 +96,8 @@ const ModalesNuevoPedido = ({
       pedido: {
         documentoCliente: clienteSeleccionado,
         fechaEntrega: selectedDate,
-        observacion: observations, // Usamos el estado "observations" para las observaciones del pedido
+        observacion: observations,
+        token: token 
       },
       productos: productosSeleccionados,
     };

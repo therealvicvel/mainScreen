@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, TextInput, Button, TouchableOpacity, Text, StyleSheet, Modal, ActivityIndicator } from "react-native";
 import styles from "../../utilidades/styles";
 import { Image } from 'react-native';
+import { useUser } from "../../utilidades/GuardarUser";
 
 const LoginScreen = ({ onLogin }) => {
   const [username, setUsername] = useState("");
@@ -9,11 +10,11 @@ const LoginScreen = ({ onLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showLoadingModal, setShowLoadingModal] = useState(false);
-
+  const { login } = useUser();
   const handleLoginPress = async () => {
     setLoading(true);
     setShowLoadingModal(true);
-
+  
     try {
       const response = await fetch(
         "https://viramsoftapi.onrender.com/login",
@@ -28,12 +29,15 @@ const LoginScreen = ({ onLogin }) => {
           }),
         }
       );
-
+  
       if (!response.ok) {
         alert("Datos de ingreso incorrectos.");
         setUsername("");
         setPassword("");
       } else {
+        const data = await response.json();
+        const accessToken = data.access_token; 
+        login(username, accessToken); 
         onLogin();
       }
     } catch (error) {
@@ -43,6 +47,7 @@ const LoginScreen = ({ onLogin }) => {
       setShowLoadingModal(false);
     }
   };
+  
 
   return (
     <View style={{ flex: 1, padding: 20, justifyContent: 'center' }}>

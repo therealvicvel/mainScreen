@@ -10,7 +10,7 @@ const BuscarCliente = ({ Data, onSelectClient }) => {
 
   // Se ejecuta al montar el componente y obtiene los datos de la API
   useEffect(() => {
-    fetch('https://viramsoftapi.onrender.com/costumer')
+    fetch('https://viramsoftapi.onrender.com/costumer_active')
       .then((response) => response.json())
       .then((data) => {
         setData(data.clientes);
@@ -47,7 +47,7 @@ const BuscarCliente = ({ Data, onSelectClient }) => {
   };
 
   return (
-    <View>
+    <View >
       <TextInput
         style={styles.inputForBuscarClienteInd}
         placeholder="Buscar clientes..."
@@ -58,6 +58,7 @@ const BuscarCliente = ({ Data, onSelectClient }) => {
       />
       {isListVisible && (
         <FlatList
+        style={{  maxHeight: 150,       }} 
           data={filterData(searchText)}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => handleSelectItem(item)}>

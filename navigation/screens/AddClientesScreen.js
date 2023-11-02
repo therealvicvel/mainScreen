@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import styles from "../../utilidades/styles";
 
+
 const initialState = {
   documento: "",
   nombre: "",
@@ -12,13 +13,12 @@ const initialState = {
 export default function AddClientesScreen({ navigation }) {
   const [formData, setFormData] = useState(initialState);
 
+
   const validarCampos = () => {
     const { documento, nombre, direccion, telefono } = formData;
 
-    if (
-      documento.trim() === "" || (documento.length < 8 || documento.length > 11)
-    ) {
-      alert("El documento debe tener entre 8 y 11 números");
+      if (!/^\d{8,11}$/.test(documento)) {
+      alert("El documento debe tener entre 8 y 11 digitos numericos");
       return;
     } else if (nombre.trim() === "" || nombre.length >= 20) {
       alert("El nombre no puede ser nulo o tener más de 20 caracteres");
@@ -26,8 +26,8 @@ export default function AddClientesScreen({ navigation }) {
     } else if (direccion.trim() === "" || direccion.length >= 50) {
       alert("La dirección no puede ser nula o tener más de 50 caracteres");
       return;
-    } else if (telefono.trim() === "" || telefono.length !== 10) {
-      alert("El teléfono no puede ser nulo o debe tener 10 caracteres");
+    } else       if (!/^\d{10}$/.test(telefono)) {
+      alert("el telefono debe contener exactamente 10 dígitos numéricos");
       return;
     } else {
       handleAgregarCliente();
@@ -58,13 +58,14 @@ export default function AddClientesScreen({ navigation }) {
   };
 
   return (
+
     <View contentContainerStyle={styles.container}>
       <TextInput
         style={styles.input}
         placeholder="Documento del cliente"
         onChangeText={(text) => setFormData({ ...formData, documento: text })}
         value={formData.documento}
-        keyboardType="numeric"
+        keyboardType="number-pad"
         cursorColor={"#004187"}
         placeholderTextColor={"#004187"}
       />
@@ -76,7 +77,7 @@ export default function AddClientesScreen({ navigation }) {
         cursorColor={"#004187"}
         placeholderTextColor={"#004187"}
       />
-      <TextInput
+        <TextInput
         style={styles.input}
         placeholder="Dirección del cliente"
         onChangeText={(text) => setFormData({ ...formData, direccion: text })}
@@ -89,7 +90,7 @@ export default function AddClientesScreen({ navigation }) {
         placeholder="Teléfono del cliente"
         onChangeText={(text) => setFormData({ ...formData, telefono: text })}
         value={formData.telefono}
-        keyboardType="numeric"
+        keyboardType="number-pad"
         cursorColor={"#004187"}
         placeholderTextColor={"#004187"}
       />

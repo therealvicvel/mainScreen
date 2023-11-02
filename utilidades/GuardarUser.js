@@ -1,21 +1,28 @@
-import { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from "react";
 
-const UsernameContext = createContext();
+const UserContext = createContext();
 
-export const useUsername = () => {
-  return useContext(UsernameContext);
+export const useUser = () => {
+  return useContext(UserContext);
 };
 
-export const UsernameProvider = ({ children }) => {
-  const [username, setUsername] = useState('');
+export const UserProvider = ({ children }) => {
+  const [username, setUsername] = useState(null);
+  const [token, setToken] = useState(null); // Agrega el estado para el token
+
+  const login = (newUsername, newToken) => {
+    setUsername(newUsername);
+    setToken(newToken); // Guarda el token cuando el usuario inicia sesión
+  };
 
   const logout = () => {
-    setUsername(''); 
+    setUsername(null);
+    setToken(null); // Borra el token al cerrar sesión
   };
 
   return (
-    <UsernameContext.Provider value={{ username, setUsername, logout }}>
+    <UserContext.Provider value={{ username, token, login, logout }}> 
       {children}
-    </UsernameContext.Provider>
+    </UserContext.Provider>
   );
 };

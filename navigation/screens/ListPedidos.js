@@ -3,6 +3,7 @@ import { View, Text, FlatList, Modal, ScrollView, TouchableOpacity, ActivityIndi
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Picker } from '@react-native-picker/picker';
+import { useUser } from "../../utilidades/GuardarUser"; 
 
 const ListPedido = () => {
   const [data, setData] = useState([]);
@@ -13,6 +14,7 @@ const ListPedido = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const { token } = useUser(); 
 
   useEffect(() => {
     if (isLoading && selectedPedido) {
@@ -21,7 +23,7 @@ const ListPedido = () => {
   }, [isLoading, selectedPedido]);
 
   useEffect(() => {
-    fetch('https://viramsoftapi.onrender.com/order')
+    fetch(`https://viramsoftapi.onrender.com/order_by_vendor?token=${token}`)
       .then((response) => response.json())
       .then((data) => {
         setData(data.pedidos);
@@ -33,7 +35,7 @@ const ListPedido = () => {
   }, []);
 
   const filterPedidosByCategory = () => {
-    if (!selectedCategory) {
+    if (!selectedCategory || !data) {
       setFilteredData(data);
     } else {
       const filteredPedidos = data.filter((item) => item.estado === selectedCategory);
@@ -42,7 +44,7 @@ const ListPedido = () => {
   };
   const handleRefresh = () => {
     setIsRefreshing(true);
-    fetch('https://viramsoftapi.onrender.com/order')
+    fetch(`https://viramsoftapi.onrender.com/order_by_vendor?token=${token}`)
     .then((response) => response.json())
     .then((data) => {
       setData(data.pedidos);
@@ -198,6 +200,7 @@ const ListPedido = () => {
               </View>
             ) : detallesPedido && detallesPedido.length > 0 ? (
               <View>
+                <ScrollView style={{  maxHeight: 200 }}>
                 {detallesPedido.map((producto, index) => (
                   <View key={index}>
                     <Text >{producto['nombre']}</Text>
@@ -206,6 +209,7 @@ const ListPedido = () => {
                     <Text >Valor total: {producto['valor total']}</Text>
                   </View>
                 ))}
+                </ScrollView>
               </View>
             ) : (
               <Text>No hay detalles disponibles para este pedido.</Text>
