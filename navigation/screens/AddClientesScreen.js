@@ -18,16 +18,16 @@ export default function AddClientesScreen({ navigation }) {
     const { documento, nombre, direccion, telefono } = formData;
 
       if (!/^\d{8,11}$/.test(documento)) {
-      alert("El documento debe tener entre 8 y 11 digitos numericos");
+      alert("El documento debe tener entre 8 y 11 dígitos numéricos.");
       return;
     } else if (nombre.trim() === "" || nombre.length >= 20) {
-      alert("El nombre no puede ser nulo o tener más de 20 caracteres");
+      alert("El nombre no puede ser nulo o tener más de 20 caracteres.");
       return;
-    } else if (direccion.trim() === "" || direccion.length >= 50) {
-      alert("La dirección no puede ser nula o tener más de 50 caracteres");
+    } else if (direccion.trim() === "" || direccion.length >= 70) {
+      alert("La dirección no puede ser nula o tener más de 70 caracteres.");
       return;
     } else       if (!/^\d{10}$/.test(telefono)) {
-      alert("el telefono debe contener exactamente 10 dígitos numéricos");
+      alert("El teléfono debe contener exactamente 10 dígitos numéricos.");
       return;
     } else {
       handleAgregarCliente();

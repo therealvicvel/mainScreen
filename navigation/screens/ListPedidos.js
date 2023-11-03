@@ -190,7 +190,7 @@ const ListPedido = () => {
         )}
       />
 
-      <Modal visible={detallesPedido !== null} animationType="slide" transparent={true}>
+      <Modal visible={detallesPedido !== null} animationType="slide" transparent={true} onRequestClose={() => setDetallesPedido(null)}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Detalles del pedido</Text>

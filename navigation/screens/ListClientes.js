@@ -64,8 +64,8 @@ const ListClientes = () => {
     if (nombre.trim() === "" || nombre.length >= 20) {
       alert("El nombre no puede ser nulo o pasar de los 20 caracteres");
       return;
-    } else if (direccion.trim() === "" || direccion.length >= 50) {
-      alert("La dirección no puede ser nulo o pasar de los 50 caracteres");
+    } else if (direccion.trim() === "" || direccion.length >= 70) {
+      alert("La dirección no puede ser nulo o pasar de los 70 caracteres");
       return;
     } else if (!/^\d{10}$/.test(telefono)) {
       alert("el telefono debe contener exactamente 10 dígitos numéricos");
@@ -267,6 +267,8 @@ const ListClientes = () => {
         animationType="slide"
         transparent={true}
         visible={showModalAddCliente}
+        onRequestClose={handleCloseModaAdd}
+
       >
         <View
           style={{
