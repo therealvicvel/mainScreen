@@ -53,7 +53,7 @@ const LoginScreen = ({ onLogin }) => {
     <View style={{ flex: 1, padding: 20, justifyContent: 'center' }}>
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <Image
-          source={require("../../assets/logo-removebg-preview.png")}
+          source={require("../../assets/nombre.png")}
           style={{ width: 200, height: 180 }}
           resizeMode="contain"
         />
