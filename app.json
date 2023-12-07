@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Viramsoft",
-    "slug": "mainScreen",
+    "slug": "mainscreen",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
@@ -29,8 +29,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "240600ac-9673-403b-a0de-82a71c6f024c"
+        "projectId": "8b723477-6f5d-4389-8f01-270c15488bcf"
       }
-    }
+    },
+    "owner": "kazuma05"
   }
 }
